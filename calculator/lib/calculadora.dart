@@ -18,7 +18,7 @@ Widget calculatorButtonBlack(String symbol) {
   }
 
   ButtonStyle elevatedButtonStyle = initialElevatedButtonStyle.copyWith(
-      shape: WidgetStateProperty.all(
+      shape: MaterialStateProperty.all(
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))));
 
   return Padding(
@@ -36,73 +36,93 @@ Widget calculatorButtonBlack(String symbol) {
 class _CalculatorState extends State<Calculator> {
   @override
   Widget build(BuildContext context) {
-    //Here goes the application
-
     return MaterialApp(
         home: Scaffold(
       appBar: AppBar(
         title: const Text("Mi calculadora"),
       ),
-      body: Expanded(
-          child: Center(
-              child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              const TextField(
+                enabled: true,
+                obscureText: true,
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(), labelText: '0123456789'),
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      const TextField(
-                        enabled: true,
-                        obscureText: true,
-                        decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            labelText: '0123456789'),
-                      ),
-                      Row(
-                        children: <Widget>[
-                          calculatorButtonBlack("AC"),
-                          calculatorButtonBlack("CE"),
-                          calculatorButtonBlack("%"),
-                          calculatorButtonBlack("/"),
+                      calculatorButtonBlack("AC"),
+                      calculatorButtonBlack("CE"),
+                      calculatorButtonBlack("%"),
+                      calculatorButtonBlack("/"),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      calculatorButtonBlack("7"),
+                      calculatorButtonBlack("8"),
+                      calculatorButtonBlack("9"),
+                      calculatorButtonBlack("x"),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      calculatorButtonBlack("4"),
+                      calculatorButtonBlack("5"),
+                      calculatorButtonBlack("6"),
+                      calculatorButtonBlack("-")
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Column(
+                        children: [
+                          calculatorButtonBlack("1"),
+                          calculatorButtonBlack("0")
                         ],
                       ),
-                      Row(
-                        children: <Widget>[
-                          calculatorButtonBlack("7"),
-                          calculatorButtonBlack("8"),
-                          calculatorButtonBlack("9"),
-                          calculatorButtonBlack("x"),
+                      Column(
+                        children: [
+                          calculatorButtonBlack("2"),
+                          calculatorButtonBlack(".")
                         ],
                       ),
-                      Row(
-                        children: <Widget>[
-                          calculatorButtonBlack("4"),
-                          calculatorButtonBlack("5"),
-                          calculatorButtonBlack("6"),
-                          calculatorButtonBlack("-")
+                      Column(
+                        children: [
+                          calculatorButtonBlack("3"),
+                          calculatorButtonBlack("=")
                         ],
                       ),
-                      Row(
-                        children: <Widget>[
-                          Column(children: [
-                            calculatorButtonBlack("1"),
-                            calculatorButtonBlack("0")
-                          ]),
-                          Column(children: [
-                            calculatorButtonBlack("2"),
-                            calculatorButtonBlack(".")
-                          ]),
-                          Column(children: [
-                            calculatorButtonBlack("3"),
-                            calculatorButtonBlack("=")
-                          ]),
-                          Column(children: [
-                            calculatorButtonBlack("+"),
-                          ])
+                      Column(
+                        children: [
+                          calculatorButtonBlack("+"),
                         ],
                       )
                     ],
-                  )))),
+                  )
+                ],
+              )
+            ],
+          ),
+        ),
+      ),
     ));
   }
 }
