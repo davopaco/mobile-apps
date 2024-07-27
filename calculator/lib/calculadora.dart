@@ -77,7 +77,7 @@ class _CalculatorState extends State<Calculator> {
           child: Container(
               padding: const EdgeInsets.all(23),
               width: 380,
-              height: 540,
+              height: 560,
               decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
@@ -100,35 +100,48 @@ class _CalculatorState extends State<Calculator> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   SizedBox(
-                    height: 40,
+                    height: 30,
                   ),
                   Container(
                       decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black, width: 1),
-                          borderRadius: BorderRadius.circular(15),
-                          boxShadow: <BoxShadow>[
-                            BoxShadow(color: Colors.grey, spreadRadius: 4)
-                          ]),
-                      child: TextField(
-                        textAlign: TextAlign.center,
-                        enabled: false,
-                        obscureText: false,
-                        style: const TextStyle(
-                            fontSize: 40,
-                            color: Colors.black,
-                            fontFamily: 'Courier'),
-                        decoration: InputDecoration(
-                            contentPadding: const EdgeInsets.all(9),
-                            filled: true,
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10)),
-                            fillColor: const Color(0xFFBBBF99)),
-                        controller: TextEditingController(text: "0123456789"),
-                      )),
-                  const SizedBox(
-                    height: 30,
-                    width: 100,
-                  ),
+                          borderRadius: BorderRadius.circular(25),
+                          gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                const Color.fromARGB(255, 112, 112, 112)
+                                    .withOpacity(0.5),
+                                const Color.fromARGB(255, 221, 212, 212)
+                                    .withOpacity(0.5)
+                              ])),
+                      padding: EdgeInsets.all(13),
+                      child: Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: Colors.black.withOpacity(0.4),
+                                  width: 1),
+                              borderRadius: BorderRadius.circular(15),
+                              boxShadow: <BoxShadow>[
+                                BoxShadow(color: Colors.grey, spreadRadius: 4)
+                              ]),
+                          child: TextField(
+                            textAlign: TextAlign.center,
+                            enabled: false,
+                            obscureText: false,
+                            style: const TextStyle(
+                                fontSize: 40,
+                                color: Colors.black,
+                                fontFamily: 'Courier'),
+                            decoration: InputDecoration(
+                                contentPadding: const EdgeInsets.all(16),
+                                filled: true,
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10)),
+                                fillColor: const Color(0xFFBBBF99)),
+                            controller:
+                                TextEditingController(text: "0123456789"),
+                          ))),
+                  const SizedBox(height: 20),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
