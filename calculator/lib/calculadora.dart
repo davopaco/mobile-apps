@@ -26,6 +26,10 @@ Widget calculatorButton(String symbol) {
       padding: const EdgeInsets.all(8),
       child: Container(
           decoration: BoxDecoration(
+              border: Border(top: BorderSide(color: Colors.white, width: 1)),
+              boxShadow: [
+                BoxShadow(color: Colors.black, spreadRadius: 1, blurRadius: 2)
+              ],
               borderRadius: BorderRadius.circular(10),
               gradient: RadialGradient(
                   center: const Alignment(0, -1),
@@ -62,13 +66,11 @@ class _CalculatorState extends State<Calculator> {
           padding: const EdgeInsets.all(16.0),
           child: Container(
               padding: const EdgeInsets.all(23),
-              width: 350,
+              width: 380,
               height: 500,
               decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(color: Colors.grey, blurRadius: 5),
-                    BoxShadow(color: Colors.black, blurRadius: 5)
-                  ],
+                  boxShadow: [BoxShadow(color: Colors.black, blurRadius: 10)],
+                  border: Border.all(color: Color(0xFFC2C2C3), width: 4),
                   borderRadius: BorderRadius.circular(20),
                   gradient: const RadialGradient(
                     center: Alignment(-1, -1),
@@ -82,16 +84,29 @@ class _CalculatorState extends State<Calculator> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  TextField(
-                    enabled: false,
-                    obscureText: false,
-                    style: const TextStyle(fontSize: 30, color: Colors.black),
-                    decoration: const InputDecoration(
-                        filled: true,
-                        border: OutlineInputBorder(),
-                        fillColor: Color(0xFFBBBF99)),
-                    controller: TextEditingController(text: "0123456789"),
-                  ),
+                  Container(
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black, width: 1),
+                          borderRadius: BorderRadius.circular(15),
+                          boxShadow: <BoxShadow>[
+                            BoxShadow(color: Colors.grey, spreadRadius: 4)
+                          ]),
+                      child: TextField(
+                        textAlign: TextAlign.center,
+                        enabled: false,
+                        obscureText: false,
+                        style: const TextStyle(
+                            fontSize: 40,
+                            color: Colors.black,
+                            fontFamily: 'Courier'),
+                        decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.all(9),
+                            filled: true,
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            fillColor: const Color(0xFFBBBF99)),
+                        controller: TextEditingController(text: "0123456789"),
+                      )),
                   const SizedBox(
                     height: 30,
                     width: 100,
