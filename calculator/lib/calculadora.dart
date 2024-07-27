@@ -17,10 +17,20 @@ Widget calculatorButton(String symbol) {
 
   ButtonStyle elevatedButtonStyle = ElevatedButton.styleFrom(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      minimumSize: const Size(60, 50),
-      maximumSize: const Size(60, 50),
       padding: const EdgeInsets.all(8),
       backgroundColor: Colors.transparent);
+
+  if (symbol == "+") {
+    elevatedButtonStyle = elevatedButtonStyle.copyWith(
+      minimumSize: WidgetStateProperty.all(const Size(60, 110)),
+      maximumSize: WidgetStateProperty.all(const Size(60, 110)),
+    );
+  } else {
+    elevatedButtonStyle = elevatedButtonStyle.copyWith(
+      minimumSize: WidgetStateProperty.all(const Size(60, 50)),
+      maximumSize: WidgetStateProperty.all(const Size(60, 50)),
+    );
+  }
 
   return Padding(
       padding: const EdgeInsets.all(8),
@@ -69,7 +79,12 @@ class _CalculatorState extends State<Calculator> {
               width: 380,
               height: 540,
               decoration: BoxDecoration(
-                  boxShadow: [BoxShadow(color: Colors.black, blurRadius: 10)],
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.black,
+                        blurRadius: 8,
+                        offset: Offset(0, 3))
+                  ],
                   border: Border.all(color: Color(0xFFC2C2C3), width: 4),
                   borderRadius: BorderRadius.circular(20),
                   gradient: const RadialGradient(
