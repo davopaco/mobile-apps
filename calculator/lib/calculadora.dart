@@ -18,8 +18,10 @@ Widget calculatorButtonBlack(String symbol) {
   }
 
   ButtonStyle elevatedButtonStyle = initialElevatedButtonStyle.copyWith(
-      shape: MaterialStateProperty.all(
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))));
+      shape: WidgetStateProperty.all(
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
+      minimumSize: const WidgetStatePropertyAll(Size(60, 60)),
+      maximumSize: const WidgetStatePropertyAll(Size(60, 60)));
 
   return Padding(
       padding: const EdgeInsets.all(8),
