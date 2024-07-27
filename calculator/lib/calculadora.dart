@@ -82,15 +82,15 @@ class _CalculatorState extends State<Calculator> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  const TextField(
-                    enabled: true,
-                    obscureText: true,
-                    style: TextStyle(fontSize: 30),
-                    decoration: InputDecoration(
+                  TextField(
+                    enabled: false,
+                    obscureText: false,
+                    style: const TextStyle(fontSize: 30, color: Colors.black),
+                    decoration: const InputDecoration(
                         filled: true,
                         border: OutlineInputBorder(),
-                        labelText: '0123456789',
                         fillColor: Color(0xFFBBBF99)),
+                    controller: TextEditingController(text: "0123456789"),
                   ),
                   const SizedBox(
                     height: 30,
