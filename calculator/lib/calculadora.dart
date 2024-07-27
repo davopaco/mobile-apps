@@ -35,8 +35,8 @@ Widget calculatorButton(String symbol) {
 
   if (symbol == "+") {
     elevatedButtonStyle = elevatedButtonStyle.copyWith(
-      minimumSize: WidgetStateProperty.all(const Size(60, 110)),
-      maximumSize: WidgetStateProperty.all(const Size(60, 110)),
+      minimumSize: WidgetStateProperty.all(const Size(60, 115)),
+      maximumSize: WidgetStateProperty.all(const Size(60, 115)),
     );
   } else {
     elevatedButtonStyle = elevatedButtonStyle.copyWith(
