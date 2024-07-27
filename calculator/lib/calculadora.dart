@@ -7,32 +7,38 @@ class Calculator extends StatefulWidget {
   State<Calculator> createState() => _CalculatorState();
 }
 
-Widget calculatorButtonBlack(String symbol) {
-  ButtonStyle initialElevatedButtonStyle;
+Widget calculatorButton(String symbol) {
+  Color buttonColour;
   if (symbol == "AC" || symbol == "CE") {
-    initialElevatedButtonStyle =
-        ElevatedButton.styleFrom(backgroundColor: const Color(0xFFF27141));
+    buttonColour = const Color(0xFFF27141);
   } else {
-    initialElevatedButtonStyle =
-        ElevatedButton.styleFrom(backgroundColor: const Color(0xFF5A5A5A));
+    buttonColour = const Color(0xFF5A5A5A);
   }
 
-  ButtonStyle elevatedButtonStyle = initialElevatedButtonStyle.copyWith(
-      shape: WidgetStateProperty.all(
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
-      minimumSize: const WidgetStatePropertyAll(Size(60, 60)),
-      maximumSize: const WidgetStatePropertyAll(Size(60, 60)));
+  ButtonStyle elevatedButtonStyle = ElevatedButton.styleFrom(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      minimumSize: const Size(60, 50),
+      maximumSize: const Size(60, 50),
+      backgroundColor: Colors.transparent);
 
   return Padding(
       padding: const EdgeInsets.all(8),
-      child: ElevatedButton(
-        onPressed: () => print(symbol),
-        style: elevatedButtonStyle,
-        child: Text(symbol,
-            style: const TextStyle(
-              color: Colors.white,
-            )),
-      ));
+      child: Container(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              gradient: RadialGradient(
+                  center: const Alignment(0, 0),
+                  radius: 1,
+                  colors: <Color>[buttonColour, Colors.grey])),
+          child: ElevatedButton(
+            onPressed: () => print(symbol),
+            style: elevatedButtonStyle,
+            child: Text(symbol,
+                style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 30,
+                    fontWeight: FontWeight.normal)),
+          )));
 }
 
 class _CalculatorState extends State<Calculator> {
@@ -41,88 +47,110 @@ class _CalculatorState extends State<Calculator> {
     return MaterialApp(
         home: Scaffold(
       appBar: AppBar(
-        title: const Text("Mi calculadora"),
+        title: const Text("Calculator"),
       ),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              const TextField(
-                enabled: true,
-                obscureText: true,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(), labelText: '0123456789'),
-              ),
-              Column(
+          child: Container(
+              padding: const EdgeInsets.all(23),
+              width: 350,
+              height: 500,
+              decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(color: Colors.grey, blurRadius: 5),
+                    BoxShadow(color: Colors.black, blurRadius: 5)
+                  ],
+                  borderRadius: BorderRadius.circular(20),
+                  gradient: const RadialGradient(
+                    center: Alignment(-1, -1),
+                    radius: 0.7,
+                    colors: <Color>[
+                      Color.fromARGB(255, 238, 239, 238),
+                      Color.fromARGB(255, 211, 211, 210)
+                    ],
+                  )),
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      calculatorButtonBlack("AC"),
-                      calculatorButtonBlack("CE"),
-                      calculatorButtonBlack("%"),
-                      calculatorButtonBlack("/"),
-                    ],
+                  const TextField(
+                    enabled: true,
+                    obscureText: true,
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(), labelText: '0123456789'),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      calculatorButtonBlack("7"),
-                      calculatorButtonBlack("8"),
-                      calculatorButtonBlack("9"),
-                      calculatorButtonBlack("x"),
-                    ],
+                  const SizedBox(
+                    height: 30,
+                    width: 100,
                   ),
-                  Row(
+                  Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      calculatorButtonBlack("4"),
-                      calculatorButtonBlack("5"),
-                      calculatorButtonBlack("6"),
-                      calculatorButtonBlack("-")
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Column(
-                        children: [
-                          calculatorButtonBlack("1"),
-                          calculatorButtonBlack("0")
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          calculatorButton("AC"),
+                          calculatorButton("CE"),
+                          calculatorButton("%"),
+                          calculatorButton("/"),
                         ],
                       ),
-                      Column(
-                        children: [
-                          calculatorButtonBlack("2"),
-                          calculatorButtonBlack(".")
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          calculatorButton("7"),
+                          calculatorButton("8"),
+                          calculatorButton("9"),
+                          calculatorButton("x"),
                         ],
                       ),
-                      Column(
-                        children: [
-                          calculatorButtonBlack("3"),
-                          calculatorButtonBlack("=")
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          calculatorButton("4"),
+                          calculatorButton("5"),
+                          calculatorButton("6"),
+                          calculatorButton("-")
                         ],
                       ),
-                      Column(
-                        children: [
-                          calculatorButtonBlack("+"),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Column(
+                            children: [
+                              calculatorButton("1"),
+                              calculatorButton("0")
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              calculatorButton("2"),
+                              calculatorButton(".")
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              calculatorButton("3"),
+                              calculatorButton("=")
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              calculatorButton("+"),
+                            ],
+                          )
                         ],
                       )
                     ],
                   )
                 ],
-              )
-            ],
-          ),
+              )),
         ),
       ),
     ));
