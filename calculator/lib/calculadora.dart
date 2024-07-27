@@ -9,10 +9,23 @@ class Calculator extends StatefulWidget {
 
 Widget calculatorButton(String symbol) {
   Color buttonColour;
+  RadialGradient buttonGradient;
+
   if (symbol == "AC" || symbol == "CE") {
     buttonColour = const Color(0xFFF27141);
+    buttonGradient = RadialGradient(
+        center: const Alignment(0, -1),
+        radius: 1,
+        colors: <Color>[
+          buttonColour,
+          buttonColour,
+        ]);
   } else {
     buttonColour = const Color(0xFF5A5A5A);
+    buttonGradient = RadialGradient(
+        center: const Alignment(0, -1),
+        radius: 1,
+        colors: <Color>[buttonColour, buttonColour, buttonColour, Colors.grey]);
   }
 
   ButtonStyle elevatedButtonStyle = ElevatedButton.styleFrom(
@@ -41,15 +54,7 @@ Widget calculatorButton(String symbol) {
                 BoxShadow(color: Colors.black, spreadRadius: 1, blurRadius: 2)
               ],
               borderRadius: BorderRadius.circular(10),
-              gradient: RadialGradient(
-                  center: const Alignment(0, -1),
-                  radius: 1,
-                  colors: <Color>[
-                    buttonColour,
-                    buttonColour,
-                    buttonColour,
-                    Colors.grey
-                  ])),
+              gradient: buttonGradient),
           child: ElevatedButton(
               onPressed: () => print(symbol),
               style: elevatedButtonStyle,
@@ -86,7 +91,7 @@ class _CalculatorState extends State<Calculator> {
                         offset: Offset(0, 3))
                   ],
                   border: Border.all(color: Color(0xFFC2C2C3), width: 4),
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(29),
                   gradient: const RadialGradient(
                     center: Alignment(-1, -1),
                     radius: 0.7,
