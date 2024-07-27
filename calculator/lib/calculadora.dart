@@ -64,7 +64,8 @@ Widget calculatorButton(String symbol) {
                     style: const TextStyle(
                         color: Colors.white,
                         fontSize: 40,
-                        fontWeight: FontWeight.normal)),
+                        fontWeight: FontWeight.normal,
+                        fontFamily: 'Roboto')),
               ))));
 }
 
@@ -95,10 +96,7 @@ class _CalculatorState extends State<Calculator> {
                   gradient: const RadialGradient(
                     center: Alignment(-1, -1),
                     radius: 0.7,
-                    colors: <Color>[
-                      Color.fromARGB(255, 238, 239, 238),
-                      Color.fromARGB(255, 211, 211, 210)
-                    ],
+                    colors: <Color>[Color(0xFFEFEEEF), Color(0xFFD1D0D0)],
                   )),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -122,6 +120,13 @@ class _CalculatorState extends State<Calculator> {
                       padding: EdgeInsets.all(13),
                       child: Container(
                           decoration: BoxDecoration(
+                              gradient: const LinearGradient(
+                                  colors: [
+                                    Color(0xFFBBBF99),
+                                    Color.fromARGB(255, 170, 178, 136)
+                                  ],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight),
                               border: Border.all(
                                   color: Colors.black.withOpacity(0.4),
                                   width: 1),
@@ -142,7 +147,7 @@ class _CalculatorState extends State<Calculator> {
                                 filled: true,
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10)),
-                                fillColor: const Color(0xFFBBBF99)),
+                                fillColor: Colors.transparent),
                             controller:
                                 TextEditingController(text: "0123456789"),
                           ))),
@@ -158,7 +163,7 @@ class _CalculatorState extends State<Calculator> {
                           calculatorButton("AC"),
                           calculatorButton("CE"),
                           calculatorButton("%"),
-                          calculatorButton("/"),
+                          calculatorButton("÷"),
                         ],
                       ),
                       Row(
