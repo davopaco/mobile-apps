@@ -85,8 +85,12 @@ class _CalculatorState extends State<Calculator> {
                   const TextField(
                     enabled: true,
                     obscureText: true,
+                    style: TextStyle(fontSize: 30),
                     decoration: InputDecoration(
-                        border: OutlineInputBorder(), labelText: '0123456789'),
+                        filled: true,
+                        border: OutlineInputBorder(),
+                        labelText: '0123456789',
+                        fillColor: Color(0xFFBBBF99)),
                   ),
                   const SizedBox(
                     height: 30,
