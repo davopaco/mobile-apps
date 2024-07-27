@@ -19,6 +19,7 @@ Widget calculatorButton(String symbol) {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       minimumSize: const Size(60, 50),
       maximumSize: const Size(60, 50),
+      padding: const EdgeInsets.all(8),
       backgroundColor: Colors.transparent);
 
   return Padding(
@@ -27,18 +28,25 @@ Widget calculatorButton(String symbol) {
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               gradient: RadialGradient(
-                  center: const Alignment(0, 0),
+                  center: const Alignment(0, -1),
                   radius: 1,
-                  colors: <Color>[buttonColour, Colors.grey])),
+                  colors: <Color>[
+                    buttonColour,
+                    buttonColour,
+                    buttonColour,
+                    Colors.grey
+                  ])),
           child: ElevatedButton(
-            onPressed: () => print(symbol),
-            style: elevatedButtonStyle,
-            child: Text(symbol,
-                style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 30,
-                    fontWeight: FontWeight.normal)),
-          )));
+              onPressed: () => print(symbol),
+              style: elevatedButtonStyle,
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(symbol,
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 40,
+                        fontWeight: FontWeight.normal)),
+              ))));
 }
 
 class _CalculatorState extends State<Calculator> {
