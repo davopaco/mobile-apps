@@ -67,7 +67,7 @@ class _CalculatorState extends State<Calculator> {
           child: Container(
               padding: const EdgeInsets.all(23),
               width: 380,
-              height: 500,
+              height: 540,
               decoration: BoxDecoration(
                   boxShadow: [BoxShadow(color: Colors.black, blurRadius: 10)],
                   border: Border.all(color: Color(0xFFC2C2C3), width: 4),
@@ -84,6 +84,9 @@ class _CalculatorState extends State<Calculator> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
+                  SizedBox(
+                    height: 40,
+                  ),
                   Container(
                       decoration: BoxDecoration(
                           border: Border.all(color: Colors.black, width: 1),
