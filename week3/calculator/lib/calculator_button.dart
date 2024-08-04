@@ -49,7 +49,7 @@ class CalculatorButton extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
                 gradient: buttonGradient),
             child: ElevatedButton(
-                onPressed: () => print(symbol),
+                onPressed: () => fCallBack,
                 style: elevatedButtonStyle,
                 child: FittedBox(
                   fit: BoxFit.scaleDown,
