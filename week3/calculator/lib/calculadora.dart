@@ -4,32 +4,18 @@ import 'package:calculator/display.dart';
 import 'package:flutter/material.dart';
 
 class Calculator extends StatefulWidget {
-  final Display display;
-  final CalculatorModel calculatorModel;
-  final TextEditingController textEditingController;
-
-  const Calculator(
-      {super.key,
-      required this.display,
-      required this.calculatorModel,
-      required this.textEditingController});
+  const Calculator({super.key});
 
   @override
-  State<Calculator> createState() => _CalculatorState(
-      display: display,
-      calculatorModel: calculatorModel,
-      textEditingController: textEditingController);
+  State<Calculator> createState() => _CalculatorState();
 }
 
 class _CalculatorState extends State<Calculator> {
-  final Display display;
-  final CalculatorModel calculatorModel;
-  final TextEditingController textEditingController;
+  final CalculatorModel calculatorModel = CalculatorModel();
+  final TextEditingController inputController = TextEditingController();
 
-  _CalculatorState(
-      {required this.display,
-      required this.calculatorModel,
-      required this.textEditingController});
+  late Display display = Display(
+      calculatorModel: calculatorModel, textEditingController: inputController);
 
   void addValueDisplay(String value) {
     display.add(value);
@@ -130,7 +116,7 @@ class _CalculatorState extends State<Calculator> {
                                   border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(10)),
                                   fillColor: Colors.transparent),
-                              controller: textEditingController))),
+                              controller: inputController))),
                   const SizedBox(height: 20),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
