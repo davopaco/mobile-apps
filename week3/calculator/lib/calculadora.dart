@@ -103,7 +103,7 @@ class _CalculatorState extends State<Calculator> {
                                 BoxShadow(color: Colors.grey, spreadRadius: 4)
                               ]),
                           child: TextField(
-                              textAlign: TextAlign.center,
+                              textAlign: TextAlign.right,
                               enabled: false,
                               obscureText: false,
                               style: const TextStyle(
