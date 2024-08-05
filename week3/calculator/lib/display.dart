@@ -27,6 +27,14 @@ class Display {
         textEditingController: textEditingController);
   }
 
+  String formatDouble(double value) {
+    if (value == value.toInt()) {
+      return value.toInt().toString();
+    } else {
+      return value.toString();
+    }
+  }
+
   bool go() {
     return nchars < limit;
   }
@@ -108,7 +116,7 @@ class Display {
             double.parse(result).toStringAsExponential(3);
         return;
       }
-      textEditingController.text = result;
+      textEditingController.text = formatDouble(double.parse(result));
     }
     calculatorModel.push(textEditingController.text);
     calculatorModel.push(value);
