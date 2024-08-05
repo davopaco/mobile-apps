@@ -1,76 +1,57 @@
+import 'package:calculator/calculator_button.dart';
+import 'package:calculator/calculator_model.dart';
+import 'package:calculator/display.dart';
 import 'package:flutter/material.dart';
 
 class Calculator extends StatefulWidget {
-  const Calculator({super.key});
+  final Display display;
+  final CalculatorModel calculatorModel;
+  final TextEditingController textEditingController;
+
+  const Calculator(
+      {super.key,
+      required this.display,
+      required this.calculatorModel,
+      required this.textEditingController});
 
   @override
-  State<Calculator> createState() => _CalculatorState();
-}
-
-Widget calculatorButton(String symbol) {
-  Color buttonColour;
-  RadialGradient buttonGradient;
-
-  if (symbol == "AC" || symbol == "CE") {
-    buttonColour = const Color(0xFFF27141);
-    buttonGradient = RadialGradient(
-        radius: 1,
-        center: const Alignment(0, -1),
-        colors: <Color>[
-          buttonColour,
-          buttonColour,
-        ]);
-  } else {
-    buttonColour = const Color(0xFF5A5A5A);
-    buttonGradient = RadialGradient(
-        center: const Alignment(0, -1),
-        radius: 1,
-        colors: <Color>[buttonColour, buttonColour, buttonColour, Colors.grey]);
-  }
-
-  ButtonStyle elevatedButtonStyle = ElevatedButton.styleFrom(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      padding: const EdgeInsets.all(8),
-      backgroundColor: Colors.transparent);
-
-  if (symbol == "+") {
-    elevatedButtonStyle = elevatedButtonStyle.copyWith(
-      minimumSize: WidgetStateProperty.all(const Size(60, 115)),
-      maximumSize: WidgetStateProperty.all(const Size(60, 115)),
-    );
-  } else {
-    elevatedButtonStyle = elevatedButtonStyle.copyWith(
-      minimumSize: WidgetStateProperty.all(const Size(60, 50)),
-      maximumSize: WidgetStateProperty.all(const Size(60, 50)),
-    );
-  }
-
-  return Padding(
-      padding: const EdgeInsets.all(8),
-      child: Container(
-          decoration: BoxDecoration(
-              border:
-                  const Border(top: BorderSide(color: Colors.white, width: 1)),
-              boxShadow: [
-                BoxShadow(color: Colors.black, spreadRadius: 1, blurRadius: 2)
-              ],
-              borderRadius: BorderRadius.circular(10),
-              gradient: buttonGradient),
-          child: ElevatedButton(
-              onPressed: () => print(symbol),
-              style: elevatedButtonStyle,
-              child: FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Text(symbol,
-                    style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 40,
-                        fontWeight: FontWeight.normal,
-                        fontFamily: 'Roboto')),
-              ))));
+  State<Calculator> createState() => _CalculatorState(
+      display: display,
+      calculatorModel: calculatorModel,
+      textEditingController: textEditingController);
 }
 
 class _CalculatorState extends State<Calculator> {
+  final Display display;
+  final CalculatorModel calculatorModel;
+  final TextEditingController textEditingController;
+
+  _CalculatorState(
+      {required this.display,
+      required this.calculatorModel,
+      required this.textEditingController});
+
+  void addValueDisplay(String value) {
+    display.add(value);
+  }
+
+  void backValueDisplay() {
+    display.back();
+  }
+
+  void clearValueDisplay() {
+    display.clear();
+  }
+
+  void clearCalculator() {
+    calculatorModel.clear();
+    display.clear();
+  }
+
+  void operationValueDisplay(String value) {
+    display.operation(value: value);
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -86,13 +67,13 @@ class _CalculatorState extends State<Calculator> {
               width: 380,
               height: 560,
               decoration: BoxDecoration(
-                  boxShadow: [
+                  boxShadow: const [
                     BoxShadow(
                         color: Colors.black,
                         blurRadius: 8,
                         offset: Offset(0, 3))
                   ],
-                  border: Border.all(color: Color(0xFFC2C2C3), width: 4),
+                  border: Border.all(color: const Color(0xFFC2C2C3), width: 4),
                   borderRadius: BorderRadius.circular(29),
                   gradient: const RadialGradient(
                     center: Alignment(-1, -1),
@@ -103,7 +84,7 @@ class _CalculatorState extends State<Calculator> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
                   Container(
@@ -118,7 +99,7 @@ class _CalculatorState extends State<Calculator> {
                                 const Color.fromARGB(255, 221, 212, 212)
                                     .withOpacity(0.5)
                               ])),
-                      padding: EdgeInsets.all(13),
+                      padding: const EdgeInsets.all(13),
                       child: Container(
                           decoration: BoxDecoration(
                               gradient: const LinearGradient(
@@ -132,26 +113,24 @@ class _CalculatorState extends State<Calculator> {
                                   color: Colors.black.withOpacity(0.4),
                                   width: 1),
                               borderRadius: BorderRadius.circular(15),
-                              boxShadow: <BoxShadow>[
+                              boxShadow: const [
                                 BoxShadow(color: Colors.grey, spreadRadius: 4)
                               ]),
                           child: TextField(
-                            textAlign: TextAlign.center,
-                            enabled: false,
-                            obscureText: false,
-                            style: const TextStyle(
-                                fontSize: 40,
-                                color: Colors.black,
-                                fontFamily: 'Courier'),
-                            decoration: InputDecoration(
-                                contentPadding: const EdgeInsets.all(16),
-                                filled: true,
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10)),
-                                fillColor: Colors.transparent),
-                            controller:
-                                TextEditingController(text: "0123456789"),
-                          ))),
+                              textAlign: TextAlign.center,
+                              enabled: false,
+                              obscureText: false,
+                              style: const TextStyle(
+                                  fontSize: 40,
+                                  color: Colors.black,
+                                  fontFamily: 'Courier'),
+                              decoration: InputDecoration(
+                                  contentPadding: const EdgeInsets.all(16),
+                                  filled: true,
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10)),
+                                  fillColor: Colors.transparent),
+                              controller: textEditingController))),
                   const SizedBox(height: 20),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -161,30 +140,60 @@ class _CalculatorState extends State<Calculator> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
-                          calculatorButton("AC"),
-                          calculatorButton("CE"),
-                          calculatorButton("%"),
-                          calculatorButton("÷"),
+                          CalculatorButton(
+                            symbol: "AC",
+                            fCallBack: () => clearCalculator(),
+                            buttonColour: const Color(0xFFF27141),
+                            oForeColor: Colors.orange,
+                          ),
+                          CalculatorButton(
+                            symbol: "CE",
+                            fCallBack: () => clearValueDisplay(),
+                            buttonColour: const Color(0xFFF27141),
+                            oForeColor: Colors.orange,
+                          ),
+                          CalculatorButton(
+                              symbol: "%",
+                              fCallBack: () => operationValueDisplay("%")),
+                          CalculatorButton(
+                              symbol: "÷",
+                              fCallBack: () => operationValueDisplay("÷")),
                         ],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
-                          calculatorButton("7"),
-                          calculatorButton("8"),
-                          calculatorButton("9"),
-                          calculatorButton("x"),
+                          CalculatorButton(
+                              symbol: "7",
+                              fCallBack: () => addValueDisplay("7")),
+                          CalculatorButton(
+                              symbol: "8",
+                              fCallBack: () => addValueDisplay("8")),
+                          CalculatorButton(
+                              symbol: "9",
+                              fCallBack: () => addValueDisplay("9")),
+                          CalculatorButton(
+                              symbol: "x",
+                              fCallBack: () => operationValueDisplay("x")),
                         ],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
-                          calculatorButton("4"),
-                          calculatorButton("5"),
-                          calculatorButton("6"),
-                          calculatorButton("-")
+                          CalculatorButton(
+                              symbol: "4",
+                              fCallBack: () => addValueDisplay("4")),
+                          CalculatorButton(
+                              symbol: "5",
+                              fCallBack: () => addValueDisplay("5")),
+                          CalculatorButton(
+                              symbol: "6",
+                              fCallBack: () => addValueDisplay("6")),
+                          CalculatorButton(
+                              symbol: "-",
+                              fCallBack: () => operationValueDisplay("-"))
                         ],
                       ),
                       Row(
@@ -193,25 +202,39 @@ class _CalculatorState extends State<Calculator> {
                         children: <Widget>[
                           Column(
                             children: [
-                              calculatorButton("1"),
-                              calculatorButton("0")
+                              CalculatorButton(
+                                  symbol: "1",
+                                  fCallBack: () => addValueDisplay("1")),
+                              CalculatorButton(
+                                  symbol: "0",
+                                  fCallBack: () => addValueDisplay("0")),
                             ],
                           ),
                           Column(
                             children: [
-                              calculatorButton("2"),
-                              calculatorButton(".")
+                              CalculatorButton(
+                                  symbol: "2",
+                                  fCallBack: () => addValueDisplay("2")),
+                              CalculatorButton(
+                                  symbol: ".",
+                                  fCallBack: () => addValueDisplay(".")),
                             ],
                           ),
                           Column(
                             children: [
-                              calculatorButton("3"),
-                              calculatorButton("=")
+                              CalculatorButton(
+                                  symbol: "3",
+                                  fCallBack: () => addValueDisplay("3")),
+                              CalculatorButton(
+                                  symbol: "=",
+                                  fCallBack: () => operationValueDisplay("=")),
                             ],
                           ),
                           Column(
                             children: [
-                              calculatorButton("+"),
+                              CalculatorButton(
+                                  symbol: "+",
+                                  fCallBack: () => operationValueDisplay("+")),
                             ],
                           )
                         ],

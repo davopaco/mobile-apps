@@ -11,14 +11,14 @@ class CalculatorButton extends StatelessWidget {
       required this.symbol,
       required this.fCallBack,
       this.buttonColour = const Color(0xFF5A5A5A),
-      this.oForeColor = Colors.white});
+      this.oForeColor = Colors.grey});
 
   @override
   Widget build(BuildContext context) {
     RadialGradient buttonGradient = RadialGradient(
         radius: 1,
         center: const Alignment(0, -1),
-        colors: <Color>[buttonColour, buttonColour, oForeColor]);
+        colors: <Color>[buttonColour, buttonColour, buttonColour, oForeColor]);
 
     ButtonStyle elevatedButtonStyle = ElevatedButton.styleFrom(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -49,7 +49,9 @@ class CalculatorButton extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
                 gradient: buttonGradient),
             child: ElevatedButton(
-                onPressed: () => fCallBack,
+                onPressed: () {
+                  fCallBack();
+                },
                 style: elevatedButtonStyle,
                 child: FittedBox(
                   fit: BoxFit.scaleDown,
