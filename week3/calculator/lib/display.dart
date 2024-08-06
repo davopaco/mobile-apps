@@ -63,8 +63,17 @@ class Display {
     if (textEditingController.text.isEmpty) {
       if (value == "-") {
         textEditingController.text = "-";
+        calculatorModel.newNumber = false;
       }
       return;
+    }
+
+    if (double.tryParse(calculatorModel.peek()) == null) {
+      if (value == "-") {
+        textEditingController.text = "-";
+        calculatorModel.newNumber = false;
+        return;
+      }
     }
 
     String result = textEditingController.text;
