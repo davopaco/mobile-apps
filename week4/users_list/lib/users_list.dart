@@ -20,7 +20,7 @@ class UsersList extends StatelessWidget {
           fName: "Alexandra Bernal",
           career: "Ingeniería de Sistemas",
           grade: "5.0",
-          imagePath: "images/a.jpeg"),
+          imagePath: "images/alexa.jpg"),
       Users(
           fName: "Fabiana Cadavid",
           career: "Diseño Gráfico",
@@ -112,7 +112,11 @@ class UsersList extends StatelessWidget {
   Widget userRow(String fName, String career, String grade, String imagePath) {
     return Container(
       height: 100,
-      color: Colors.transparent,
+      padding: EdgeInsets.all(10),
+      margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+      decoration: BoxDecoration(
+          border:
+              Border.all(color: Color.fromARGB(255, 59, 137, 179), width: 1)),
       child: Row(
         children: [
           Image(
