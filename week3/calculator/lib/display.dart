@@ -60,14 +60,12 @@ class Display {
   }
 
   void operation({required String value, bool equals = false}) {
-    if (value == "-") {
-      if (textEditingController.text.isEmpty) {
+    if (textEditingController.text.isEmpty) {
+      if (value == "-") {
         textEditingController.text = "-";
-        return;
       }
+      return;
     }
-
-    if (textEditingController.text.isEmpty) return;
 
     String result = textEditingController.text;
 
