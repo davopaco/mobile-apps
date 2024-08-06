@@ -60,7 +60,15 @@ class Display {
   }
 
   void operation({required String value, bool equals = false}) {
+    if (value == "-") {
+      if (textEditingController.text.isEmpty) {
+        textEditingController.text = "-";
+        return;
+      }
+    }
+
     if (textEditingController.text.isEmpty) return;
+
     String result = textEditingController.text;
 
     if (!calculatorModel.isEmpty() ||
