@@ -9,23 +9,11 @@ class Display {
   final CalculatorModel calculatorModel;
   final TextEditingController textEditingController;
 
-  Display._(
+  Display(
       {this.limit = 10,
       this.nchars = 0,
       required this.calculatorModel,
       required this.textEditingController});
-
-  factory Display(
-      {int limit = 10,
-      int nchars = 0,
-      required CalculatorModel calculatorModel,
-      required TextEditingController textEditingController}) {
-    return Display._(
-        limit: limit,
-        nchars: nchars,
-        calculatorModel: calculatorModel,
-        textEditingController: textEditingController);
-  }
 
   String formatDouble(double value) {
     if (value == value.toInt()) {
