@@ -72,13 +72,13 @@ class Display {
       case "-":
         textEditingController2.text = "Substraction -";
       case "x":
-        textEditingController2.text = "Multiplication -";
+        textEditingController2.text = "Multiplication x";
       case "÷":
         textEditingController2.text = "Division ÷";
       case "%":
         textEditingController2.text = "Percentage %";
       case "=":
-        textEditingController2.text = "";
+        textEditingController2.text = "Equals =";
       default:
         textEditingController2.text = "";
     }

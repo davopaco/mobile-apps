@@ -31,11 +31,13 @@ class _CalculatorState extends State<Calculator> {
 
   void clearValueDisplay() {
     inputController.text = "0";
+    inputController2.text = "";
   }
 
   void clearCalculator() {
     calculatorModel.clear();
     inputController.text = "0";
+    inputController2.text = "";
   }
 
   void operationValueDisplay(String value) {
