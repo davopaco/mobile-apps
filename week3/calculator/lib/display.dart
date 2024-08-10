@@ -64,12 +64,11 @@ class Display {
   }
 
   void operation({required String value, bool equals = false}) {
-    if (textEditingController.text.isEmpty) {
-      return;
-    }
+    if (textEditingController.text.isEmpty) return;
 
-    if (double.tryParse(calculatorModel.peek()) == null) {
-      if (value == "-") {
+    if (double.tryParse(calculatorModel.peek()) == null &&
+        calculatorModel.peek() != "") {
+      if (value == "-" && !equals) {
         calculatorModel.newNumber = true;
         add("-");
         return;
