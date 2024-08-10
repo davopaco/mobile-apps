@@ -15,16 +15,19 @@ class CalculatorButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //The inner gradient
     RadialGradient buttonGradient = RadialGradient(
         radius: 1,
         center: const Alignment(0, -1),
         colors: <Color>[buttonColour, buttonColour, buttonColour, oForeColor]);
 
+    //The button style
     ButtonStyle elevatedButtonStyle = ElevatedButton.styleFrom(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         padding: const EdgeInsets.all(8),
         backgroundColor: Colors.transparent);
 
+    //Special case of the plus sign for button size.
     if (symbol == "+") {
       elevatedButtonStyle = elevatedButtonStyle.copyWith(
         minimumSize: WidgetStateProperty.all(const Size(60, 115)),

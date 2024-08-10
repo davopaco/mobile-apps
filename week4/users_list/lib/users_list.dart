@@ -112,17 +112,20 @@ class UsersList extends StatelessWidget {
   Widget userRow(String fName, String career, String grade, String imagePath) {
     return Container(
       height: 100,
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
       decoration: BoxDecoration(
-          border:
-              Border.all(color: Color.fromARGB(255, 59, 137, 179), width: 1)),
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
+          border: Border.all(color: Colors.black, width: 1)),
       child: Row(
         children: [
-          Image(
-            image: AssetImage(imagePath),
-            height: 80,
-            width: 80,
+          ClipRRect(
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
+            child: Image(
+              image: AssetImage(imagePath),
+              height: 80,
+              width: 80,
+            ),
           ),
           const SizedBox(
             width: 18,

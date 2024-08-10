@@ -1,5 +1,5 @@
-import 'package:calculator/calculator_model.dart';
-import 'package:calculator/operations.dart';
+import 'package:calculator/calc_model.dart';
+import 'package:calculator/calc_operations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -17,6 +17,7 @@ class Display {
       required this.textEditingController,
       required this.textEditingController2}) {}
 
+  //Function for formatting double numbers in case of exceptions or integers.
   String formatDouble(double value) {
     try {
       if (value == value.toInt()) {
@@ -29,42 +30,45 @@ class Display {
     }
   }
 
+  //A boolean that describes if the calculator may have more digits on the display.
   bool go() {
     return nchars < limit;
   }
 
+  //For clearing the display and number of characters.
   void clear() {
     textEditingController.text = "";
     nchars = 0;
   }
 
+  //For adding numbers and the dot.
   void add(String value) {
+    //Used for checking if it's a new number.
     if (calculatorModel.newNumber == true) {
       clear();
       calculatorModel.newNumber = false;
     }
     if (go()) {
+      //Zero checker
       if (textEditingController.text == "0" && value != ".") {
         clear();
       }
+      //Double dot inhibiter
       if (textEditingController.text.contains(".") && value == ".") {
         return;
       }
+      //Dot checker
       if (textEditingController.text == ".") {
         textEditingController.text = "0.";
         nchars = 0;
       }
+      //Appends characters
       textEditingController.text = "${textEditingController.text}$value";
       nchars++;
     }
   }
 
-  void back() {
-    if (textEditingController.text.isNotEmpty) {
-      textEditingController.text = textEditingController.text.substring(0, -1);
-    }
-  }
-
+  //Operator checker
   void checkOperator(String operator) {
     switch (operator) {
       case "+":
@@ -84,7 +88,9 @@ class Display {
     }
   }
 
+  //For operations
   void operation({required String value, bool equals = false}) {
+    //Checks for a minus that's not an operator.
     if (double.tryParse(calculatorModel.peek()) == null &&
         calculatorModel.peek() != "") {
       if (value == "-" && !equals) {
@@ -93,12 +99,16 @@ class Display {
         return;
       }
     }
+
+    //For showing the operation on the second display.
     if (!equals) checkOperator(value);
 
     String result = textEditingController.text;
 
+    //Where operations are done
     if (!calculatorModel.isEmpty() ||
         double.tryParse(calculatorModel.peek()) is double) {
+      //a and b are both numbers
       double a = double.parse(calculatorModel.peekBefore());
       double b = double.parse(textEditingController.text);
       Operations operations = Operations(a: a, b: b);
@@ -112,6 +122,7 @@ class Display {
         actualValue = calculatorModel.peek();
       }
 
+      //Checking what operations are being done.
       switch (actualValue) {
         case "+":
           result = operations.add().toString();
@@ -124,6 +135,7 @@ class Display {
         case "%":
           result = operations.percentage().toString();
         case "=":
+          //Uses recursion for making the final operation in memory.
           final value2 = calculatorModel.peek();
           if (double.tryParse(value2) == null) {
             operation(value: value2, equals: true);
@@ -132,6 +144,8 @@ class Display {
           return;
       }
     }
+
+    //Scientific notation checker
     if (value != "=") {
       if (result.length > 10) {
         textEditingController.text =
@@ -140,6 +154,8 @@ class Display {
       }
       textEditingController.text = formatDouble(double.parse(result));
     }
+
+    //Pushing numbers and operations to the calculator memory.
     calculatorModel.push(textEditingController.text);
     calculatorModel.push(value);
     calculatorModel.newNumber = true;

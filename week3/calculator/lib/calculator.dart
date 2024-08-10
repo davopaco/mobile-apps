@@ -1,6 +1,6 @@
-import 'package:calculator/calculator_button.dart';
-import 'package:calculator/calculator_model.dart';
-import 'package:calculator/display.dart';
+import 'package:calculator/calc_button.dart';
+import 'package:calculator/calc_model.dart';
+import 'package:calculator/calc_display.dart';
 import 'package:flutter/material.dart';
 
 class Calculator extends StatefulWidget {
@@ -21,25 +21,25 @@ class _CalculatorState extends State<Calculator> {
       textEditingController: inputController,
       textEditingController2: inputController2);
 
+  //Adding values to the display.
   void addValueDisplay(String value) {
     display.add(value);
   }
 
-  void backValueDisplay() {
-    display.back();
-  }
-
+  //Clear Entry (CE)
   void clearValueDisplay() {
     inputController.text = "0";
     inputController2.text = "";
   }
 
+  //All Clear (AC)
   void clearCalculator() {
     calculatorModel.clear();
     inputController.text = "0";
     inputController2.text = "";
   }
 
+  //Operation on the display.
   void operationValueDisplay(String value) {
     display.operation(value: value);
   }
@@ -54,6 +54,7 @@ class _CalculatorState extends State<Calculator> {
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
+          //Main calculator container
           child: Container(
               padding: const EdgeInsets.all(23),
               width: 380,
@@ -76,9 +77,11 @@ class _CalculatorState extends State<Calculator> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
+                  //Some blank space for padding.
                   const SizedBox(
                     height: 30,
                   ),
+                  //The gray rounded container giving the hole illusion.
                   Container(
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(25),
@@ -92,6 +95,7 @@ class _CalculatorState extends State<Calculator> {
                                     .withOpacity(0.5)
                               ])),
                       padding: const EdgeInsets.all(13),
+                      //Container for both TextFields embedding.
                       child: Container(
                           decoration: BoxDecoration(
                               gradient: const LinearGradient(
@@ -109,6 +113,7 @@ class _CalculatorState extends State<Calculator> {
                                 BoxShadow(color: Colors.grey, spreadRadius: 4)
                               ]),
                           child: Column(children: [
+                            //Main TextField for numbers to show.
                             TextField(
                                 textAlign: TextAlign.right,
                                 enabled: false,
@@ -121,6 +126,7 @@ class _CalculatorState extends State<Calculator> {
                                     color: Colors.black,
                                     fontFamily: 'Courier'),
                                 controller: inputController),
+                            //Second TextField showing the current operators used.
                             TextField(
                                 textAlign: TextAlign.right,
                                 enabled: false,
@@ -137,6 +143,8 @@ class _CalculatorState extends State<Calculator> {
                                         vertical: 2, horizontal: 3.0)),
                                 controller: inputController2)
                           ]))),
+
+                  //Padding between the display and the buttons.
                   const SizedBox(height: 20),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
