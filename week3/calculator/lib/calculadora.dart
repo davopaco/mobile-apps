@@ -12,7 +12,8 @@ class Calculator extends StatefulWidget {
 
 class _CalculatorState extends State<Calculator> {
   final CalculatorModel calculatorModel = CalculatorModel();
-  final TextEditingController inputController = TextEditingController();
+  final TextEditingController inputController =
+      TextEditingController(text: "0");
 
   late Display display = Display(
       calculatorModel: calculatorModel, textEditingController: inputController);
@@ -26,12 +27,12 @@ class _CalculatorState extends State<Calculator> {
   }
 
   void clearValueDisplay() {
-    display.clear();
+    inputController.text = "0";
   }
 
   void clearCalculator() {
     calculatorModel.clear();
-    display.clear();
+    inputController.text = "0";
   }
 
   void operationValueDisplay(String value) {

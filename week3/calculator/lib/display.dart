@@ -16,9 +16,13 @@ class Display {
       required this.textEditingController});
 
   String formatDouble(double value) {
-    if (value == value.toInt()) {
-      return value.toInt().toString();
-    } else {
+    try {
+      if (value == value.toInt()) {
+        return value.toInt().toString();
+      } else {
+        return value.toString();
+      }
+    } catch (e) {
       return value.toString();
     }
   }
@@ -61,17 +65,13 @@ class Display {
 
   void operation({required String value, bool equals = false}) {
     if (textEditingController.text.isEmpty) {
-      if (value == "-") {
-        textEditingController.text = "-";
-        calculatorModel.newNumber = false;
-      }
       return;
     }
 
     if (double.tryParse(calculatorModel.peek()) == null) {
       if (value == "-") {
-        textEditingController.text = "-";
-        calculatorModel.newNumber = false;
+        calculatorModel.newNumber = true;
+        add("-");
         return;
       }
     }
