@@ -8,12 +8,14 @@ class Display {
   int nchars;
   final CalculatorModel calculatorModel;
   final TextEditingController textEditingController;
+  final TextEditingController textEditingController2;
 
   Display(
       {this.limit = 10,
       this.nchars = 0,
       required this.calculatorModel,
-      required this.textEditingController});
+      required this.textEditingController,
+      required this.textEditingController2}) {}
 
   String formatDouble(double value) {
     try {
@@ -63,9 +65,26 @@ class Display {
     }
   }
 
-  void operation({required String value, bool equals = false}) {
-    if (textEditingController.text.isEmpty) return;
+  void checkOperator(String operator) {
+    switch (operator) {
+      case "+":
+        textEditingController2.text = "Addition +";
+      case "-":
+        textEditingController2.text = "Substraction -";
+      case "x":
+        textEditingController2.text = "Multiplication -";
+      case "÷":
+        textEditingController2.text = "Division ÷";
+      case "%":
+        textEditingController2.text = "Percentage %";
+      case "=":
+        textEditingController2.text = "";
+      default:
+        textEditingController2.text = "";
+    }
+  }
 
+  void operation({required String value, bool equals = false}) {
     if (double.tryParse(calculatorModel.peek()) == null &&
         calculatorModel.peek() != "") {
       if (value == "-" && !equals) {
@@ -74,6 +93,7 @@ class Display {
         return;
       }
     }
+    if (!equals) checkOperator(value);
 
     String result = textEditingController.text;
 

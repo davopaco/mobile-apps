@@ -14,9 +14,12 @@ class _CalculatorState extends State<Calculator> {
   final CalculatorModel calculatorModel = CalculatorModel();
   final TextEditingController inputController =
       TextEditingController(text: "0");
+  final TextEditingController inputController2 = TextEditingController();
 
   late Display display = Display(
-      calculatorModel: calculatorModel, textEditingController: inputController);
+      calculatorModel: calculatorModel,
+      textEditingController: inputController,
+      textEditingController2: inputController2);
 
   void addValueDisplay(String value) {
     display.add(value);
@@ -52,7 +55,7 @@ class _CalculatorState extends State<Calculator> {
           child: Container(
               padding: const EdgeInsets.all(23),
               width: 380,
-              height: 560,
+              height: 570,
               decoration: BoxDecoration(
                   boxShadow: const [
                     BoxShadow(
@@ -103,21 +106,35 @@ class _CalculatorState extends State<Calculator> {
                               boxShadow: const [
                                 BoxShadow(color: Colors.grey, spreadRadius: 4)
                               ]),
-                          child: TextField(
-                              textAlign: TextAlign.right,
-                              enabled: false,
-                              obscureText: false,
-                              style: const TextStyle(
-                                  fontSize: 40,
-                                  color: Colors.black,
-                                  fontFamily: 'Courier'),
-                              decoration: InputDecoration(
-                                  contentPadding: const EdgeInsets.all(16),
-                                  filled: true,
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10)),
-                                  fillColor: Colors.transparent),
-                              controller: inputController))),
+                          child: Column(children: [
+                            TextField(
+                                textAlign: TextAlign.right,
+                                enabled: false,
+                                obscureText: false,
+                                decoration: const InputDecoration(
+                                    contentPadding: EdgeInsets.symmetric(
+                                        vertical: 7, horizontal: 14)),
+                                style: const TextStyle(
+                                    fontSize: 40,
+                                    color: Colors.black,
+                                    fontFamily: 'Courier'),
+                                controller: inputController),
+                            TextField(
+                                textAlign: TextAlign.right,
+                                enabled: false,
+                                obscureText: false,
+                                style: const TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                    fontFamily: 'Courier'),
+                                decoration: const InputDecoration(
+                                    isDense: true,
+                                    border: InputBorder.none,
+                                    contentPadding: EdgeInsets.symmetric(
+                                        vertical: 2, horizontal: 3.0)),
+                                controller: inputController2)
+                          ]))),
                   const SizedBox(height: 20),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
