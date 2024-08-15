@@ -25,7 +25,6 @@ class _UsersListState extends State<UsersList> {
             grade: item["promedio"],
             imagePath: 'images/${item["imagen"]}'));
       }
-      print(uList);
       return uList;
     } catch (error) {
       print("There was an error");
@@ -78,16 +77,23 @@ class _UsersListState extends State<UsersList> {
     );
   }
 
-  Future<ListView> uList() async {
-    final wUsers = await users();
-    return ListView.builder(
-      padding: const EdgeInsets.all(18),
-      itemCount: wUsers.length,
-      itemBuilder: (BuildContext context, int index) {
-        return userRow(wUsers[index].fName, wUsers[index].career,
-            wUsers[index].grade, wUsers[index].imagePath);
-      },
-    );
+  Future<Widget> uList() async {
+    try {
+      final wUsers = await users();
+      ListView list = ListView.builder(
+        padding: const EdgeInsets.all(18),
+        itemCount: wUsers.length,
+        itemBuilder: (BuildContext context, int index) {
+          return userRow(wUsers[index].fName, wUsers[index].career,
+              wUsers[index].grade, wUsers[index].imagePath);
+        },
+      );
+      return Future.delayed(const Duration(seconds: 3), () => list);
+    } catch (e) {
+      print("There was an error while displaying the ListView widgets");
+      print(e);
+      return const Text("No data");
+    }
   }
 
   @override
@@ -103,7 +109,14 @@ class _UsersListState extends State<UsersList> {
                 if (snapshot.hasData) {
                   return snapshot.data ?? Container();
                 }
-                return Container();
+                return const Center(
+                    child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircularProgressIndicator(),
+                    Text("Loading information from the internet.")
+                  ],
+                ));
               })),
     );
   }
