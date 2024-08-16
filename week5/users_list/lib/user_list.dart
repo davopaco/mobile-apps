@@ -29,7 +29,7 @@ class _UsersListState extends State<UsersList> {
     } catch (error) {
       print("There was an error");
       print(error);
-      return [];
+      rethrow;
     }
   }
 
