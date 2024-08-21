@@ -12,6 +12,7 @@ class UsersList extends StatefulWidget {
 }
 
 class _UsersListState extends State<UsersList> {
+  //Method for getting the async list of users (future).
   Future<List<Users>> users() async {
     String sUrl = "https://api.npoint.io/5cb393746e518d1d8880";
     try {
@@ -30,12 +31,12 @@ class _UsersListState extends State<UsersList> {
       }
       return uList;
     } catch (error) {
-      print("There was an error");
-      print(error);
+      print("There was an error: $error");
       rethrow;
     }
   }
 
+  //Returns the container with the user's info.
   Widget userRow(Users user, BuildContext context) {
     return Container(
       height: 135,
@@ -95,6 +96,7 @@ class _UsersListState extends State<UsersList> {
     );
   }
 
+  //Returns a future of a widget.
   Future<Widget> uList(BuildContext context) async {
     try {
       final wUsers = await users();
@@ -107,8 +109,7 @@ class _UsersListState extends State<UsersList> {
       );
       return Future.delayed(const Duration(seconds: 3), () => list);
     } catch (e) {
-      print("There was an error while displaying the ListView widgets");
-      print(e);
+      print("There was an error while displaying the ListView widgets $e");
       return const Text("No data");
     }
   }

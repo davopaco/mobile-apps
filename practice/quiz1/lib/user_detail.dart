@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:quiz1/users.dart';
 
+//This is the class for the "second screen" with the user's details.
 class UserDetails extends StatelessWidget {
   final Users user;
 
@@ -25,7 +26,7 @@ class UserDetails extends StatelessWidget {
                     height: 200,
                     width: 200,
                   )),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Text(user.fName),
