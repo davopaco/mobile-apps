@@ -44,14 +44,22 @@ class AbstractView extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 20,
                             ))),
-                    TextField(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        labelText: params,
-                      ),
-                    )
+                    const SizedBox(height: 40),
+                    SizedBox(
+                        width: 150,
+                        child: TextField(
+                          enabled: false,
+                          textAlign: TextAlign.center,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            contentPadding: const EdgeInsets.all(10),
+                          ),
+                          controller: TextEditingController(text: params),
+                          style: const TextStyle(
+                              fontSize: 20, color: Colors.black),
+                        ))
                   ],
                 ))),
       ),

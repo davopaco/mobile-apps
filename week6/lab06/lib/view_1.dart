@@ -99,14 +99,24 @@ class _View1State extends State<View1> {
                           style: TextStyle(
                             fontSize: 20,
                           ))),
-                  TextField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      labelText: value,
-                    ),
-                  )
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  SizedBox(
+                      width: 150,
+                      child: TextField(
+                        enabled: false,
+                        textAlign: TextAlign.center,
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          contentPadding: const EdgeInsets.all(10),
+                        ),
+                        controller: TextEditingController(text: value),
+                        style:
+                            const TextStyle(fontSize: 20, color: Colors.black),
+                      )),
                 ],
               ))),
     );
