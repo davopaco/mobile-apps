@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:login/login_button.dart';
 import 'package:login/login_texf.dart';
 
@@ -14,7 +13,7 @@ class LoginApp extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Login Page'),
           backgroundColor: Colors.blue,
-          titleTextStyle: TextStyle(color: Colors.white, fontSize: 20),
+          titleTextStyle: const TextStyle(color: Colors.white, fontSize: 20),
         ),
         body: const Center(
           child: Column(
