@@ -10,6 +10,7 @@ class MockView extends StatelessWidget {
     return Scaffold(
       body: Center(
           child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
             text,
@@ -18,6 +19,7 @@ class MockView extends StatelessWidget {
                 fontSize: 20.0,
                 fontWeight: FontWeight.bold),
           ),
+          const SizedBox(height: 20),
           LoginButton(
               label: "Go back!",
               callback: () {
