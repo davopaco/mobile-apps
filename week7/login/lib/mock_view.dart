@@ -14,9 +14,9 @@ class MockView extends StatelessWidget {
           Text(
             text,
             style: const TextStyle(
-              color: Colors.black,
-              fontSize: 20.0,
-            ),
+                color: Colors.black,
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold),
           ),
           LoginButton(
               label: "Go back!",

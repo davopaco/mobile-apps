@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:login/mock_view.dart';
 
 class LoginButton extends StatelessWidget {
   final String label;
@@ -10,9 +9,7 @@ class LoginButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return const MockView(text: 'Login Successful');
-        }));
+        callback();
       },
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.blue,
