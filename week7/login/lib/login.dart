@@ -36,6 +36,7 @@ class LoginApp extends StatelessWidget {
             LoginTextField(
               labelText: "Password",
               eController: _passwordController,
+              obscureText: true,
             ),
             const SizedBox(height: 50),
             LoginButton(
