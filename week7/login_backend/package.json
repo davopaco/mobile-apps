@@ -4,9 +4,9 @@
   "description": "The login backend",
   "main": "index.js",
   "scripts": {
-    "dev": "npx ts-node-dev --env-file=./.env src/index.ts",
-    "build": "npx tsc",
-    "start": "node index.js"
+    "dev": "npx ts-node-dev --env-file=./.env index.ts",
+    "build": "rm -rf build/ && npx tsc",
+    "start": "node --env-file=./.env build/index.js"
   },
   "repository": {
     "type": "git",

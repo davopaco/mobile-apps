@@ -14,7 +14,7 @@
 
     /* Emit */
     "sourceMap": true,
-    "outDir": "./",
+    "outDir": "./build",
 
     /* Interop Constraints */
     "esModuleInterop": true,                          
@@ -30,6 +30,6 @@
     /* Completeness */
     "skipLibCheck": true
   },
-  "include": ["src/**/*"],
+  "include": ["EnvironmentConfig.ts", "Express.ts", "index.ts", "LoginController.ts", "LoginModel.ts", "LoginRoute.ts"],
   "exclude": ["node_modules"]
 }

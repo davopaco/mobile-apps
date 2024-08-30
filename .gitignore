@@ -11,6 +11,8 @@ pubspec.lock
 # If you don't generate documentation locally you can remove this line.
 doc/api/
 node_modules/
+build/*.js
+build/*.js.map
 
 # dotenv environment variables file
 .env*
