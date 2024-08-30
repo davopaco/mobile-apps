@@ -23,6 +23,7 @@ class LoginUseCase {
                     text: "User is already logged in!",
                   )));
     } else {
+      _loginService.logout(username);
       Navigator.push(
           context,
           MaterialPageRoute(

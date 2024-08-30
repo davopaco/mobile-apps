@@ -37,6 +37,10 @@ class LoginService {
     }
   }
 
+  Future<void> logout(String username) async {
+    await _loginRepository.removeCredentials(username);
+  }
+
   Future<bool> _isLoggedIn(String username) async {
     final token = await _loginRepository.getToken(username);
 
