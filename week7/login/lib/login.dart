@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:login/login_button.dart';
 import 'package:login/login_texf.dart';
+import 'package:login/mock_view.dart';
 
 class LoginApp extends StatelessWidget {
   const LoginApp({super.key});
@@ -15,21 +16,28 @@ class LoginApp extends StatelessWidget {
           backgroundColor: Colors.blue,
           titleTextStyle: const TextStyle(color: Colors.white, fontSize: 20),
         ),
-        body: const Center(
+        body: Center(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image(
+              const Image(
                 width: 200,
                 image: NetworkImage(
                     'https://storage.googleapis.com/cms-storage-bucket/c823e53b3a1a7b0d36a9.png'),
               ),
-              SizedBox(height: 50),
-              LoginTextField(labelText: "Email"),
-              LoginTextField(labelText: "Password"),
-              SizedBox(height: 50),
-              LoginButton(),
+              const SizedBox(height: 50),
+              const LoginTextField(labelText: "Email"),
+              const LoginTextField(labelText: "Password"),
+              const SizedBox(height: 50),
+              LoginButton(
+                label: "Login",
+                callback: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return const MockView(text: 'Login Successful');
+                  }));
+                },
+              ),
             ],
           ),
         ),

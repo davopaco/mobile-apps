@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:login/mock_view.dart';
 
 class LoginButton extends StatelessWidget {
-  const LoginButton({super.key});
+  final String label;
+  final Function callback;
+  const LoginButton({super.key, required this.label, required this.callback});
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        print("hola");
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return const MockView(text: 'Login Successful');
+        }));
       },
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.blue,
@@ -16,8 +21,8 @@ class LoginButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
         ),
       ),
-      child: const Text('Login',
-          style: TextStyle(fontSize: 20, color: Colors.white)),
+      child: Text(label,
+          style: const TextStyle(fontSize: 20, color: Colors.white)),
     );
   }
 }
