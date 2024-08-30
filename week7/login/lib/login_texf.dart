@@ -2,13 +2,17 @@ import 'package:flutter/material.dart';
 
 class LoginTextField extends StatelessWidget {
   final String labelText;
-  const LoginTextField({super.key, required this.labelText});
+  final TextEditingController eController;
+
+  const LoginTextField(
+      {super.key, required this.labelText, required this.eController});
 
   @override
   Widget build(BuildContext context) {
     return Container(
         padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
         child: TextField(
+          controller: eController,
           decoration: InputDecoration(
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(8),

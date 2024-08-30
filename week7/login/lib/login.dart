@@ -4,12 +4,15 @@ import 'package:login/login_texf.dart';
 import 'package:login/mock_view.dart';
 
 class LoginApp extends StatelessWidget {
-  const LoginApp({super.key});
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  LoginApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'My App',
+      title: 'App Login JWT',
       home: Scaffold(
         appBar: AppBar(
           title: const Text('Login Page'),
@@ -27,8 +30,14 @@ class LoginApp extends StatelessWidget {
                     'https://storage.googleapis.com/cms-storage-bucket/c823e53b3a1a7b0d36a9.png'),
               ),
               const SizedBox(height: 50),
-              const LoginTextField(labelText: "Email"),
-              const LoginTextField(labelText: "Password"),
+              LoginTextField(
+                labelText: "Email",
+                eController: _emailController,
+              ),
+              LoginTextField(
+                labelText: "Password",
+                eController: _passwordController,
+              ),
               const SizedBox(height: 50),
               LoginButton(
                 label: "Login",
