@@ -7,7 +7,7 @@
 
     /* Modules */
     "module": "node16",                          
-    "rootDir": "./",
+    "rootDir": "./src",
     "moduleResolution": "node16",
     "types": ["node"],
     "resolveJsonModule": true,
@@ -30,6 +30,6 @@
     /* Completeness */
     "skipLibCheck": true
   },
-  "include": ["EnvironmentConfig.ts", "Express.ts", "index.ts", "LoginController.ts", "LoginModel.ts", "LoginRoute.ts"],
+  "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]
 }

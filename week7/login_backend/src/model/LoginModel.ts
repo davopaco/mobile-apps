@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import EnvironmentConfig from "./EnvironmentConfig";
+import EnvironmentConfig from "../config/EnvironmentConfig";
 
 export default class LoginModel {
   private users: { username: string; password: string }[];

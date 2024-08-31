@@ -4,7 +4,7 @@
   "description": "The login backend",
   "main": "index.js",
   "scripts": {
-    "dev": "npx ts-node-dev --env-file=./.env index.ts",
+    "dev": "npx ts-node-dev --env-file=./.env src/index.ts",
     "build": "rm -rf build/ && npx tsc",
     "start": "node --env-file=./.env build/index.js"
   },
@@ -12,7 +12,7 @@
     "type": "git",
     "url": "mobile-apps"
   },
-  "author": "",
+  "author": "David Santiago Cárdenas Rivera",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.1",

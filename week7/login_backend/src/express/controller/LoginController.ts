@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import LoginModel from "./LoginModel";
+import LoginModel from "../../model/LoginModel";
 
 export default class LoginController {
   constructor(private readonly loginModel: LoginModel) {}

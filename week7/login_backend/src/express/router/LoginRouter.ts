@@ -1,7 +1,7 @@
-import LoginController from "./LoginController";
 import { Router } from "express";
+import LoginController from "../controller/LoginController";
 
-export default class LoginRoute {
+export default class LoginRouter {
   router: Router;
 
   constructor(private readonly loginController: LoginController) {

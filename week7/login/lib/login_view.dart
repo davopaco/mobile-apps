@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:login/login_button.dart';
 import 'package:login/login_texf.dart';
-import 'package:login/login_usecase.dart';
+import 'package:login/login_use_case.dart';
 
-class LoginApp extends StatelessWidget {
+class LoginView extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final LoginUseCase _loginUsecase = LoginUseCase();
 
-  LoginApp({super.key});
+  LoginView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,7 @@ class LoginApp extends StatelessWidget {
             LoginButton(
               label: "Login",
               callback: () {
-                _loginUsecase.sendView(
+                _loginUsecase.login(
                     _emailController.text, _passwordController.text, context);
               },
             ),

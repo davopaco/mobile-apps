@@ -1,12 +1,12 @@
 import express, { Application } from "express";
-import EnvironmentConfig from "./EnvironmentConfig";
-import LoginRoute from "./LoginRoute";
+import EnvironmentConfig from "../config/EnvironmentConfig";
+import LoginRouter from "./router/LoginRouter";
 
 export default class Express {
   private readonly app: Application;
 
   constructor(
-    private readonly expressRouter: LoginRoute,
+    private readonly expressRouter: LoginRouter,
     private readonly env: EnvironmentConfig
   ) {
     this.app = express();
