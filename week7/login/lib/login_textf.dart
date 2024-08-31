@@ -33,8 +33,8 @@ class LoginTextField extends StatelessWidget {
                   const BorderSide(color: Color.fromARGB(255, 27, 84, 131)),
               borderRadius: BorderRadius.circular(8),
             ),
-            labelStyle: const TextStyle(
-                color: const Color.fromARGB(255, 120, 120, 120)),
+            labelStyle:
+                const TextStyle(color: Color.fromARGB(255, 120, 120, 120)),
           ),
         ));
   }
