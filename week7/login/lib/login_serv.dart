@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:login/login_repo.dart';
@@ -13,32 +14,37 @@ class LoginService {
       'Content-Type': 'application/json',
     };
 
+    final host = dotenv.env['HOST'] ?? 'http://192.168.0.1';
+    final port = dotenv.env['PORT'] ?? '3000';
+
     final body = jsonEncode({
       'username': username,
       'password': password,
     });
 
     try {
-      const url = 'http://192.168.1.6:3000/login';
+      final url = '$host:$port/login';
       final response = await http.post(
         Uri.parse(url),
         headers: headers,
         body: body,
       );
+
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         final token = data['token'];
         await _loginRepository.storeCredentials(token);
         return true; //User has successfully logged in
-      } else {
-        return false; //Login failed
       }
+
+      return false; //Login failed
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('There was an error logging in!'),
         ),
       );
+      print(e);
       return false;
     }
   }

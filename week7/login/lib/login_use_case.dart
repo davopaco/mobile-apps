@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:login/login_serv.dart';
-import 'package:login/login_view.dart';
-import 'package:login/m_view.dart';
+import 'package:login/views.dart';
 
 class LoginUseCase {
   final LoginService _loginService = LoginService();
