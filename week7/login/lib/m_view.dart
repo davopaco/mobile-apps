@@ -18,6 +18,7 @@ class MockView extends StatelessWidget {
         children: [
           Text(
             text,
+            textAlign: TextAlign.center,
             style: const TextStyle(
                 color: Colors.black,
                 fontSize: 20.0,
