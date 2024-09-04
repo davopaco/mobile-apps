@@ -31,10 +31,10 @@ export default class UserRepository {
         user.getHash(),
       ]);
 
-      if (result[0].affectedRows !== 1) {
-        return false;
+      if (result[0].affectedRows > 0) {
+        return true;
       }
-      return true;
+      return false;
     } catch (error) {
       console.error(error);
       return false;
