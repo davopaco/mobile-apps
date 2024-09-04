@@ -17,5 +17,10 @@ export default class LoginRouter implements ExpressRouter {
       "/login",
       this.loginController.login.bind(this.loginController)
     );
+
+    this.router.post(
+      "/register",
+      this.loginController.register.bind(this.loginController)
+    ); // This route is not meant for using on the application, it is only meant for user-creation purposes.
   }
 }
