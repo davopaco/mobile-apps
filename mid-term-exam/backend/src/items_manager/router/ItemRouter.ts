@@ -19,7 +19,7 @@ export default class ItemRouter implements ExpressRouter {
   public routes(): void {
     this.router.get(
       "/all",
-      this.authMiddleware.verify,
+      this.authMiddleware.verify.bind(this.authMiddleware),
       this.itemController.getAllItems.bind(this.itemController)
     );
 
