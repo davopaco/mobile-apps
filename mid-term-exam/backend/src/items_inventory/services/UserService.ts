@@ -1,5 +1,6 @@
+import JWTManager from "../../helper/JWTManager";
+import TokenUser from "../model/interfaces/TokenUser";
 import User from "../model/user/User";
-import JWTManager from "../helper/JWTManager";
 import UserRepository from "../repository/UserRepository";
 import bcrypt from "bcrypt";
 
@@ -8,7 +9,7 @@ export default class UserService {
 
   constructor(
     private readonly userRepository: UserRepository,
-    private readonly jwtManager: JWTManager
+    private readonly jwtManager: JWTManager<TokenUser>
   ) {
     this.salt = bcrypt.genSaltSync(10);
   }
@@ -52,5 +53,9 @@ export default class UserService {
 
   public async verifyJWT(token: string): Promise<boolean> {
     return this.jwtManager.verifyToken(token);
+  }
+
+  public async decodeJWT(token: string): Promise<TokenUser> {
+    return this.jwtManager.decodeToken(token);
   }
 }
