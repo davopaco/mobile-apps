@@ -1,4 +1,4 @@
-export default class Item {
+export default abstract class AItem {
   private id: number;
   private name: string;
   private vendor: string;
@@ -38,4 +38,26 @@ export default class Item {
   getImagePath(): string {
     return this.imagePath;
   }
+
+  setId(id: number): void {
+    this.id = id;
+  }
+
+  setName(name: string): void {
+    this.name = name;
+  }
+
+  setVendor(vendor: string): void {
+    this.vendor = vendor;
+  }
+
+  setRating(rating: number): void {
+    this.rating = rating;
+  }
+
+  setImagePath(imagePath: string): void {
+    this.imagePath = imagePath;
+  }
+
+  abstract isNull(): boolean;
 }

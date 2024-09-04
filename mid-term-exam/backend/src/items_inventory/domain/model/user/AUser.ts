@@ -1,4 +1,4 @@
-export default class User {
+export default abstract class AUser {
   private username: string;
   private name: string;
   private hash: string;
@@ -20,4 +20,18 @@ export default class User {
   getHash(): string {
     return this.hash;
   }
+
+  setUsername(username: string): void {
+    this.username = username;
+  }
+
+  setName(name: string): void {
+    this.name = name;
+  }
+
+  setHash(hash: string): void {
+    this.hash = hash;
+  }
+
+  abstract isNull(): boolean;
 }
