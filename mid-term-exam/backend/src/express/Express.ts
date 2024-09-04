@@ -1,6 +1,7 @@
 import express, { Application } from "express";
 import EnvironmentConfig from "../config/EnvironmentConfig";
 import ExpressRouter from "./interface/ExpressRouter";
+import path from "path";
 
 export default class Express {
   private readonly app: Application;
@@ -27,6 +28,11 @@ export default class Express {
     this.expressRouter.forEach((router) => {
       this.app.use(router.path, router.router);
     });
+
+    this.app.use(
+      "/images",
+      express.static(path.join(__dirname, "..", "..", "public", "images"))
+    ); // This is the endpoint to access the images
 
     this.app.use((_req, res) => {
       res.status(404).send("404 Not Found");

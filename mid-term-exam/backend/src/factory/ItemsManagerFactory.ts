@@ -15,7 +15,7 @@ import LoginRouter from "../items_manager/router/LoginRouter";
 import FavItemService from "../items_manager/services/FavItemService";
 import ItemService from "../items_manager/services/ItemService";
 import UserService from "../items_manager/services/UserService";
-import DatabaseEnvironment from "../util/database/config/DatabaseEnvironment";
+import DatabaseEnvironment from "../config/DatabaseEnvironment";
 import MySqlDBC from "../util/database/MySqlDBC";
 import MySqlConnectionConfig from "../util/database/types/ConnectionInterface";
 
