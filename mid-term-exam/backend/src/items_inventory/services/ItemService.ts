@@ -12,10 +12,6 @@ export default class ItemService {
     return await this.itemRepository.get(id);
   }
 
-  public async addItem(item: Item): Promise<boolean> {
-    return await this.itemRepository.create(item);
-  }
-
   public async addItems(items: Item[]): Promise<boolean> {
     let result = true;
     items.forEach(async (item) => {
