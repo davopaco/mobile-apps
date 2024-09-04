@@ -1,13 +1,9 @@
 import EnvironmentConfig from "./config/EnvironmentConfig";
-import LoginController from "./items_manager/controller/LoginController";
 import Express from "./express/Express";
-import LoginRouter from "./login/router/LoginRouter";
-import LoginModel from "./login/model/LoginModel";
+import ItemsManagerFactory from "./factory/ItemsManagerFactory";
 
+const factory = new ItemsManagerFactory();
 const envConfig = new EnvironmentConfig();
-const loginModel = new LoginModel(envConfig);
-const loginController = new LoginController(loginModel);
-const loginRoute = new LoginRouter(loginController);
-const backendApp = new Express([loginRoute], envConfig);
+const backendApp = new Express(factory.instantiate(), envConfig);
 
 backendApp.start();
