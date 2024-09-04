@@ -1,8 +1,8 @@
 import { ResultSetHeader } from "mysql2";
 import MySqlDBC from "../../util/database/MySqlDBC";
-import SqlUsers from "../domain/model/sql/SqlUsers";
-import NUser from "../domain/model/user/NUser";
-import User from "../domain/model/user/User";
+import SqlUsers from "../model/sql/SqlUsers";
+import NUser from "../model/user/NUser";
+import User from "../model/user/User";
 
 export default class UserRepository {
   constructor(private readonly connection: MySqlDBC) {}

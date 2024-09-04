@@ -1,10 +1,10 @@
 import { ResultSetHeader } from "mysql2";
 import MySqlDBC from "../../util/database/MySqlDBC";
-import FavoriteItem from "../domain/model/fav_item/FavoriteItem";
-import Item from "../domain/model/item/Item";
+import FavoriteItem from "../model/fav_item/FavoriteItem";
+import Item from "../model/item/Item";
 import UserRepository from "./UserRepository";
-import SqlItems from "../domain/model/sql/SqlItems";
-import User from "../domain/model/user/User";
+import SqlItems from "../model/sql/SqlItems";
+import User from "../model/user/User";
 
 export default class FavItemRepository {
   constructor(
@@ -41,6 +41,24 @@ export default class FavItemRepository {
   public async create(user: User, item: Item): Promise<boolean> {
     try {
       const sql = `INSERT INTO FAV_ITEMS (USERS_USERNAME, ITEMS_ID) VALUES (?, ?)`;
+      const result = await this.connection.query<ResultSetHeader>(sql, [
+        user.getUsername(),
+        item.getId(),
+      ]);
+
+      if (result[0].affectedRows > 0) {
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
+  }
+
+  public async delete(user: User, item: Item): Promise<boolean> {
+    try {
+      const sql = `DELETE FROM FAV_ITEMS WHERE USERS_USERNAME = ? AND ITEMS_ID = ?`;
       const result = await this.connection.query<ResultSetHeader>(sql, [
         user.getUsername(),
         item.getId(),
