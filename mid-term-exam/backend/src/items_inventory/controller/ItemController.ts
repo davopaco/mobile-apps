@@ -10,8 +10,8 @@ export default class ItemController {
   }
 
   public async createItems(req: Request, res: Response): Promise<any> {
-    const { name, price, stock } = req.body;
-    await this.itemService.addItems(name, price, stock);
+    const { name, vendor, rating, image_path } = req.body;
+    await this.itemService.addItems(name);
     res.status(201).json({ message: "Item created" });
   }
 }

@@ -1,3 +1,4 @@
+import APIItem from "../model/interfaces/APIItem";
 import Item from "../model/item/Item";
 import ItemRepository from "../repository/ItemRepository";
 
@@ -12,9 +13,16 @@ export default class ItemService {
     return await this.itemRepository.get(id);
   }
 
-  public async addItems(items: Item[]): Promise<boolean> {
+  public async addItems(apiItems: APIItem[]): Promise<boolean> {
     let result = true;
-    items.forEach(async (item) => {
+    apiItems.forEach(async (apiItem) => {
+      const item = new Item(
+        apiItem.id,
+        apiItem.name,
+        apiItem.vendor,
+        apiItem.rating,
+        apiItem.imagePath
+      );
       if (!(await this.itemRepository.create(item))) {
         result = false;
       }
