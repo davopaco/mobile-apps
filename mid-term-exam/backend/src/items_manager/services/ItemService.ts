@@ -17,7 +17,7 @@ export default class ItemService {
     let result = true;
     apiItems.forEach(async (apiItem) => {
       const item = new Item(
-        apiItem.id,
+        0,
         apiItem.name,
         apiItem.vendor,
         apiItem.rating,
