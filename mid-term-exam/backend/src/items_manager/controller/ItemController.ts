@@ -11,12 +11,19 @@ export default class ItemController {
   }
 
   public async addItems(req: Request, res: Response): Promise<any> {
-    const apiItems = req.body as APIItem[];
-    const result = await this.itemService.addItems(apiItems);
-    if (!result) {
-      res.status(500).json({ message: "Error creating item/s" });
-      return;
+    try {
+      const apiItems = req.body as APIItem[];
+      const result = await this.itemService.addItems(apiItems);
+      if (!result) {
+        res.status(500).json({ message: "Error creating item/s" });
+        return;
+      }
+      res.status(201).json({ message: "Item/s created on the database" });
+    } catch (e) {
+      console.log(e);
+      res
+        .status(500)
+        .json({ message: "There was an error with the data. Try again!" });
     }
-    res.status(201).json({ message: "Item/s created on the database" });
   }
 }

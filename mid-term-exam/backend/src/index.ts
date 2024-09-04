@@ -1,5 +1,5 @@
 import EnvironmentConfig from "./config/EnvironmentConfig";
-import LoginController from "./items_inventory/controller/LoginController";
+import LoginController from "./items_manager/controller/LoginController";
 import Express from "./express/Express";
 import LoginRouter from "./login/router/LoginRouter";
 import LoginModel from "./login/model/LoginModel";
