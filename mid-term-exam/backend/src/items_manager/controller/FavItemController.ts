@@ -1,13 +1,13 @@
-import CustomRequest from "../model/interfaces/CustomRequest";
+import TokenUser from "../model/interfaces/TokenUser";
 import FavItemService from "../services/FavItemService";
-import { Response } from "express";
+import { Request, Response } from "express";
 
 export default class FavItemController {
   constructor(private readonly favItemService: FavItemService) {}
 
-  public async getFavItems(req: CustomRequest, res: Response): Promise<void> {
+  public async getFavItems(req: Request, res: Response): Promise<void> {
     try {
-      const user = req.user;
+      const user = req.body.user as TokenUser;
       const favItems = await this.favItemService.getAllFavItems(user.username);
       if (favItems.length === 0) {
         res.status(404).json({ message: "No favorite items found" });
@@ -22,9 +22,9 @@ export default class FavItemController {
     }
   }
 
-  public async addFavItem(req: CustomRequest, res: Response): Promise<void> {
+  public async addFavItem(req: Request, res: Response): Promise<void> {
     try {
-      const user = req.user;
+      const user = req.body.user as TokenUser;
       const { item_id } = req.body;
       await this.favItemService.addFavItem(item_id, user.username);
       res.status(200).json({ message: "Item added to favorites" });
@@ -36,9 +36,9 @@ export default class FavItemController {
     }
   }
 
-  public async removeFavItem(req: CustomRequest, res: Response): Promise<void> {
+  public async removeFavItem(req: Request, res: Response): Promise<void> {
     try {
-      const user = req.user;
+      const user = req.body.user as TokenUser;
       const { item_id } = req.body;
       await this.favItemService.removeFavItem(item_id, user.username);
       res.status(200).json({ message: "Item removed from favorites" });

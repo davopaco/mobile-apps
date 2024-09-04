@@ -1,12 +1,11 @@
-import CustomRequest from "../model/interfaces/CustomRequest";
 import UserService from "../services/UserService";
-import { Response, NextFunction } from "express";
+import { Request, Response, NextFunction } from "express";
 
 export default class AuthMiddleware {
   constructor(private readonly userService: UserService) {}
 
   public async verify(
-    req: CustomRequest,
+    req: Request,
     res: Response,
     next: NextFunction
   ): Promise<void> {
@@ -20,7 +19,7 @@ export default class AuthMiddleware {
 
     const isTokenValid = await this.userService.verifyJWT(token);
     if (isTokenValid) {
-      req.user = await this.userService.decodeJWT(token);
+      req.body.user = await this.userService.decodeJWT(token);
       next(); // Get the user from the token // The request is passed to the controller
     }
     res.status(401).json({ message: "Token is invalid" });
