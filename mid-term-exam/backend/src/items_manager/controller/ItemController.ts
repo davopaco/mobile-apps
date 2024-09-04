@@ -7,6 +7,10 @@ export default class ItemController {
 
   public async getAllItems(_req: Request, res: Response): Promise<any> {
     const items = await this.itemService.getAllItems();
+    if (!items) {
+      res.status(404).json({ message: "Items not found!" });
+      return;
+    }
     res.status(200).json({ items: items });
   }
 
