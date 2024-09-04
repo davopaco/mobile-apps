@@ -1,6 +1,6 @@
 import { Router } from "express";
 import LoginController from "../controller/LoginController";
-import ExpressRouter from "../interface/ExpressRouter";
+import ExpressRouter from "../../express/interface/ExpressRouter";
 
 export default class LoginRouter implements ExpressRouter {
   router: Router;

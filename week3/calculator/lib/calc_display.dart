@@ -15,7 +15,7 @@ class Display {
       this.nchars = 0,
       required this.calculatorModel,
       required this.textEditingController,
-      required this.textEditingController2}) {}
+      required this.textEditingController2});
 
   //Function for formatting double numbers in case of exceptions or integers.
   String formatDouble(double value) {

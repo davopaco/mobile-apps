@@ -1,13 +1,13 @@
 import EnvironmentConfig from "./config/EnvironmentConfig";
-import LoginController from "./express/controller/LoginController";
+import LoginController from "./login/controller/LoginController";
 import Express from "./express/Express";
-import LoginRouter from "./express/router/LoginRouter";
-import LoginModel from "./model/LoginModel";
+import LoginRouter from "./login/router/LoginRouter";
+import LoginModel from "./login/model/LoginModel";
 
 const envConfig = new EnvironmentConfig();
 const loginModel = new LoginModel(envConfig);
 const loginController = new LoginController(loginModel);
 const loginRoute = new LoginRouter(loginController);
-const backendApp = new Express(loginRoute, envConfig);
+const backendApp = new Express([loginRoute], envConfig);
 
 backendApp.start();

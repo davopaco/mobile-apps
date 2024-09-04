@@ -49,8 +49,9 @@ Widget calculatorButton(String symbol) {
       padding: const EdgeInsets.all(8),
       child: Container(
           decoration: BoxDecoration(
-              border: Border(top: BorderSide(color: Colors.white, width: 1)),
-              boxShadow: [
+              border:
+                  const Border(top: BorderSide(color: Colors.white, width: 1)),
+              boxShadow: const [
                 BoxShadow(color: Colors.black, spreadRadius: 1, blurRadius: 2)
               ],
               borderRadius: BorderRadius.circular(10),
@@ -85,13 +86,13 @@ class _CalculatorState extends State<Calculator> {
               width: 380,
               height: 560,
               decoration: BoxDecoration(
-                  boxShadow: [
+                  boxShadow: const [
                     BoxShadow(
                         color: Colors.black,
                         blurRadius: 8,
                         offset: Offset(0, 3))
                   ],
-                  border: Border.all(color: Color(0xFFC2C2C3), width: 4),
+                  border: Border.all(color: const Color(0xFFC2C2C3), width: 4),
                   borderRadius: BorderRadius.circular(29),
                   gradient: const RadialGradient(
                     center: Alignment(-1, -1),
@@ -102,7 +103,7 @@ class _CalculatorState extends State<Calculator> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
                   Container(
@@ -117,7 +118,7 @@ class _CalculatorState extends State<Calculator> {
                                 const Color.fromARGB(255, 221, 212, 212)
                                     .withOpacity(0.5)
                               ])),
-                      padding: EdgeInsets.all(13),
+                      padding: const EdgeInsets.all(13),
                       child: Container(
                           decoration: BoxDecoration(
                               gradient: const LinearGradient(
@@ -131,7 +132,7 @@ class _CalculatorState extends State<Calculator> {
                                   color: Colors.black.withOpacity(0.4),
                                   width: 1),
                               borderRadius: BorderRadius.circular(15),
-                              boxShadow: <BoxShadow>[
+                              boxShadow: const <BoxShadow>[
                                 BoxShadow(color: Colors.grey, spreadRadius: 4)
                               ]),
                           child: TextField(
