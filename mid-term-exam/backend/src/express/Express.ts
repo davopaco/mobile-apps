@@ -1,12 +1,12 @@
 import express, { Application } from "express";
 import EnvironmentConfig from "../config/EnvironmentConfig";
-import LoginRouter from "./router/LoginRouter";
+import ExpressRouter from "./interface/ExpressRouter";
 
 export default class Express {
   private readonly app: Application;
 
   constructor(
-    private readonly expressRouter: LoginRouter,
+    private readonly expressRouter: ExpressRouter[],
     private readonly env: EnvironmentConfig
   ) {
     this.app = express();
@@ -24,7 +24,9 @@ export default class Express {
   };
 
   private routes = (): void => {
-    this.app.use(this.expressRouter.router);
+    this.expressRouter.forEach((router) => {
+      this.app.use(router.path, router.router);
+    });
 
     this.app.use((_req, res) => {
       res.status(404).send("404 Not Found");
