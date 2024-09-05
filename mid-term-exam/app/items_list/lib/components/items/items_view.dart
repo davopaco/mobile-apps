@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:items_list/items/item_circular_button.dart';
-import 'package:items_list/items/sliding_menu.dart';
+import 'package:items_list/components/items/item_circular_button.dart';
+import 'package:items_list/components/items/items_list.dart';
+import 'package:items_list/components/items/sliding_menu.dart';
+import 'package:items_list/model/item.dart';
 
 class ItemsView extends StatefulWidget {
   final String apiEndpoint;
+  final List<Item> items;
 
-  const ItemsView({super.key, required this.apiEndpoint});
+  const ItemsView({super.key, required this.apiEndpoint, required this.items});
 
   @override
   State<ItemsView> createState() => _ItemsViewState();
@@ -29,13 +32,7 @@ class _ItemsViewState extends State<ItemsView> {
             isOpen: _isMenuOpen,
             onToggle: _toggleMenu,
           ),
-          Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [Container()],
-            ),
-          ),
+          ItemsList(items: widget.items),
           Positioned(
             top: _isMenuOpen ? 245 : 50,
             right: _isMenuOpen ? MediaQuery.of(context).size.width / 2.35 : 16,

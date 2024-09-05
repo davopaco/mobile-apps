@@ -18,10 +18,7 @@ class SqliteDbc {
         version: 1,
         onCreate: (Database db, int version) async {
           await db.execute(
-            'CREATE TABLE IF NOT EXISTS USER (JWT TEXT PRIMARY KEY)',
-          );
-          await db.execute(
-            'CREATE TABLE IF NOT EXISTS FAV_ITEMS (ID INTEGER PRIMARY KEY AUTOINCREMENT, NAME VARCHAR(30) NOT NULL, VENDOR VARCHAR(30) NOT NULL, RATING INTEGER NOT NULL, IMAGE_PATH TEXT NOT NULL)',
+            'CREATE TABLE IF NOT EXISTS FAV_ITEMS (ID INTEGER PRIMARY KEY, NAME VARCHAR(30) NOT NULL, VENDOR VARCHAR(30) NOT NULL, RATING INTEGER NOT NULL, IMAGE_PATH TEXT NOT NULL)',
           );
         },
       );

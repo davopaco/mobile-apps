@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:items_list/login/login_use_case.dart';
-import 'package:items_list/login/login_button.dart';
-import 'package:items_list/login/login_textf.dart';
+import 'package:items_list/usecases/items_manager_usecase.dart';
+import 'package:items_list/components/login/login_button.dart';
+import 'package:items_list/components/login/login_textf.dart';
 
 class LoginView extends StatelessWidget {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final LoginUseCase _loginUsecase;
+  final ItemsManagerUseCase _loginUsecase;
 
-  LoginView({super.key, required LoginUseCase loginUsecase})
+  LoginView({super.key, required ItemsManagerUseCase loginUsecase})
       : _loginUsecase = loginUsecase;
 
   @override
