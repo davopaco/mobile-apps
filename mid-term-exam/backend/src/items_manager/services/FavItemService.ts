@@ -1,4 +1,4 @@
-import FavoriteItem from "../model/fav_item/FavoriteItem";
+import Item from "../model/item/Item";
 import FavItemRepository from "../repository/FavItemRepository";
 import ItemService from "./ItemService";
 import UserService from "./UserService";
@@ -10,8 +10,12 @@ export default class FavItemService {
     private readonly userService: UserService
   ) {}
 
-  public async getAllFavItems(username: string): Promise<FavoriteItem[]> {
-    return await this.favItemRepository.getForUser(username);
+  public async getAllFavItems(username: string): Promise<Item[]> {
+    return (await this.favItemRepository.getForUser(username)).map(
+      (favItem) => {
+        return favItem.getItem();
+      }
+    );
   }
 
   public async addFavItem(item_id: number, username: string): Promise<boolean> {

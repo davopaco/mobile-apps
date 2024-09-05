@@ -9,11 +9,8 @@ export default class FavItemController {
     try {
       const user = req.body.user as TokenUser;
       const favItems = await this.favItemService.getAllFavItems(user.username);
-      if (favItems.length === 0) {
-        res.status(404).json({ message: "No favorite items found" });
-        return;
-      }
-      res.status(200).json(favItems);
+      console.log(favItems);
+      res.status(200).json({ favorite: favItems });
     } catch (e) {
       console.log(e);
       res
