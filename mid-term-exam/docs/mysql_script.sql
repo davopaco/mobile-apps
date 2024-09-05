@@ -1,3 +1,6 @@
+CREATE DATABASE IF NOT EXISTS `ITEMS_M`;
+USE `ITEMS_M`;
+
 -- -----------------------------------------------------
 -- Table `USERS`
 -- -----------------------------------------------------
@@ -15,7 +18,7 @@ CREATE TABLE IF NOT EXISTS ITEMS (
   `ID` INT NOT NULL AUTO_INCREMENT,
   `NAME` VARCHAR(30) NOT NULL,
   `VENDOR` VARCHAR(45) NOT NULL,
-  `RATING` INT NOT NULL,
+  `RATING` DOUBLE NOT NULL,
   `IMAGE_PATH` TEXT NOT NULL,
   PRIMARY KEY (`ID`));
 

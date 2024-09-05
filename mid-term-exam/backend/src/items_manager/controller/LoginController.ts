@@ -11,7 +11,7 @@ export default class LoginController {
 
     //If the username and password are correct, a token is generated and returned
     if (user) {
-      const tokenGenerated = this.userService.generateJWT(username);
+      const tokenGenerated = await this.userService.generateJWT(username);
       res.status(200).json({ token: tokenGenerated });
       return;
     }
