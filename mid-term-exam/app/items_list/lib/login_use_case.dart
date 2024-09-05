@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:items_list/login_serv.dart';
-import 'package:login/views.dart';
+import 'package:items_list/login_view.dart';
 
 class LoginUseCase {
-  final LoginService _loginService = LoginService();
+  final LoginService _loginService;
+
+  LoginUseCase({required LoginService loginService})
+      : _loginService = loginService;
 
   Future<void> login(
       String username, String password, BuildContext context) async {
@@ -12,9 +15,8 @@ class LoginUseCase {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => MockView(
-            text: "Login Succesful! \nWelcome back, $username",
-          ),
+          builder: (context) =>
+              Container(), //ItemsListView(username: username),
         ),
       );
       return;
@@ -28,14 +30,13 @@ class LoginUseCase {
 
   Future<Widget> sendView() async {
     final userLoggedIn = await _loginService.isLoggedIn();
-    final username = await _loginService.getName();
+    //final username = await _loginService.getName();
 
     if (userLoggedIn) {
-      return MockView(
-        text: "Welcome back! \n$username",
-      );
+      return Container();
+      // return ItemsListView(username: username);
     } else {
-      return LoginView();
+      return LoginView(loginUsecase: this);
     }
   }
 

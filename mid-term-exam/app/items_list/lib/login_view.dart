@@ -4,11 +4,12 @@ import 'package:items_list/login_button.dart';
 import 'package:items_list/login_textf.dart';
 
 class LoginView extends StatelessWidget {
-  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final LoginUseCase _loginUsecase = LoginUseCase();
+  final LoginUseCase _loginUsecase;
 
-  LoginView({super.key});
+  LoginView({super.key, required LoginUseCase loginUsecase})
+      : _loginUsecase = loginUsecase;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +32,7 @@ class LoginView extends StatelessWidget {
             const SizedBox(height: 50),
             LoginTextField(
               labelText: "Email",
-              eController: _emailController,
+              eController: _usernameController,
             ),
             LoginTextField(
               labelText: "Password",
@@ -42,8 +43,8 @@ class LoginView extends StatelessWidget {
             LoginButton(
               label: "Login",
               callback: () {
-                _loginUsecase.login(
-                    _emailController.text, _passwordController.text, context);
+                _loginUsecase.login(_usernameController.text,
+                    _passwordController.text, context);
               },
             ),
           ],

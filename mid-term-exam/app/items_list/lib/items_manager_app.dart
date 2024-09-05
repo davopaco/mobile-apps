@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:items_list/login_use_case.dart';
 
-class LoginApp extends StatelessWidget {
-  final LoginUseCase _loginUsecase = LoginUseCase();
+class ItemsManagerApp extends StatelessWidget {
+  final LoginUseCase _loginUsecase;
 
-  LoginApp({super.key});
+  const ItemsManagerApp({super.key, required loginUseCase})
+      : _loginUsecase = loginUseCase;
 
   @override
   Widget build(BuildContext context) {
