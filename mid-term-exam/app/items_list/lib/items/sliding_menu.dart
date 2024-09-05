@@ -62,24 +62,32 @@ class _SlidingMenuState extends State<SlidingMenu>
     return SlideTransition(
       position: _slideAnimation,
       child: Container(
-        color: const Color.fromARGB(255, 82, 88, 97),
-        height: 200,
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(20),
+            bottomRight: Radius.circular(20),
+          ),
+          color: Colors.black,
+        ),
+        height: 230,
         width: double.infinity,
         child: Column(
           children: [
+            SizedBox(height: 50),
             ListTile(
-              leading: Icon(Icons.home),
-              title: Text('All Items'),
+              leading: Icon(Icons.list, color: Colors.white),
+              title: Text('All Items', style: TextStyle(color: Colors.white)),
               onTap: widget.onToggle,
             ),
             ListTile(
-              leading: Icon(Icons.settings),
-              title: Text('Favorite Items'),
+              leading: Icon(Icons.star, color: Colors.yellow),
+              title:
+                  Text('Favorite Items', style: TextStyle(color: Colors.white)),
               onTap: widget.onToggle,
             ),
             ListTile(
-              leading: Icon(Icons.logout),
-              title: Text('Logout'),
+              leading: Icon(Icons.logout, color: Colors.red),
+              title: Text('Logout', style: TextStyle(color: Colors.white)),
               onTap: widget.onToggle,
             ),
           ],

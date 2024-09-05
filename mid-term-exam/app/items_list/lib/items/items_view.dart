@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:items_list/items/item_circular_button.dart';
 import 'package:items_list/items/sliding_menu.dart';
 
 class ItemsView extends StatefulWidget {
   final String apiEndpoint;
 
-  const ItemsView({Key? key, required this.apiEndpoint}) : super(key: key);
+  const ItemsView({super.key, required this.apiEndpoint});
 
   @override
   State<ItemsView> createState() => _ItemsViewState();
@@ -22,17 +23,6 @@ class _ItemsViewState extends State<ItemsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.menu),
-            onPressed: _toggleMenu,
-          ),
-        ],
-        title: const Text('Items List'),
-        backgroundColor: Colors.blue,
-        titleTextStyle: const TextStyle(color: Colors.white, fontSize: 20),
-      ),
       body: Stack(
         children: [
           SlidingMenu(
@@ -43,42 +33,26 @@ class _ItemsViewState extends State<ItemsView> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const SizedBox(height: 50),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/add_item');
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 70, vertical: 10),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                  child: const Text('Add Item',
-                      style: TextStyle(fontSize: 20, color: Colors.white)),
-                ),
-                const SizedBox(height: 50),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/items_list');
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 70, vertical: 10),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                  child: const Text('View Items',
-                      style: TextStyle(fontSize: 20, color: Colors.white)),
-                ),
-              ],
+              children: [Container()],
             ),
           ),
+          Positioned(
+            top: _isMenuOpen ? 245 : 50,
+            right: _isMenuOpen ? MediaQuery.of(context).size.width / 2.35 : 16,
+            child: ItemCircularButton(
+              callback: _toggleMenu,
+              icon: Icon(_isMenuOpen ? Icons.close : Icons.menu),
+            ),
+          ),
+          Positioned(
+              top: _isMenuOpen ? -100 : 50,
+              left: 16,
+              child: ItemCircularButton(
+                icon: const Icon(Icons.compare_arrows_rounded),
+                callback: () {
+                  Navigator.pushNamed(context, '/login');
+                },
+              ))
         ],
       ),
     );
