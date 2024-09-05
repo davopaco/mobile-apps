@@ -1,15 +1,16 @@
 import "package:items_list/util/sqlite_dbc.dart";
 
 class LoginRepository {
-  final SqliteDbc sqliteDbc;
-  LoginRepository({required this.sqliteDbc});
+  final SqliteDbc _sqliteDbc;
+
+  LoginRepository({required SqliteDbc sqliteDbc}) : _sqliteDbc = sqliteDbc;
 
   Future<bool> storeToken(String token) async {
     if (await getToken() != "") {
       return updateToken(token);
     }
 
-    int id = await sqliteDbc.query<int>(
+    int id = await _sqliteDbc.query<int>(
       sql: 'INSERT INTO USER (JWT) VALUES (?)',
       values: [token],
     );
@@ -20,7 +21,7 @@ class LoginRepository {
   }
 
   Future<bool> updateToken(String token) async {
-    int id = await sqliteDbc.query<int>(
+    int id = await _sqliteDbc.query<int>(
       sql: 'UPDATE USER SET JWT = ?',
       values: [token],
     );
@@ -31,7 +32,7 @@ class LoginRepository {
   }
 
   Future<bool> removeToken() async {
-    int updatedRows = await sqliteDbc.query(
+    int updatedRows = await _sqliteDbc.query(
       sql: 'DELETE FROM USER',
     );
     if (updatedRows == 0) {
@@ -41,7 +42,7 @@ class LoginRepository {
   }
 
   Future<String> getToken() async {
-    List<Map<String, dynamic>> result = await sqliteDbc.query(
+    List<Map<String, dynamic>> result = await _sqliteDbc.query(
       sql: 'SELECT JWT FROM USER',
     );
     if (result.isEmpty) {
