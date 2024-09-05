@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:items_list/login_use_case.dart';
+import 'package:items_list/login/login_use_case.dart';
 
 class ItemsManagerApp extends StatelessWidget {
   final LoginUseCase _loginUsecase;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:items_list/login_use_case.dart';
-import 'package:items_list/login_button.dart';
-import 'package:items_list/login_textf.dart';
+import 'package:items_list/login/login_use_case.dart';
+import 'package:items_list/login/login_button.dart';
+import 'package:items_list/login/login_textf.dart';
 
 class LoginView extends StatelessWidget {
   final TextEditingController _usernameController = TextEditingController();
