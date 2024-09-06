@@ -24,7 +24,9 @@ class APIFavItemsRepository {
       if (itemsJson["favorite"].length == 0) {
         return [];
       }
-      return itemsJson["favorite"].map((json) => Item.fromJson(json)).toList();
+      List<Item> items = [];
+      itemsJson["favorite"].forEach((json) => {items.add(Item.fromJson(json))});
+      return items;
     } else {
       return [];
     }

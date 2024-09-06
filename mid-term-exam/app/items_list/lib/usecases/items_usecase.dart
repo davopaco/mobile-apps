@@ -14,4 +14,16 @@ class ItemsUseCase {
   Future<List<Item>> getFavoriteItems() async {
     return await _itemsService.getFavItems();
   }
+
+  Future<bool> addFavoriteItem(Item item) async {
+    return await _itemsService.addFavItem(item);
+  }
+
+  Future<bool> removeFavoriteItem(Item item) async {
+    return await _itemsService.removeFavItem(item);
+  }
+
+  Future<bool> isFavoriteItem(Item item) async {
+    return await _itemsService.isFavItem(item);
+  }
 }

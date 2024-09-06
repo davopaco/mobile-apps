@@ -74,7 +74,7 @@ class _ItemPodState extends State<ItemPod> {
                 ),
           Positioned(
               child: InkWell(
-                child: const Icon(Icons.favorite),
+                child: Icon(Icons.favorite, color: Colors.black),
                 onTap: () {},
                 splashColor: Colors.transparent,
               ),

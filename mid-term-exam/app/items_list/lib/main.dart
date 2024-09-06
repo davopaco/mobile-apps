@@ -21,9 +21,9 @@ void main() async {
             future: AppFactory.getItemsView(isFavoriteView: false),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return CircularProgressIndicator();
+                return const Center(child: CircularProgressIndicator());
               } else if (snapshot.hasError) {
-                return Text('Error loading items');
+                return const Text('Error loading items');
               } else {
                 return snapshot.data!;
               }
@@ -33,9 +33,9 @@ void main() async {
             future: AppFactory.getItemsView(isFavoriteView: true),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return CircularProgressIndicator();
+                return const Center(child: CircularProgressIndicator());
               } else if (snapshot.hasError) {
-                return Text('Error loading favorite items');
+                return const Text('Error loading favorite items');
               } else {
                 return snapshot.data!;
               }

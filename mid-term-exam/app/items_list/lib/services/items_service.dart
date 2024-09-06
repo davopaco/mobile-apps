@@ -51,4 +51,9 @@ class ItemsService {
   Future<List<Item>> getFavItems() async {
     return await favItemsRepository.getFavItems();
   }
+
+  Future<bool> isFavItem(Item item) async {
+    final favItems = await favItemsRepository.getFavItems();
+    return favItems.contains(item);
+  }
 }

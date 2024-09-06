@@ -31,8 +31,14 @@ class SqliteDbc {
   Future<T> query<T>(
       {required String sql, List<dynamic> values = const []}) async {
     try {
+      if (!_db.isOpen) {
+        print("Opening database");
+        _db = await openDatabase('items_manager.db');
+      }
+
       String transactionType = sql.split(" ")[0].toUpperCase();
-      if ((transactionType != "SELECT" || transactionType != "DELETE") &&
+      print(transactionType);
+      if ((transactionType != "SELECT" && transactionType != "DELETE") &&
           values.isEmpty) {
         throw Exception(
             'Values should not be empty for other than select or delete queries.');
@@ -54,7 +60,7 @@ class SqliteDbc {
       await _db.close();
       return result as T;
     } catch (e) {
-      print(e);
+      print("The error for query is: $e");
       if (T == int) {
         return 0 as T;
       } else {

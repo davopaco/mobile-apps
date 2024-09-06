@@ -9,16 +9,26 @@ class FavItemsRepository {
   Future<List<Item>> getFavItems() async {
     final response = await sqliteDbc.query(sql: "SELECT * FROM FAV_ITEMS");
     if (response.isNotEmpty) {
-      return response.map((json) => Item.fromJson(json)).toList();
+      final List<Item> items = [];
+      response.forEach((json) {
+        items.add(Item(
+            id: json["ID"],
+            name: json["NAME"],
+            vendor: json["VENDOR"],
+            rating: json["RATING"],
+            imagePath: json["IMAGE_PATH"]));
+      });
+      print(items);
+      return items;
     } else {
       return [];
     }
   }
 
   Future<bool> addFavItem(Item item) async {
-    final response = await sqliteDbc.query(
+    final response = await sqliteDbc.query<int>(
       sql:
-          "INSERT INTO FAV_ITEMS (ID, NAME, VENDOR, RATING, IMAGE_PATH) VALUES (?, ?, ?, ?, ?)",
+          "INSERT OR REPLACE INTO FAV_ITEMS (ID, NAME, VENDOR, RATING, IMAGE_PATH) VALUES (?, ?, ?, ?, ?)",
       values: [item.id, item.name, item.vendor, item.rating, item.imagePath],
     );
 
