@@ -26,7 +26,7 @@ class LoginService {
     });
 
     try {
-      final url = '$host:$port/login';
+      final url = '$host:$port/user/login';
       final response = await http.post(
         Uri.parse(url),
         headers: headers,
@@ -74,9 +74,10 @@ class LoginService {
 
   Future<String> getName() async {
     final token = await _loginRepository.getToken();
+    print("Token: $token");
     if (token != "") {
       final decodedToken = JwtDecoder.decode(token);
-      return decodedToken['user'];
+      return decodedToken['name'];
     }
     return '';
   }
