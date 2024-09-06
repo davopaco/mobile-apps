@@ -8,9 +8,10 @@ import 'package:items_list/usecases/items_usecase.dart';
 class ItemsView extends StatefulWidget {
   final String apiEndpoint;
   final ItemsUseCase itemsUseCase;
+  final ScrollController scrollController;
 
-  const ItemsView(
-      {super.key, required this.apiEndpoint, required this.itemsUseCase});
+  ItemsView({super.key, required this.apiEndpoint, required this.itemsUseCase})
+      : scrollController = ScrollController();
 
   @override
   State<ItemsView> createState() => _ItemsViewState();
@@ -18,11 +19,56 @@ class ItemsView extends StatefulWidget {
 
 class _ItemsViewState extends State<ItemsView> {
   bool _isMenuOpen = false;
+  late OverlayEntry _overlayEntry;
+
+  @override
+  void dispose() {
+    if (_isMenuOpen) {
+      _removeOverlay();
+    }
+    widget.scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _overlayEntry = _createOverlayEntry();
+  }
 
   void _toggleMenu() {
     setState(() {
       _isMenuOpen = !_isMenuOpen;
+      if (_isMenuOpen) {
+        _showOverlay();
+      } else {
+        _removeOverlay();
+      }
     });
+  }
+
+  OverlayEntry _createOverlayEntry() {
+    return OverlayEntry(
+      builder: (context) => Positioned(
+        top: 0,
+        left: 0,
+        right: 0,
+        child: Material(
+          child: SlidingMenu(
+            isOpen: _isMenuOpen,
+            onToggle: _toggleMenu,
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showOverlay() {
+    Overlay.of(context)?.insert(_overlayEntry);
+  }
+
+  void _removeOverlay() {
+    _overlayEntry.remove();
   }
 
   @override
@@ -30,10 +76,6 @@ class _ItemsViewState extends State<ItemsView> {
     return Scaffold(
       body: Stack(
         children: [
-          SlidingMenu(
-            isOpen: _isMenuOpen,
-            onToggle: _toggleMenu,
-          ),
           FutureBuilder<List<Item>>(
             future: widget.itemsUseCase.getItems(),
             builder: (context, snapshot) {
@@ -47,7 +89,11 @@ class _ItemsViewState extends State<ItemsView> {
                     Container(
                         height: 130, // Adds extra space at the top
                         color: Colors.transparent),
-                    Expanded(child: ItemsList(items: snapshot.data!)),
+                    Expanded(
+                        child: ItemsList(
+                            key: const PageStorageKey('items_list'),
+                            items: snapshot.data!,
+                            scrollController: widget.scrollController)),
                   ],
                 );
               }

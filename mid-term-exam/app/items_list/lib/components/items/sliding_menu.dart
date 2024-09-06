@@ -4,8 +4,7 @@ class SlidingMenu extends StatefulWidget {
   final bool isOpen;
   final VoidCallback onToggle;
 
-  const SlidingMenu({Key? key, required this.isOpen, required this.onToggle})
-      : super(key: key);
+  const SlidingMenu({super.key, required this.isOpen, required this.onToggle});
 
   @override
   _SlidingMenuState createState() => _SlidingMenuState();

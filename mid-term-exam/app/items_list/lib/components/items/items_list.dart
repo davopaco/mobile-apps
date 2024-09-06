@@ -4,7 +4,9 @@ import 'package:items_list/model/item.dart';
 
 class ItemsList extends StatefulWidget {
   final List<Item> items;
-  const ItemsList({super.key, required this.items});
+  final ScrollController scrollController;
+  const ItemsList(
+      {super.key, required this.items, required this.scrollController});
 
   @override
   State<ItemsList> createState() => _ItemsListState();
@@ -15,6 +17,7 @@ class _ItemsListState extends State<ItemsList> {
   Widget build(BuildContext context) {
     final items = widget.items;
     return GridView.builder(
+      controller: widget.scrollController,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 1,
         crossAxisSpacing: 10,
