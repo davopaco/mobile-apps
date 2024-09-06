@@ -16,9 +16,10 @@ class _ItemsListState extends State<ItemsList> {
     final items = widget.items;
     return GridView.builder(
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
+        crossAxisCount: 1,
         crossAxisSpacing: 10,
         mainAxisSpacing: 10,
+        childAspectRatio: 3,
       ),
       padding: const EdgeInsets.all(18),
       itemCount: items.length,

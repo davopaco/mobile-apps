@@ -42,13 +42,20 @@ class _ItemsViewState extends State<ItemsView> {
               } else if (snapshot.hasError) {
                 return Text('Error: ${snapshot.error}');
               } else {
-                return ItemsList(items: snapshot.data!);
+                return Column(
+                  children: [
+                    Container(
+                        height: 130, // Adds extra space at the top
+                        color: Colors.transparent),
+                    Expanded(child: ItemsList(items: snapshot.data!)),
+                  ],
+                );
               }
             },
           ),
           Positioned(
             top: _isMenuOpen ? 245 : 50,
-            right: _isMenuOpen ? MediaQuery.of(context).size.width / 2.35 : 16,
+            right: _isMenuOpen ? MediaQuery.of(context).size.width / 2.35 : 40,
             child: ItemCircularButton(
               callback: _toggleMenu,
               icon: Icon(_isMenuOpen ? Icons.close : Icons.menu),
@@ -56,7 +63,7 @@ class _ItemsViewState extends State<ItemsView> {
           ),
           Positioned(
               top: _isMenuOpen ? -100 : 50,
-              left: 16,
+              left: 40,
               child: ItemCircularButton(
                 icon: const Icon(Icons.compare_arrows_rounded),
                 callback: () {

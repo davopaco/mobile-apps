@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:items_list/model/item.dart';
+import "package:flutter_dotenv/flutter_dotenv.dart";
 
 class ItemPod extends StatefulWidget {
   final Item item;
+  final host = dotenv.env['HOST'] ?? 'http://192.168.0.1';
+  final port = dotenv.env['PORT'] ?? '3000';
 
-  const ItemPod({super.key, required this.item});
+  ItemPod({super.key, required this.item});
 
   @override
   State<ItemPod> createState() => _ItemPodState();
@@ -15,7 +18,6 @@ class _ItemPodState extends State<ItemPod> {
   Widget build(BuildContext context) {
     final Item item = widget.item;
     return Container(
-      height: 100,
       padding: const EdgeInsets.all(10),
       margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
       decoration: BoxDecoration(
@@ -26,7 +28,8 @@ class _ItemPodState extends State<ItemPod> {
           ClipRRect(
             borderRadius: const BorderRadius.all(Radius.circular(10)),
             child: Image(
-              image: NetworkImage("http://localhost:3000/${item.imagePath}"),
+              image: NetworkImage(
+                  "${widget.host}:${widget.port}/${item.imagePath}"),
               height: 80,
               width: 80,
             ),
@@ -40,15 +43,15 @@ class _ItemPodState extends State<ItemPod> {
             children: [
               Text(
                 item.name,
-                style: const TextStyle(fontSize: 18),
+                style: const TextStyle(fontSize: 15),
               ),
               Text(
                 item.vendor,
-                style: const TextStyle(fontSize: 18),
+                style: const TextStyle(fontSize: 15),
               ),
               Text(
                 "${item.rating} / 5",
-                style: const TextStyle(fontSize: 18),
+                style: const TextStyle(fontSize: 15),
               )
             ],
           )
