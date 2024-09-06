@@ -11,7 +11,7 @@ class ItemsManagerUseCase {
   Future<Widget> sendView() async {
     final userLoggedIn = await _loginService.isLoggedIn();
     if (userLoggedIn) {
-      return await AppFactory.getItemsView();
+      return await AppFactory.getItemsView(isFavoriteView: false);
     } else {
       return AppFactory.getLoginView();
     }

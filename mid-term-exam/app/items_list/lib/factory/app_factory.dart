@@ -42,7 +42,7 @@ class AppFactory {
     );
   }
 
-  static Future<ItemsView> getItemsView() async {
+  static Future<ItemsView> getItemsView({required bool isFavoriteView}) async {
     SqliteDbc sqliteDbc = await SqliteDbc.createInstance();
 
     //Repositories
@@ -57,12 +57,15 @@ class AppFactory {
     //Services
     ItemsService itemsService = await ItemsService.createInstance(
         apiFavItemsRepository, favItemsRepository, itemsRepository);
+    LoginService loginService = LoginService(loginRepository: loginRepository);
 
     //UseCase
     ItemsUseCase itemsUseCase = ItemsUseCase(itemsService: itemsService);
+    LoginUsecase loginUseCase = LoginUsecase(loginService: loginService);
 
     return ItemsView(
-      apiEndpoint: "",
+      loginUsecase: loginUseCase,
+      isFavoriteView: isFavoriteView,
       itemsUseCase: itemsUseCase,
     );
   }

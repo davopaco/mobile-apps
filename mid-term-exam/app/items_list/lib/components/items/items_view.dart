@@ -4,13 +4,19 @@ import 'package:items_list/components/items/items_list.dart';
 import 'package:items_list/components/items/sliding_menu.dart';
 import 'package:items_list/model/item.dart';
 import 'package:items_list/usecases/items_usecase.dart';
+import 'package:items_list/usecases/login_usecase.dart';
 
 class ItemsView extends StatefulWidget {
-  final String apiEndpoint;
+  final bool isFavoriteView;
   final ItemsUseCase itemsUseCase;
+  final LoginUsecase loginUsecase;
   final ScrollController scrollController;
 
-  ItemsView({super.key, required this.apiEndpoint, required this.itemsUseCase})
+  ItemsView(
+      {super.key,
+      required this.isFavoriteView,
+      required this.itemsUseCase,
+      required this.loginUsecase})
       : scrollController = ScrollController();
 
   @override
@@ -19,6 +25,7 @@ class ItemsView extends StatefulWidget {
 
 class _ItemsViewState extends State<ItemsView> {
   bool _isMenuOpen = false;
+  bool _isGridChanged = true; //Change to false
   late OverlayEntry _overlayEntry;
 
   @override
@@ -34,6 +41,12 @@ class _ItemsViewState extends State<ItemsView> {
   void initState() {
     super.initState();
     _overlayEntry = _createOverlayEntry();
+  }
+
+  void _toggleGrid() {
+    setState(() {
+      _isGridChanged = !_isGridChanged;
+    });
   }
 
   void _toggleMenu() {
@@ -55,6 +68,7 @@ class _ItemsViewState extends State<ItemsView> {
         right: 0,
         child: Material(
           child: SlidingMenu(
+            loginUsecase: widget.loginUsecase,
             isOpen: _isMenuOpen,
             onToggle: _toggleMenu,
           ),
@@ -64,7 +78,7 @@ class _ItemsViewState extends State<ItemsView> {
   }
 
   void _showOverlay() {
-    Overlay.of(context)?.insert(_overlayEntry);
+    Overlay.of(context).insert(_overlayEntry);
   }
 
   void _removeOverlay() {
@@ -77,7 +91,9 @@ class _ItemsViewState extends State<ItemsView> {
       body: Stack(
         children: [
           FutureBuilder<List<Item>>(
-            future: widget.itemsUseCase.getItems(),
+            future: widget.isFavoriteView
+                ? widget.itemsUseCase.getFavoriteItems()
+                : widget.itemsUseCase.getItems(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const CircularProgressIndicator();
@@ -91,6 +107,7 @@ class _ItemsViewState extends State<ItemsView> {
                         color: Colors.transparent),
                     Expanded(
                         child: ItemsList(
+                            isGridChanged: _isGridChanged,
                             key: const PageStorageKey('items_list'),
                             items: snapshot.data!,
                             scrollController: widget.scrollController)),
@@ -113,7 +130,7 @@ class _ItemsViewState extends State<ItemsView> {
               child: ItemCircularButton(
                 icon: const Icon(Icons.compare_arrows_rounded),
                 callback: () {
-                  Navigator.pushNamed(context, '/login');
+                  _toggleGrid();
                 },
               ))
         ],

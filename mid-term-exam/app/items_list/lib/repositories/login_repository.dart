@@ -1,9 +1,13 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginRepository {
-  Future<void> storeToken(String token) async {
+  Future<bool> storeToken(String token) async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString("jwt", token);
+    final result = await prefs.setString("jwt", token);
+    if (result) {
+      return true;
+    }
+    return false;
   }
 
   Future<String> getToken() async {
@@ -15,8 +19,12 @@ class LoginRepository {
     return storedData;
   }
 
-  Future<void> removeToken() async {
+  Future<bool> removeToken() async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.remove("jwt");
+    final result = await prefs.remove("jwt");
+    if (result) {
+      return true;
+    }
+    return false;
   }
 }

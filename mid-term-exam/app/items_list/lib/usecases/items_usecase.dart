@@ -10,4 +10,8 @@ class ItemsUseCase {
   Future<List<Item>> getItems() async {
     return await _itemsService.getItems();
   }
+
+  Future<List<Item>> getFavoriteItems() async {
+    return await _itemsService.getFavItems();
+  }
 }

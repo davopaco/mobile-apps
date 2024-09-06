@@ -12,6 +12,7 @@ class ItemCircularButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
+      heroTag: UniqueKey(),
       shape: const CircleBorder(),
       onPressed: () {
         _callback();

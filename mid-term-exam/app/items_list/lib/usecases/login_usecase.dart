@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:items_list/factory/app_factory.dart';
+import 'package:get/get.dart';
 import 'package:items_list/services/login_service.dart';
 
 class LoginUsecase {
@@ -8,28 +7,22 @@ class LoginUsecase {
   LoginUsecase({required LoginService loginService})
       : _loginService = loginService;
 
-  Future<bool> login(
-      String username, String password, BuildContext context) async {
-    final result = await _loginService.login(username, password, context);
+  Future<bool> login(String username, String password) async {
+    final result = await _loginService.login(username, password);
     if (result) {
-      final itemsView = await AppFactory.getItemsView();
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => itemsView,
-        ),
-      );
+      Get.offAndToNamed("/items");
       return true;
     }
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Login failed!'),
-      ),
-    );
+    Get.snackbar("Logout failed", "There was a problem logging out");
     return false;
   }
 
   Future<void> logout() async {
-    await _loginService.logout();
+    final result = await _loginService.logout();
+    if (result) {
+      Get.offAndToNamed("/login");
+      return;
+    }
+    Get.snackbar("Logout failed", "There was a problem logging out");
   }
 }

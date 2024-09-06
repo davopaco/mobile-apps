@@ -43,8 +43,8 @@ class LoginView extends StatelessWidget {
             LoginButton(
               label: "Login",
               callback: () {
-                _loginUsecase.login(_usernameController.text,
-                    _passwordController.text, context);
+                _loginUsecase.login(
+                    _usernameController.text, _passwordController.text);
               },
             ),
           ],

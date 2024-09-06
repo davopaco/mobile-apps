@@ -1,6 +1,6 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:items_list/repositories/login_repository.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
@@ -11,8 +11,7 @@ class LoginService {
   LoginService({required LoginRepository loginRepository})
       : _loginRepository = loginRepository;
 
-  Future<bool> login(
-      String username, String password, BuildContext context) async {
+  Future<bool> login(String username, String password) async {
     final headers = {
       'Content-Type': 'application/json',
     };
@@ -36,24 +35,20 @@ class LoginService {
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         final token = data['token'];
-        await _loginRepository.storeToken(token);
-        return true; //User has successfully logged in
+        return await _loginRepository
+            .storeToken(token); //User has successfully logged in
       }
 
       return false; //Login failed
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('There was an error logging in!'),
-        ),
-      );
+      Get.snackbar("Login failed", "There was a problem logging in");
       print(e);
       return false;
     }
   }
 
-  Future<void> logout() async {
-    await _loginRepository.removeToken();
+  Future<bool> logout() async {
+    return await _loginRepository.removeToken();
   }
 
   Future<bool> isLoggedIn() async {

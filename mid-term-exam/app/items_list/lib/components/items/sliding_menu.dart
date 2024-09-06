@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:items_list/usecases/login_usecase.dart';
 
 class SlidingMenu extends StatefulWidget {
   final bool isOpen;
   final VoidCallback onToggle;
+  final LoginUsecase loginUsecase;
 
-  const SlidingMenu({super.key, required this.isOpen, required this.onToggle});
+  const SlidingMenu(
+      {super.key,
+      required this.isOpen,
+      required this.onToggle,
+      required this.loginUsecase});
 
   @override
   _SlidingMenuState createState() => _SlidingMenuState();
@@ -72,23 +79,32 @@ class _SlidingMenuState extends State<SlidingMenu>
         width: double.infinity,
         child: Column(
           children: [
-            SizedBox(height: 50),
+            const SizedBox(height: 50),
             ListTile(
-              leading: Icon(Icons.list, color: Colors.white),
-              title: Text('All Items', style: TextStyle(color: Colors.white)),
-              onTap: widget.onToggle,
+                leading: const Icon(Icons.list, color: Colors.white),
+                title: const Text('All Items',
+                    style: TextStyle(color: Colors.white)),
+                onTap: () {
+                  widget.onToggle();
+                  Get.toNamed("/items");
+                }),
+            ListTile(
+              leading: const Icon(Icons.star, color: Colors.yellow),
+              title: const Text('Favorite Items',
+                  style: TextStyle(color: Colors.white)),
+              onTap: () {
+                widget.onToggle();
+                Get.toNamed("/favorites");
+              },
             ),
             ListTile(
-              leading: Icon(Icons.star, color: Colors.yellow),
-              title:
-                  Text('Favorite Items', style: TextStyle(color: Colors.white)),
-              onTap: widget.onToggle,
-            ),
-            ListTile(
-              leading: Icon(Icons.logout, color: Colors.red),
-              title: Text('Logout', style: TextStyle(color: Colors.white)),
-              onTap: widget.onToggle,
-            ),
+                leading: const Icon(Icons.logout, color: Colors.red),
+                title:
+                    const Text('Logout', style: TextStyle(color: Colors.white)),
+                onTap: () async {
+                  widget.onToggle();
+                  await widget.loginUsecase.logout();
+                }),
           ],
         ),
       ),
