@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:items_list/components/items/item_circular_button.dart';
 import 'package:items_list/components/items/items_list.dart';
 import 'package:items_list/components/items/sliding_menu.dart';
@@ -119,25 +120,33 @@ class _ItemsViewState extends State<ItemsView> {
               }
             },
           ),
-          Positioned(
-            top: _menuNotifier.value ? 245 : 50,
-            right: _menuNotifier.value
-                ? MediaQuery.of(context).size.width / 2.35
-                : 40,
-            child: ItemCircularButton(
-              callback: _toggleMenu,
-              icon: Icon(_menuNotifier.value ? Icons.close : Icons.menu),
-            ),
-          ),
-          Positioned(
-              top: _menuNotifier.value ? -100 : 50,
-              left: 40,
-              child: ItemCircularButton(
-                icon: const Icon(Icons.compare_arrows_rounded),
-                callback: () {
-                  _toggleGrid();
-                },
-              ))
+          ValueListenableBuilder(
+              valueListenable: _menuNotifier,
+              builder: (_, context, __) {
+                return Positioned(
+                  top: _menuNotifier.value ? 245 : 50,
+                  right: _menuNotifier.value
+                      ? Get.mediaQuery.size.width / 2.35
+                      : 40,
+                  child: ItemCircularButton(
+                    callback: _toggleMenu,
+                    icon: Icon(_menuNotifier.value ? Icons.close : Icons.menu),
+                  ),
+                );
+              }),
+          ValueListenableBuilder(
+              valueListenable: _menuNotifier,
+              builder: (_, context, __) {
+                return Positioned(
+                    top: _menuNotifier.value ? -100 : 50,
+                    left: 40,
+                    child: ItemCircularButton(
+                      icon: const Icon(Icons.compare_arrows_rounded),
+                      callback: () {
+                        _toggleGrid();
+                      },
+                    ));
+              })
         ],
       ),
     );
