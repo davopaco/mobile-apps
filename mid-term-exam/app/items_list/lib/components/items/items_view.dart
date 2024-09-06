@@ -25,7 +25,7 @@ class ItemsView extends StatefulWidget {
 
 class _ItemsViewState extends State<ItemsView> {
   bool _isMenuOpen = false;
-  bool _isGridChanged = true; //Change to false
+  bool _isGridChanged = false;
   late OverlayEntry _overlayEntry;
 
   @override
