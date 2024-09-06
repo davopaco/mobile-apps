@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:items_list/components/items/item_pod.dart';
 import 'package:items_list/model/item.dart';
+import 'package:items_list/usecases/items_usecase.dart';
 
 class ItemsList extends StatefulWidget {
   final List<Item> items;
+  final ItemsUseCase itemsUseCase;
   final ScrollController scrollController;
   final bool isGridChanged;
 
@@ -11,7 +13,8 @@ class ItemsList extends StatefulWidget {
       {super.key,
       required this.items,
       required this.scrollController,
-      required this.isGridChanged});
+      required this.isGridChanged,
+      required this.itemsUseCase});
 
   @override
   State<ItemsList> createState() => _ItemsListState();
@@ -32,7 +35,10 @@ class _ItemsListState extends State<ItemsList> {
       padding: EdgeInsets.all(widget.isGridChanged ? 20 : 18),
       itemCount: items.length,
       itemBuilder: (BuildContext context, int index) {
-        return ItemPod(item: items[index], isGridChanged: widget.isGridChanged);
+        return ItemPod(
+            item: items[index],
+            isGridChanged: widget.isGridChanged,
+            itemsUseCase: widget.itemsUseCase);
       },
     );
   }

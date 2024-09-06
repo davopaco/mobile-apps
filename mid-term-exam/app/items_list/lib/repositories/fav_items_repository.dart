@@ -18,7 +18,6 @@ class FavItemsRepository {
             rating: json["RATING"],
             imagePath: json["IMAGE_PATH"]));
       });
-      print(items);
       return items;
     } else {
       return [];

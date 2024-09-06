@@ -1,20 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:items_list/model/item.dart';
 import "package:flutter_dotenv/flutter_dotenv.dart";
+import 'package:items_list/usecases/items_usecase.dart';
 
 class ItemPod extends StatefulWidget {
   final Item item;
   final bool isGridChanged;
+  final ItemsUseCase itemsUseCase;
   final host = dotenv.env['HOST'] ?? 'http://192.168.0.1';
   final port = dotenv.env['PORT'] ?? '3000';
 
-  ItemPod({super.key, required this.item, required this.isGridChanged});
+  ItemPod(
+      {super.key,
+      required this.item,
+      required this.isGridChanged,
+      required this.itemsUseCase});
 
   @override
   State<ItemPod> createState() => _ItemPodState();
 }
 
 class _ItemPodState extends State<ItemPod> {
+  late final ValueNotifier<bool> _favNotifier = ValueNotifier(false);
+
+  @override
+  void initState() {
+    super.initState();
+    _initialize();
+  }
+
+  void _initialize() async {
+    _favNotifier.value = await widget.itemsUseCase.isFavoriteItem(widget.item);
+    print("Fav: ${_favNotifier.value}");
+  }
+
   List<Widget> podChildren(Item item) {
     return [
       ClipRRect(
@@ -53,9 +72,22 @@ class _ItemPodState extends State<ItemPod> {
     ];
   }
 
+  Future<void> _updateFavNotifier() async {
+    bool isFav = await widget.itemsUseCase.isFavoriteItem(widget.item);
+    if (isFav) {
+      bool result = await widget.itemsUseCase.removeFavoriteItem(widget.item);
+      print("Remove: $result");
+    } else {
+      await widget.itemsUseCase.addFavoriteItem(widget.item);
+    }
+    isFav = !isFav;
+    _favNotifier.value = isFav;
+  }
+
   @override
   Widget build(BuildContext context) {
     final Item item = widget.item;
+
     return Container(
       padding: const EdgeInsets.all(10),
       margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
@@ -73,13 +105,22 @@ class _ItemPodState extends State<ItemPod> {
                   children: podChildren(item),
                 ),
           Positioned(
-              child: InkWell(
-                child: Icon(Icons.favorite, color: Colors.black),
-                onTap: () {},
-                splashColor: Colors.transparent,
-              ),
               bottom: 0,
-              right: 0),
+              right: 0,
+              child: InkWell(
+                onTap: () async {
+                  await _updateFavNotifier();
+                },
+                splashColor: Colors.transparent,
+                child: ValueListenableBuilder(
+                    valueListenable: _favNotifier,
+                    builder: (_, value, __) {
+                      return Icon(
+                        value ? Icons.favorite : Icons.favorite_border,
+                        color: value ? Colors.red : Colors.black,
+                      );
+                    }),
+              )),
         ],
       ),
     );

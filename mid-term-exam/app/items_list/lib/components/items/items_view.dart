@@ -107,6 +107,7 @@ class _ItemsViewState extends State<ItemsView> {
                         color: Colors.transparent),
                     Expanded(
                         child: ItemsList(
+                            itemsUseCase: widget.itemsUseCase,
                             isGridChanged: _isGridChanged,
                             key: const PageStorageKey('items_list'),
                             items: snapshot.data!,

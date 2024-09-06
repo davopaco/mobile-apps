@@ -37,7 +37,6 @@ class SqliteDbc {
       }
 
       String transactionType = sql.split(" ")[0].toUpperCase();
-      print(transactionType);
       if ((transactionType != "SELECT" && transactionType != "DELETE") &&
           values.isEmpty) {
         throw Exception(
@@ -57,7 +56,6 @@ class SqliteDbc {
         default:
           throw Exception('Invalid transaction type');
       }
-      await _db.close();
       return result as T;
     } catch (e) {
       print("The error for query is: $e");

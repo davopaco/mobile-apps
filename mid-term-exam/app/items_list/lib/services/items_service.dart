@@ -54,6 +54,11 @@ class ItemsService {
 
   Future<bool> isFavItem(Item item) async {
     final favItems = await favItemsRepository.getFavItems();
-    return favItems.contains(item);
+    for (var favItem in favItems) {
+      if (favItem.id == item.id) {
+        return true;
+      }
+    }
+    return false;
   }
 }

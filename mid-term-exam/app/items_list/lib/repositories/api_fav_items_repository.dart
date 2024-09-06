@@ -38,10 +38,16 @@ class APIFavItemsRepository {
       'Content-Type': 'application/json; charset=UTF-8',
       'Authorization': 'Bearer $token',
     };
+
+    final json = item.toJson();
+    final body = jsonEncode({
+      "item_id": json["id"],
+    });
+
     final response = await http.post(
       Uri.parse("$host:$port/favorite/add"),
       headers: headers,
-      body: jsonEncode(item.toJson()),
+      body: body,
     );
 
     if (response.statusCode >= 200 && response.statusCode < 300) {
@@ -56,10 +62,16 @@ class APIFavItemsRepository {
       'Content-Type': 'application/json; charset=UTF-8',
       'Authorization': 'Bearer $token',
     };
+
+    final json = item.toJson();
+    final body = jsonEncode({
+      "item_id": json["id"],
+    });
+
     final response = await http.post(
       Uri.parse("$host:$port/favorite/remove"),
       headers: headers,
-      body: jsonEncode(item.toJson()),
+      body: body,
     );
 
     if (response.statusCode >= 200 && response.statusCode < 300) {
