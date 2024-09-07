@@ -12,7 +12,7 @@ class LoginButton extends StatelessWidget {
         callback();
       },
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.blue,
+        backgroundColor: const Color.fromARGB(255, 64, 64, 64),
         padding: const EdgeInsets.symmetric(horizontal: 70, vertical: 10),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),

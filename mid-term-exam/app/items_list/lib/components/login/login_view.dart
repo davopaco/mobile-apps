@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:items_list/components/login/login_button.dart';
 import 'package:items_list/components/login/login_textf.dart';
 import 'package:items_list/usecases/login_usecase.dart';
+import "package:flutter_dotenv/flutter_dotenv.dart";
 
 class LoginView extends StatefulWidget {
   final LoginUsecase loginUsecase;
+  final host = dotenv.env['HOST'] ?? 'http://192.168.0.1';
+  final port = dotenv.env['PORT'] ?? '3000';
 
-  const LoginView({super.key, required this.loginUsecase});
+  LoginView({super.key, required this.loginUsecase});
 
   @override
   _LoginViewState createState() => _LoginViewState();
@@ -26,24 +29,20 @@ class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Login Page'),
-        backgroundColor: Colors.blue,
-        titleTextStyle: const TextStyle(color: Colors.white, fontSize: 20),
-      ),
       body: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Image(
+            Image(
               width: 200,
               image: NetworkImage(
-                  'https://storage.googleapis.com/cms-storage-bucket/c823e53b3a1a7b0d36a9.png'),
+                  '${widget.host}:${widget.port}/images/logo.png',
+                  scale: 0.5),
             ),
-            const SizedBox(height: 50),
+            const SizedBox(height: 70),
             LoginTextField(
-              labelText: "Email",
+              labelText: "Username",
               eController: _usernameController,
             ),
             LoginTextField(
