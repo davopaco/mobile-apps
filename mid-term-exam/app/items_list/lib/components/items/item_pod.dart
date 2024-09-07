@@ -5,6 +5,8 @@ import 'package:items_list/usecases/items_usecase.dart';
 
 class ItemPod extends StatefulWidget {
   final Item item;
+  final bool isFavorite;
+  final Function onfavoriteTapped;
   final bool isGridChanged;
   final ItemsUseCase itemsUseCase;
   final host = dotenv.env['HOST'] ?? 'http://192.168.0.1';
@@ -14,14 +16,16 @@ class ItemPod extends StatefulWidget {
       {super.key,
       required this.item,
       required this.isGridChanged,
-      required this.itemsUseCase});
+      required this.itemsUseCase,
+      required this.onfavoriteTapped,
+      required this.isFavorite});
 
   @override
   State<ItemPod> createState() => _ItemPodState();
 }
 
 class _ItemPodState extends State<ItemPod> {
-  late final ValueNotifier<bool> _favNotifier = ValueNotifier(false);
+  late final ValueNotifier<bool> _favNotifier = ValueNotifier<bool>(false);
 
   @override
   void initState() {
@@ -31,7 +35,6 @@ class _ItemPodState extends State<ItemPod> {
 
   void _initialize() async {
     _favNotifier.value = await widget.itemsUseCase.isFavoriteItem(widget.item);
-    print("Fav: ${_favNotifier.value}");
   }
 
   List<Widget> podChildren(Item item) {
@@ -76,7 +79,9 @@ class _ItemPodState extends State<ItemPod> {
     bool isFav = await widget.itemsUseCase.isFavoriteItem(widget.item);
     if (isFav) {
       bool result = await widget.itemsUseCase.removeFavoriteItem(widget.item);
-      print("Remove: $result");
+      if (result) {
+        widget.onfavoriteTapped();
+      }
     } else {
       await widget.itemsUseCase.addFavoriteItem(widget.item);
     }
@@ -115,6 +120,12 @@ class _ItemPodState extends State<ItemPod> {
                 child: ValueListenableBuilder(
                     valueListenable: _favNotifier,
                     builder: (_, value, __) {
+                      if (widget.isFavorite) {
+                        return const Icon(
+                          Icons.favorite,
+                          color: Colors.red,
+                        );
+                      }
                       return Icon(
                         value ? Icons.favorite : Icons.favorite_border,
                         color: value ? Colors.red : Colors.black,

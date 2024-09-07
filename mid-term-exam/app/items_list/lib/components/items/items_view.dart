@@ -27,6 +27,7 @@ class ItemsView extends StatefulWidget {
 class _ItemsViewState extends State<ItemsView> {
   final _menuNotifier = ValueNotifier<bool>(false);
   bool _isGridChanged = false;
+  late ValueNotifier<List<Item>> _favItemsNotifier;
   late OverlayEntry _overlayEntry;
 
   @override
@@ -41,7 +42,16 @@ class _ItemsViewState extends State<ItemsView> {
   @override
   void initState() {
     super.initState();
+    _favItemsNotifier = ValueNotifier<List<Item>>([]);
+    _loadItems();
     _overlayEntry = _createOverlayEntry();
+  }
+
+  void _loadItems() async {
+    final items = widget.isFavoriteView
+        ? await widget.itemsUseCase.getFavoriteItems()
+        : await widget.itemsUseCase.getItems();
+    _favItemsNotifier = ValueNotifier<List<Item>>(items);
   }
 
   void _toggleGrid() {
@@ -95,58 +105,77 @@ class _ItemsViewState extends State<ItemsView> {
                 : widget.itemsUseCase.getItems(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const CircularProgressIndicator();
+                return const Center(child: CircularProgressIndicator());
               } else if (snapshot.hasError) {
-                return Text('Error: ${snapshot.error}');
-              } else {
-                return Column(
-                  children: [
-                    Container(
-                        height: 130, // Adds extra space at the top
-                        color: Colors.transparent),
-                    Expanded(
-                        child: ValueListenableBuilder(
-                            valueListenable: _menuNotifier,
-                            builder: (_, context, __) {
-                              return ItemsList(
-                                  itemsUseCase: widget.itemsUseCase,
-                                  isGridChanged: _isGridChanged,
-                                  key: const PageStorageKey('items_list'),
-                                  items: snapshot.data!,
-                                  scrollController: widget.scrollController);
-                            })),
-                  ],
+                return Center(child: Text('Error: ${snapshot.error}'));
+              } else if (snapshot.hasData) {
+                if (_favItemsNotifier.value.isEmpty && snapshot.data != null) {
+                  _favItemsNotifier.value = snapshot.data!;
+                }
+
+                return ValueListenableBuilder<List<Item>>(
+                  valueListenable: _favItemsNotifier,
+                  builder: (context, items, __) {
+                    return Column(
+                      children: [
+                        Container(
+                          height: 130, // Adds extra space at the top
+                          color: Colors.transparent,
+                        ),
+                        Expanded(
+                          child: ItemsList(
+                            isFavoriteList: widget.isFavoriteView,
+                            itemsUseCase: widget.itemsUseCase,
+                            isGridChanged: _isGridChanged,
+                            key: const PageStorageKey('items_list'),
+                            items: items,
+                            scrollController: widget.scrollController,
+                            onItemRemoved: (Item item) {
+                              if (widget.isFavoriteView) {
+                                _favItemsNotifier.value = _favItemsNotifier
+                                    .value
+                                    .where((element) => element.id != item.id)
+                                    .toList();
+                              }
+                            },
+                          ),
+                        ),
+                      ],
+                    );
+                  },
                 );
+              } else {
+                return const Center(child: Text('No items available.'));
               }
             },
           ),
           ValueListenableBuilder(
-              valueListenable: _menuNotifier,
-              builder: (_, context, __) {
-                return Positioned(
-                  top: _menuNotifier.value ? 245 : 50,
-                  right: _menuNotifier.value
-                      ? Get.mediaQuery.size.width / 2.35
-                      : 40,
-                  child: ItemCircularButton(
-                    callback: _toggleMenu,
-                    icon: Icon(_menuNotifier.value ? Icons.close : Icons.menu),
-                  ),
-                );
-              }),
+            valueListenable: _menuNotifier,
+            builder: (_, context, __) {
+              return Positioned(
+                top: _menuNotifier.value ? 245 : 50,
+                right:
+                    _menuNotifier.value ? Get.mediaQuery.size.width / 2.35 : 40,
+                child: ItemCircularButton(
+                  callback: _toggleMenu,
+                  icon: Icon(_menuNotifier.value ? Icons.close : Icons.menu),
+                ),
+              );
+            },
+          ),
           ValueListenableBuilder(
-              valueListenable: _menuNotifier,
-              builder: (_, context, __) {
-                return Positioned(
-                    top: _menuNotifier.value ? -100 : 50,
-                    left: 40,
-                    child: ItemCircularButton(
-                      icon: const Icon(Icons.compare_arrows_rounded),
-                      callback: () {
-                        _toggleGrid();
-                      },
-                    ));
-              })
+            valueListenable: _menuNotifier,
+            builder: (_, context, __) {
+              return Positioned(
+                top: _menuNotifier.value ? -100 : 50,
+                left: 40,
+                child: ItemCircularButton(
+                  icon: const Icon(Icons.compare_arrows_rounded),
+                  callback: _toggleGrid,
+                ),
+              );
+            },
+          ),
         ],
       ),
     );
