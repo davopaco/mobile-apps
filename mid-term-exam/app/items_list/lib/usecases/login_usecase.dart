@@ -10,7 +10,7 @@ class LoginUsecase {
   Future<bool> login(String username, String password) async {
     final result = await _loginService.login(username, password);
     if (result) {
-      Get.offAndToNamed("/items");
+      Get.offAllNamed("/items");
       return true;
     }
     Get.snackbar("Logout failed", "There was a problem logging out");
@@ -20,7 +20,7 @@ class LoginUsecase {
   Future<void> logout() async {
     final result = await _loginService.logout();
     if (result) {
-      Get.offAndToNamed("/login");
+      Get.offAllNamed("/login");
       return;
     }
     Get.snackbar("Logout failed", "There was a problem logging out");

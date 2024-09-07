@@ -77,6 +77,7 @@ class _ItemsViewState extends State<ItemsView> {
         right: 0,
         child: Material(
           child: SlidingMenu(
+            itemsUseCase: widget.itemsUseCase,
             loginUsecase: widget.loginUsecase,
             isOpen: _menuNotifier.value,
             onToggle: _toggleMenu,

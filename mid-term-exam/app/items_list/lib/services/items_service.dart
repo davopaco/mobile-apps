@@ -61,4 +61,8 @@ class ItemsService {
     }
     return false;
   }
+
+  Future<bool> removeAllFavItems() async {
+    return await favItemsRepository.removeAllFavItems();
+  }
 }

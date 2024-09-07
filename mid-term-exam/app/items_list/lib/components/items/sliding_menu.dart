@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:items_list/usecases/items_usecase.dart';
 import 'package:items_list/usecases/login_usecase.dart';
 
 class SlidingMenu extends StatefulWidget {
   final bool isOpen;
   final VoidCallback onToggle;
   final LoginUsecase loginUsecase;
+  final ItemsUseCase itemsUseCase;
 
   const SlidingMenu(
       {super.key,
       required this.isOpen,
       required this.onToggle,
-      required this.loginUsecase});
+      required this.loginUsecase,
+      required this.itemsUseCase});
 
   @override
   _SlidingMenuState createState() => _SlidingMenuState();
@@ -104,6 +107,7 @@ class _SlidingMenuState extends State<SlidingMenu>
                 onTap: () async {
                   widget.onToggle();
                   await widget.loginUsecase.logout();
+                  await widget.itemsUseCase.removeAllFavoriteItems();
                 }),
           ],
         ),

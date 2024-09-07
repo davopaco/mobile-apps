@@ -28,12 +28,7 @@ class ItemsRepository {
       itemsJson["items"].forEach((json) => {items.add(Item.fromJson(json))});
       return items;
     } else {
-      try {
-        throw Exception('Failed to load items');
-      } catch (e) {
-        print(e);
-        return [];
-      }
+      return [];
     }
   }
 }

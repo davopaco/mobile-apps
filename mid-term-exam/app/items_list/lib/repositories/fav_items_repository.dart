@@ -48,4 +48,12 @@ class FavItemsRepository {
     }
     return false;
   }
+
+  Future<bool> removeAllFavItems() async {
+    final response = await sqliteDbc.query<int>(sql: "DELETE FROM FAV_ITEMS");
+    if (response > 0) {
+      return true;
+    }
+    return false;
+  }
 }

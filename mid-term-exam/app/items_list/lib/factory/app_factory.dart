@@ -4,7 +4,7 @@ import 'package:items_list/repositories/api_fav_items_repository.dart';
 import 'package:items_list/repositories/fav_items_repository.dart';
 import 'package:items_list/repositories/items_repository.dart';
 import 'package:items_list/services/items_service.dart';
-import 'package:items_list/items_manager_app.dart';
+import 'package:items_list/components/items_manager_app.dart';
 import 'package:items_list/repositories/login_repository.dart';
 import 'package:items_list/services/login_service.dart';
 import 'package:items_list/usecases/items_manager_usecase.dart';
