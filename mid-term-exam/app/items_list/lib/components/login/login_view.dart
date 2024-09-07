@@ -3,13 +3,25 @@ import 'package:items_list/components/login/login_button.dart';
 import 'package:items_list/components/login/login_textf.dart';
 import 'package:items_list/usecases/login_usecase.dart';
 
-class LoginView extends StatelessWidget {
+class LoginView extends StatefulWidget {
+  final LoginUsecase loginUsecase;
+
+  const LoginView({super.key, required this.loginUsecase});
+
+  @override
+  _LoginViewState createState() => _LoginViewState();
+}
+
+class _LoginViewState extends State<LoginView> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final LoginUsecase _loginUsecase;
 
-  LoginView({super.key, required LoginUsecase loginUsecase})
-      : _loginUsecase = loginUsecase;
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,8 +55,8 @@ class LoginView extends StatelessWidget {
             LoginButton(
               label: "Login",
               callback: () {
-                _loginUsecase.login(
-                    _usernameController.text, _passwordController.text);
+                widget.loginUsecase
+                    .login(_usernameController.text, _passwordController.text);
               },
             ),
           ],
