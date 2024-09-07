@@ -119,8 +119,20 @@ class _ItemsViewState extends State<ItemsView> {
                     return Column(
                       children: [
                         Container(
+                          padding: const EdgeInsets.only(top: 70),
                           height: 130, // Adds extra space at the top
                           color: Colors.transparent,
+                          child: Text(
+                            widget.isFavoriteView
+                                ? "Favorite Items"
+                                : 'All Items',
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
                         Expanded(
                           child: ItemsList(
