@@ -9,7 +9,9 @@ class LoginUsecase {
 
   Future<bool> login(String username, String password) async {
     final result = await _loginService.login(username, password);
+    final name = await _loginService.getName();
     if (result) {
+      Get.snackbar("Login Succesful!", "Welcome, $name");
       Get.offAllNamed("/items");
       return true;
     }

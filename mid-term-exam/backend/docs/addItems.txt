@@ -15,3 +15,9 @@
   { "name": "Portable Projector", "vendor": "Nebula", "rating": 4.6, "imagePath": "images/14.jpg" },
   { "name": "Graphics Tablet", "vendor": "Wacom", "rating": 4.8, "imagePath": "images/15.jpg" }
 ]
+
+{
+  "username":"davopaco",
+  "name":"David Cárdenas",
+  "password":"davopaco123"
+}

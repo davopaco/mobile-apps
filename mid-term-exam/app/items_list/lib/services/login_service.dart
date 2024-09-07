@@ -69,7 +69,6 @@ class LoginService {
 
   Future<String> getName() async {
     final token = await _loginRepository.getToken();
-    print("Token: $token");
     if (token != "") {
       final decodedToken = JwtDecoder.decode(token);
       return decodedToken['name'];

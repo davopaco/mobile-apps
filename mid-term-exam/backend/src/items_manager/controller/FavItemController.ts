@@ -9,7 +9,6 @@ export default class FavItemController {
     try {
       const user = req.body.user as TokenUser;
       const favItems = await this.favItemService.getAllFavItems(user.username);
-      console.log(favItems);
       res.status(200).json({ favorite: favItems });
     } catch (e) {
       console.log(e);
