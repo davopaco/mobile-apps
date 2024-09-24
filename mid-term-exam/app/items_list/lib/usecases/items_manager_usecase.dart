@@ -13,7 +13,7 @@ class ItemsManagerUseCase {
     if (userLoggedIn) {
       return await AppFactory.getItemsView(isFavoriteView: false);
     } else {
-      return await AppFactory.getLoginView();
+      return AppFactory.getLoginView();
     }
   }
 }

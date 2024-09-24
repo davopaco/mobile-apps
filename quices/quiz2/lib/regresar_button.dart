@@ -7,26 +7,31 @@ class RegresarButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 150,
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
+      width: 200,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+      ),
       child: ElevatedButton(
+          style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
           onPressed: () {
             Get.back();
           },
-          style: ElevatedButton.styleFrom(
-              backgroundColor: const Color.fromARGB(255, 16, 120, 13)),
           child: const Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                'Regresar',
-                style: TextStyle(color: Colors.white),
-              ),
               Icon(
                 Icons.arrow_back,
                 color: Colors.white,
-              )
+              ),
+              SizedBox(width: 5),
+              Text(
+                "Regresar",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                  fontSize: 16,
+                ),
+              ),
             ],
           )),
     );
