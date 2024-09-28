@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:quiz2/ficha_articulo.dart';
-import 'package:quiz2/model/item.dart';
-import 'package:quiz2/valoracion.dart';
+import 'ficha_articulo.dart';
+import 'model/item.dart';
+import 'valoracion.dart';
 
 class ItemArticulo extends StatelessWidget {
   final Item item;

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:quiz2/model/item.dart';
-import 'package:quiz2/regresar_button.dart';
-import 'package:quiz2/valoracion.dart';
+
+import 'model/item.dart';
+import 'regresar_button.dart';
+import 'valoracion.dart';
 
 class FichaArticulo extends StatelessWidget {
   final Item item;

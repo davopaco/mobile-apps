@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:quiz2/item_articulo.dart';
-import 'package:quiz2/model/item.dart';
-import 'package:quiz2/regresar_button.dart';
+import 'item_articulo.dart';
+import 'model/item.dart';
+import 'regresar_button.dart';
 
 abstract class AListaArticulos extends StatefulWidget {
   abstract final Future<List<Item>> itemsList;

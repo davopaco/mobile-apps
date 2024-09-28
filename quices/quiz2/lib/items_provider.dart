@@ -1,6 +1,6 @@
 import 'dart:convert';
-import 'package:quiz2/model/item.dart';
 import 'package:http/http.dart' as http;
+import 'model/item.dart';
 
 class ItemsProvider {
   static Future<List<Item>> getAllItems() async {
