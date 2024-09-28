@@ -115,9 +115,8 @@ class BiometricsView extends StatelessWidget {
 
 class MockView extends StatelessWidget {
   final String text;
-  final LoginUseCase _loginUsecase = LoginUseCase();
 
-  MockView({super.key, required this.text});
+  const MockView({super.key, required this.text});
 
   @override
   Widget build(BuildContext context) {
