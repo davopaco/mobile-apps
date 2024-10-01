@@ -1,4 +1,5 @@
 export default abstract class AItem {
+  private id: number;
   private price: string;
   private name: string;
   private discount: string;
@@ -7,15 +8,26 @@ export default abstract class AItem {
   private description: string;
   private ratingsQuantity: string;
 
-  constructor(
-    price: string,
-    name: string,
-    discount: string,
-    imagePath: string,
-    rating: string,
-    description: string,
-    ratingsQuantity: string
-  ) {
+  constructor({
+    id,
+    price,
+    name,
+    discount,
+    imagePath,
+    rating,
+    description,
+    ratingsQuantity,
+  }: {
+    id: number;
+    price: string;
+    name: string;
+    discount: string;
+    imagePath: string;
+    rating: string;
+    description: string;
+    ratingsQuantity: string;
+  }) {
+    this.id = id;
     this.price = price;
     this.name = name;
     this.discount = discount;
@@ -25,6 +37,9 @@ export default abstract class AItem {
     this.ratingsQuantity = ratingsQuantity;
   }
 
+  public getId(): number {
+    return this.id;
+  }
   public getPrice(): string {
     return this.price;
   }
@@ -47,6 +62,9 @@ export default abstract class AItem {
     return this.ratingsQuantity;
   }
 
+  public setId(id: number): void {
+    this.id = id;
+  }
   public setPrice(price: string): void {
     this.price = price;
   }

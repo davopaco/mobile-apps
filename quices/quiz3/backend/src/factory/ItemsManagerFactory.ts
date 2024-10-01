@@ -1,18 +1,14 @@
 import EnvironmentConfig from "../config/EnvironmentConfig";
 import ExpressRouter from "../express/interface/ExpressRouter";
 import JWTManager from "../helper/JWTManager";
-import FavItemController from "../items_manager/controller/FavItemController";
 import ItemController from "../items_manager/controller/ItemController";
 import LoginController from "../items_manager/controller/LoginController";
 import AuthMiddleware from "../items_manager/middleware/AuthMiddleware";
 import TokenUser from "../items_manager/model/interfaces/TokenUser";
-import FavItemRepository from "../items_manager/repository/FavItemRepository";
 import ItemRepository from "../items_manager/repository/ItemRepository";
 import UserRepository from "../items_manager/repository/UserRepository";
-import FavItemRouter from "../items_manager/router/FavItemRouter";
 import ItemRouter from "../items_manager/router/ItemRouter";
 import LoginRouter from "../items_manager/router/LoginRouter";
-import FavItemService from "../items_manager/services/FavItemService";
 import ItemService from "../items_manager/services/ItemService";
 import UserService from "../items_manager/services/UserService";
 import DatabaseEnvironment from "../config/DatabaseEnvironment";
@@ -38,27 +34,20 @@ export default class ItemsManagerFactory {
     //Helper
     const jwtManager = new JWTManager<TokenUser>(
       environmentConfiguration,
-      "7d"
+      "1h"
     );
 
     //Repositories
     const userRepository = new UserRepository(mySqlDbc);
-    const itemRepository = new ItemRepository(mySqlDbc);
-    const favItemRepository = new FavItemRepository(mySqlDbc, userRepository);
+    const itemRepository = new ItemRepository();
 
     //Services
     const userService = new UserService(userRepository, jwtManager);
     const itemService = new ItemService(itemRepository);
-    const favItemService = new FavItemService(
-      favItemRepository,
-      itemService,
-      userService
-    );
 
     //Controllers
     const loginController = new LoginController(userService);
     const itemController = new ItemController(itemService);
-    const favItemController = new FavItemController(favItemService);
 
     //Middleware
     const authMiddleware = new AuthMiddleware(userService);
@@ -66,8 +55,7 @@ export default class ItemsManagerFactory {
     //Routers
     const loginRoute = new LoginRouter(loginController);
     const itemRoute = new ItemRouter(itemController, authMiddleware);
-    const favItemRoute = new FavItemRouter(favItemController, authMiddleware);
 
-    return [loginRoute, itemRoute, favItemRoute];
+    return [loginRoute, itemRoute];
   }
 }

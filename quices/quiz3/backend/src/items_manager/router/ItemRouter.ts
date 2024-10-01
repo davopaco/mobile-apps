@@ -12,7 +12,7 @@ export default class ItemRouter implements ExpressRouter {
     private readonly authMiddleware: AuthMiddleware
   ) {
     this.router = Router();
-    this.path = "/item";
+    this.path = "/items";
     this.routes();
   }
 
@@ -23,9 +23,16 @@ export default class ItemRouter implements ExpressRouter {
       this.itemController.getAllItems.bind(this.itemController)
     );
 
-    this.router.post(
-      "/add",
-      this.itemController.addItems.bind(this.itemController)
-    ); // This route is not meant for using on the application, only meant for items-creation purposes.
+    this.router.get(
+      "/sale",
+      this.authMiddleware.verify.bind(this.authMiddleware),
+      this.itemController.getSaleItems.bind(this.itemController)
+    );
+
+    this.router.get(
+      "/:id",
+      this.authMiddleware.verify.bind(this.authMiddleware),
+      this.itemController.getItemById.bind(this.itemController)
+    );
   }
 }

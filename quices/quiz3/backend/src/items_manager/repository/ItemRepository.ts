@@ -11,18 +11,19 @@ export default class ItemRepository {
 
       const articulos: Articles = response.data;
       const items: Item[] = [];
-
+      let i = 0;
       articulos.articulos.forEach((articulo) => {
         items.push(
-          new Item(
-            articulo.precio,
-            articulo.articulo,
-            articulo.descuento,
-            articulo.urlimagen,
-            articulo.valoracion,
-            articulo.calificaciones,
-            articulo.calificaciones
-          )
+          new Item({
+            id: i++,
+            name: articulo.articulo,
+            price: articulo.precio,
+            discount: articulo.descuento,
+            imagePath: articulo.urlimagen,
+            rating: articulo.valoracion,
+            description: articulo.descripcion,
+            ratingsQuantity: articulo.calificaciones,
+          })
         );
       });
 
@@ -33,12 +34,11 @@ export default class ItemRepository {
     }
   }
 
-  public async getSaleItems(): Promise<Item[]> {
+  public async getSaleItems(items: Item[]): Promise<Item[]> {
     try {
-      const allItems = await this.getAllItems();
       const saleItems: Item[] = [];
 
-      allItems.forEach((item) => {
+      items.forEach((item) => {
         if (parseInt(item.getDiscount()) > 0) {
           saleItems.push(item);
         }
