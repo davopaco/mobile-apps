@@ -39,20 +39,29 @@ export default class UserService {
     return false;
   }
 
-  public async generateJWT(username: string): Promise<string> {
-    const user = await this.userRepository.get(username);
+  public async generateJWT(
+    payload: { username: string; password?: string },
+    expiration: string,
+    session: number
+  ): Promise<string> {
+    const user = await this.userRepository.get(payload.username);
     if (user.isNull()) {
       return "";
     }
-    const tokenGenerated = this.jwtManager.generateToken({
-      username: username,
-      name: user.getName(),
-    });
+    const tokenGenerated = this.jwtManager.generateToken(
+      {
+        username: payload.username,
+        ...(payload.password ? { password: payload.password } : {}),
+        name: user.getName(),
+      },
+      expiration,
+      session
+    );
     return tokenGenerated;
   }
 
-  public async verifyJWT(token: string): Promise<boolean> {
-    return this.jwtManager.verifyToken(token);
+  public async verifyJWT(token: string, session: number): Promise<boolean> {
+    return this.jwtManager.verifyToken(token, session);
   }
 
   public async decodeJWT(token: string): Promise<TokenUser> {

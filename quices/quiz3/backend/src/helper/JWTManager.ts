@@ -2,24 +2,27 @@ import jwt from "jsonwebtoken";
 import EnvironmentConfig from "../config/EnvironmentConfig";
 
 export default class JWTManager<E extends string | object | Buffer> {
-  private readonly expiration: string;
+  constructor(private readonly envConfig: EnvironmentConfig) {}
 
-  constructor(
-    private readonly envConfig: EnvironmentConfig,
-    expiration: string
-  ) {
-    this.expiration = expiration;
-  }
+  public generateToken(payload: E, expiration: string, secret: number): string {
+    const jwtSecret =
+      secret === 1
+        ? this.envConfig.getJwtSecret()
+        : this.envConfig.getJwtSecret2();
 
-  public generateToken(payload: E): string {
-    return jwt.sign(payload, this.envConfig.getJwtSecret(), {
-      expiresIn: this.expiration,
+    return jwt.sign(payload, jwtSecret, {
+      expiresIn: expiration,
     });
   }
 
-  public verifyToken(token: string): boolean {
+  public verifyToken(token: string, secret: number): boolean {
     try {
-      jwt.verify(token, this.envConfig.getJwtSecret());
+      jwt.verify(
+        token,
+        secret === 1
+          ? this.envConfig.getJwtSecret()
+          : this.envConfig.getJwtSecret2()
+      );
       return true;
     } catch (err) {
       return false;

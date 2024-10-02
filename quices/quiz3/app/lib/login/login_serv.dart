@@ -12,6 +12,7 @@ class LoginService {
   Future<bool> login(String username, String password) async {
     final headers = {
       'Content-Type': 'application/json',
+      'Authorization': 'Bearer '
     };
 
     final host = dotenv.env['HOST'] ?? 'http://192.168.0.1';
@@ -33,7 +34,7 @@ class LoginService {
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         final token = data['token'];
-        await _loginRepository.storeCredentials(token);
+        await _loginRepository.storeCredentials(token, "short");
         return true; //User has successfully logged in
       }
 
@@ -46,11 +47,11 @@ class LoginService {
   }
 
   Future<void> logout() async {
-    await _loginRepository.removeCredentials();
+    await _loginRepository.removeCredentials("short");
   }
 
   Future<bool> isLoggedIn() async {
-    final token = await _loginRepository.getToken();
+    final token = await _loginRepository.getToken("short");
 
     if (token != null) {
       bool hasExpired = JwtDecoder.isExpired(token);
@@ -58,7 +59,7 @@ class LoginService {
       if (!hasExpired) {
         return true; //User is logged in
       } else {
-        await _loginRepository.removeCredentials(); // Log the user out
+        await _loginRepository.removeCredentials("short"); // Log the user out
       }
     }
 
@@ -66,12 +67,28 @@ class LoginService {
   }
 
   Future<String> getName() async {
-    final token = await _loginRepository.getToken();
+    final token = await _loginRepository.getToken("short");
     if (token != null) {
       final decodedToken = JwtDecoder.decode(token);
       return decodedToken['user'];
     }
     return '';
+  }
+
+  Future<Map<String, dynamic>> getLoginToken() async {
+    var token = await _loginRepository.getToken("short");
+    if (token != null) {
+      return {"token": token, "null": false};
+    }
+    return {"token": "", "null": true};
+  }
+
+  Future<Map<String, dynamic>> getSessionToken() async {
+    var token = await _loginRepository.getToken("long");
+    if (token != null) {
+      return {"token": token, "null": false};
+    }
+    return {"token": "", "null": true};
   }
 
   final LocalAuthentication _localAuth = LocalAuthentication();

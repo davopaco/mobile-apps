@@ -11,7 +11,34 @@ export default class LoginController {
 
     //If the username and password are correct, a token is generated and returned
     if (user) {
-      const tokenGenerated = await this.userService.generateJWT(username);
+      const tokenGenerated = await this.userService.generateJWT(
+        {
+          username: username,
+        },
+        "1h",
+        1
+      );
+      res.status(200).json({ token: tokenGenerated });
+      return;
+    }
+    res.status(401).json({ message: "Invalid username or password" });
+  }
+
+  public async session(req: Request, res: Response): Promise<void> {
+    const { username, password } = req.body;
+
+    const user = await this.userService.checkPassword(username, password);
+
+    //If the username and password are correct, a token is generated and returned
+    if (user) {
+      const tokenGenerated = await this.userService.generateJWT(
+        {
+          username: username,
+          password: password,
+        },
+        "30d",
+        2
+      );
       res.status(200).json({ token: tokenGenerated });
       return;
     }

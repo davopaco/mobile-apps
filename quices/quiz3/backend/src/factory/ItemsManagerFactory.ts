@@ -32,10 +32,7 @@ export default class ItemsManagerFactory {
     const mySqlDbc = new MySqlDBC(mySqlConnectionConfig);
 
     //Helper
-    const jwtManager = new JWTManager<TokenUser>(
-      environmentConfiguration,
-      "1h"
-    );
+    const jwtManager = new JWTManager<TokenUser>(environmentConfiguration);
 
     //Repositories
     const userRepository = new UserRepository(mySqlDbc);
