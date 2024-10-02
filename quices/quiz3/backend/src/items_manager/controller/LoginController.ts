@@ -14,6 +14,7 @@ export default class LoginController {
       const tokenGenerated = await this.userService.generateJWT(
         {
           username: username,
+          session: 1,
         },
         "1h",
         1
@@ -35,6 +36,7 @@ export default class LoginController {
         {
           username: username,
           password: password,
+          session: 2,
         },
         "30d",
         2

@@ -40,7 +40,7 @@ export default class UserService {
   }
 
   public async generateJWT(
-    payload: { username: string; password?: string },
+    payload: { username: string; password?: string; session: number },
     expiration: string,
     session: number
   ): Promise<string> {
