@@ -58,7 +58,6 @@ class LoginService {
 
   Future<void> logout() async {
     await _loginRepository.removeShortToken();
-    await _loginRepository.removeLongToken();
   }
 
   Future<bool> isLoggedIn() async {

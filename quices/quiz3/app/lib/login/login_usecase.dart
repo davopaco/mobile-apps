@@ -34,7 +34,16 @@ class LoginUseCase {
     return !tokenMap['error'];
   }
 
-  Future<void> authenticate() async {
+  Future<bool> authenticateForEnable() async {
+    try {
+      return await _loginService.authenticate();
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future<void> authenticateForLogin() async {
     try {
       if (await hasBiometrics()) {
         final result = await _loginService.authenticate();

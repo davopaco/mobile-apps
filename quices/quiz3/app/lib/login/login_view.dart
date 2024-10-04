@@ -66,7 +66,7 @@ class LoginView extends StatelessWidget {
                           children: [
                             ElevatedButton(
                               onPressed: () async {
-                                await _loginUsecase.authenticate();
+                                await _loginUsecase.authenticateForLogin();
                               },
                               style: ElevatedButton.styleFrom(
                                 side: const BorderSide(
@@ -135,120 +135,6 @@ class LoginView extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-class BiometricsView extends StatefulWidget {
-  final String text;
-  final String buttonText;
-  final Color buttonColor;
-  final bool isForEnable;
-
-  const BiometricsView(
-      {super.key,
-      required this.text,
-      this.buttonText = "Habilitar",
-      this.buttonColor = const Color.fromARGB(255, 11, 122, 37),
-      required this.isForEnable});
-
-  @override
-  _BiometricsViewState createState() => _BiometricsViewState();
-}
-
-class _BiometricsViewState extends State<BiometricsView> {
-  final LoginUseCase _loginUsecase = LoginUseCase();
-  late TextEditingController _usernameController;
-  late TextEditingController _passwordController;
-
-  @override
-  void initState() {
-    super.initState();
-    _usernameController = TextEditingController();
-    _passwordController = TextEditingController();
-  }
-
-  @override
-  void dispose() {
-    _usernameController.dispose();
-    _passwordController.dispose();
-    super.dispose();
-  }
-
-  Future<String?> openDialog() async {
-    return showDialog<String>(
-      context: context,
-      builder: (BuildContext context) => AlertDialog(
-        title: const Text('Biometrics'),
-        content: Column(
-          children: <Widget>[
-            TextField(
-              controller: _usernameController,
-              decoration: const InputDecoration(labelText: 'Username'),
-            ),
-            TextField(
-              controller: _passwordController,
-              decoration: const InputDecoration(labelText: 'Password'),
-            ),
-          ],
-        ),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context, 'Cancel');
-            },
-            child: const Text('Cancel'),
-          ),
-          TextButton(
-            onPressed: () async {
-              final result = await _loginUsecase.requestSessionToken(
-                  _usernameController.text, _passwordController.text);
-              if (result) {
-                await _loginUsecase.authenticate();
-              } else {
-                Get.snackbar("Error", "There was an error enabling biometrics");
-                Get.offAllNamed('/login');
-              }
-            },
-            child: const Text('OK'),
-          ),
-        ],
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            widget.text,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-                color: Colors.black,
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 20),
-          LoginButton(
-              label: widget.buttonText,
-              color: widget.buttonColor,
-              callback: () async {
-                if (widget.isForEnable) {
-                  await openDialog();
-                } else {
-                  if (!await _loginUsecase.removeSession()) {
-                    Get.snackbar(
-                        "Error", "There was an error disabling biometrics");
-                  }
-                  Get.offAllNamed('/login');
-                }
-              }),
-        ],
-      )),
     );
   }
 }
