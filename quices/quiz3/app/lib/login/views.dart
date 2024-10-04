@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:quiz3/login/login_button.dart';
 import 'package:quiz3/login/login_textf.dart';
-import 'package:quiz3/login/use_case.dart';
+import 'package:quiz3/login/login_usecase.dart';
 
 class LoginView extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();
@@ -42,6 +42,7 @@ class LoginView extends StatelessWidget {
             const SizedBox(height: 50),
             LoginButton(
               label: "Login",
+              color: Colors.blue,
               callback: () {
                 _loginUsecase.login(
                     _emailController.text, _passwordController.text);
@@ -61,6 +62,7 @@ class LoginView extends StatelessWidget {
                     if (snapshot.data == true) {
                       return LoginButton(
                         label: "Iniciar sesión con datos biométricos",
+                        color: Colors.blue,
                         callback: () {
                           _loginUsecase.authenticate();
                         },
@@ -76,47 +78,81 @@ class LoginView extends StatelessWidget {
   }
 }
 
-class BiometricsView extends StatelessWidget {
+class BiometricsView extends StatefulWidget {
   final String text;
-  final LoginUseCase _loginUsecase = LoginUseCase();
+  final String buttonText;
+  final Color buttonColor;
 
-  BiometricsView({super.key, required this.text});
+  const BiometricsView(
+      {super.key,
+      required this.text,
+      this.buttonText = "Habilitar",
+      this.buttonColor = const Color.fromARGB(255, 11, 122, 37)});
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            text,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-                color: Colors.black,
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 20),
-          LoginButton(
-              label: "Habilitar",
-              callback: () {
-                var args = Get.arguments;
-                var username = args["username"];
-                var password = args["password"];
-                _loginUsecase.enableBiometrics(username, password);
-                Get.offAllNamed('/login');
-              }),
-        ],
-      )),
-    );
-  }
+  _BiometricsViewState createState() => _BiometricsViewState();
 }
 
-class MockView extends StatelessWidget {
-  final String text;
+class _BiometricsViewState extends State<BiometricsView> {
+  final LoginUseCase _loginUsecase = LoginUseCase();
+  late TextEditingController _usernameController;
+  late TextEditingController _passwordController;
 
-  const MockView({super.key, required this.text});
+  @override
+  void initState() {
+    super.initState();
+    _usernameController = TextEditingController();
+    _passwordController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  Future<String?> openDialog() async {
+    return showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: const Text('Biometrics'),
+        content: Column(
+          children: <Widget>[
+            TextField(
+              controller: _usernameController,
+              decoration: const InputDecoration(labelText: 'Username'),
+            ),
+            TextField(
+              controller: _passwordController,
+              decoration: const InputDecoration(labelText: 'Password'),
+            ),
+          ],
+        ),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context, 'Cancel');
+            },
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () async {
+              final result = await _loginUsecase.requestSessionToken(
+                  _usernameController.text, _passwordController.text);
+              if (result) {
+                await _loginUsecase.authenticate();
+              } else {
+                Get.snackbar("Error", "There was an error enabling biometrics");
+                Get.offAllNamed('/login');
+              }
+            },
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -126,7 +162,7 @@ class MockView extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            text,
+            widget.text,
             textAlign: TextAlign.center,
             style: const TextStyle(
                 color: Colors.black,
@@ -135,9 +171,10 @@ class MockView extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           LoginButton(
-              label: "Volver",
-              callback: () {
-                Get.offAllNamed('/login');
+              label: widget.buttonText,
+              color: widget.buttonColor,
+              callback: () async {
+                await openDialog();
               }),
         ],
       )),

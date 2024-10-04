@@ -21,19 +21,19 @@ class Item {
       required this.reviewsQuantity});
 
   factory Item.fromJson(Map<String, dynamic> json) {
-    int normalPrice = int.parse(json['precio']);
+    int normalPrice = int.parse(json['price']);
     String discountedPrice =
-        "\$ ${NumberFormat.decimalPattern("de_DE").format(normalPrice * (100 - int.parse(json['descuento'])) ~/ 100)}";
+        "\$ ${NumberFormat.decimalPattern("de_DE").format(normalPrice * (100 - int.parse(json['discount'])) ~/ 100)}";
 
     return Item(
-        name: json['articulo'],
+        name: json['name'],
         normalPrice:
             "\$${NumberFormat.decimalPattern("de_DE").format(normalPrice)}",
         discountedPrice: discountedPrice,
-        discount: int.parse(json['descuento']),
-        rating: int.parse(json['valoracion']) / 10,
-        imagePath: json['urlimagen'],
-        reviewsQuantity: int.parse(json['calificaciones']),
-        description: json['descripcion']);
+        discount: int.parse(json['discount']),
+        rating: int.parse(json['rating']) / 10,
+        imagePath: json['imagePath'],
+        reviewsQuantity: int.parse(json['ratingsQuantity']),
+        description: json['description']);
   }
 }

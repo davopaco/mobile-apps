@@ -16,8 +16,7 @@ export default class LoginController {
           username: username,
           session: 1,
         },
-        "1h",
-        1
+        "1h"
       );
       res.status(200).json({ token: tokenGenerated });
       return;
@@ -38,8 +37,7 @@ export default class LoginController {
           password: password,
           session: 2,
         },
-        "30d",
-        2
+        "30d"
       );
       res.status(200).json({ token: tokenGenerated });
       return;

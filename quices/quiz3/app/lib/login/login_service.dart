@@ -10,21 +10,23 @@ class LoginService {
   final LoginRepository _loginRepository = LoginRepository();
 
   Future<bool> login(String username, String password) async {
-    final headers = {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer '
-    };
+    final headers = {'Content-Type': 'application/json'};
 
-    final host = dotenv.env['HOST'] ?? 'http://192.168.0.1';
-    final port = dotenv.env['PORT'] ?? '3000';
+    final host = dotenv.env['API_URL'] ?? 'http://192.168.0.1:3000';
+    final bodyJson = {};
 
-    final body = jsonEncode({
-      'username': username,
-      'password': password,
-    });
+    Map<String, dynamic> tokenMap = await getSessionToken();
+    if (tokenMap['error']) {
+      bodyJson['username'] = username;
+      bodyJson['password'] = password;
+    } else {
+      headers['Authorization'] = 'Bearer ${tokenMap['token']}';
+    }
+
+    final body = jsonEncode(bodyJson);
 
     try {
-      final url = '$host:$port/login';
+      final url = '$host/user/login';
       final response = await http.post(
         Uri.parse(url),
         headers: headers,
@@ -34,7 +36,7 @@ class LoginService {
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         final token = data['token'];
-        await _loginRepository.storeCredentials(token, "short");
+        await _loginRepository.storeShortToken(token);
         return true; //User has successfully logged in
       }
 
@@ -46,12 +48,20 @@ class LoginService {
     }
   }
 
+  Future<bool> loginWithBiometrics() async {
+    final loginResult = await login("", "");
+    if (loginResult) {
+      return true;
+    }
+    return false;
+  }
+
   Future<void> logout() async {
-    await _loginRepository.removeCredentials("short");
+    await _loginRepository.removeLongToken();
   }
 
   Future<bool> isLoggedIn() async {
-    final token = await _loginRepository.getToken("short");
+    final token = await _loginRepository.getLongToken();
 
     if (token != null) {
       bool hasExpired = JwtDecoder.isExpired(token);
@@ -59,7 +69,7 @@ class LoginService {
       if (!hasExpired) {
         return true; //User is logged in
       } else {
-        await _loginRepository.removeCredentials("short"); // Log the user out
+        await _loginRepository.removeLongToken(); // Log the user out
       }
     }
 
@@ -67,7 +77,7 @@ class LoginService {
   }
 
   Future<String> getName() async {
-    final token = await _loginRepository.getToken("short");
+    final token = await _loginRepository.getLongToken();
     if (token != null) {
       final decodedToken = JwtDecoder.decode(token);
       return decodedToken['user'];
@@ -75,20 +85,51 @@ class LoginService {
     return '';
   }
 
-  Future<Map<String, dynamic>> getLoginToken() async {
-    var token = await _loginRepository.getToken("short");
+  Future<Map<String, dynamic>> getSessionToken() async {
+    var token = await _loginRepository.getLongToken();
     if (token != null) {
-      return {"token": token, "null": false};
+      return {"token": token, "error": false};
     }
-    return {"token": "", "null": true};
+    return {"token": "", "error": true};
   }
 
-  Future<Map<String, dynamic>> getSessionToken() async {
-    var token = await _loginRepository.getToken("long");
+  Future<Map<String, dynamic>> getLoginToken() async {
+    var token = await _loginRepository.getShortToken();
     if (token != null) {
-      return {"token": token, "null": false};
+      return {"token": token, "error": false};
     }
-    return {"token": "", "null": true};
+    return {"token": "", "error": true};
+  }
+
+  Future<bool> requestSessionToken(String username, String password) async {
+    final headers = {'Content-Type': 'application/json'};
+    final host = dotenv.env['API_URL'] ?? 'http://localhost:3000';
+    final body = jsonEncode({
+      'username': username,
+      'password': password,
+    });
+
+    try {
+      final url = '$host/user/session';
+      final response = await http.post(
+        Uri.parse(url),
+        headers: headers,
+        body: body,
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        final token = data['token'];
+        await _loginRepository.storeLongToken(token);
+        return true;
+      }
+
+      return false;
+    } catch (e) {
+      Get.snackbar("Error", "There was an error requesting the token");
+      print(e);
+      return false;
+    }
   }
 
   final LocalAuthentication _localAuth = LocalAuthentication();

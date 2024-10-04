@@ -50,7 +50,7 @@ export default class ItemsManagerFactory {
     const authMiddleware = new AuthMiddleware(userService);
 
     //Routers
-    const loginRoute = new LoginRouter(loginController);
+    const loginRoute = new LoginRouter(loginController, authMiddleware);
     const itemRoute = new ItemRouter(itemController, authMiddleware);
 
     return [loginRoute, itemRoute];

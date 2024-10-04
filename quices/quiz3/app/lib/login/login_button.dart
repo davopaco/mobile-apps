@@ -3,18 +3,23 @@ import 'package:flutter/material.dart';
 class LoginButton extends StatelessWidget {
   final String label;
   final Function callback;
-  const LoginButton({super.key, required this.label, required this.callback});
+  final Color color;
+  const LoginButton(
+      {super.key,
+      required this.label,
+      required this.callback,
+      required this.color});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
       child: ElevatedButton(
-        onPressed: () {
-          callback();
+        onPressed: () async {
+          await callback();
         },
         style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.blue,
+          backgroundColor: color,
           padding: const EdgeInsets.symmetric(horizontal: 70, vertical: 10),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),

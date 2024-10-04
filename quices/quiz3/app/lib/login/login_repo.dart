@@ -1,19 +1,31 @@
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:get_storage/get_storage.dart';
 
 class LoginRepository {
-  Future<void> storeCredentials(String token, String type) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString("jwt_$type", token);
+  final FlutterSecureStorage _storage = const FlutterSecureStorage();
+  final GetStorage _temporalStorage = GetStorage();
+
+  Future<void> storeLongToken(String token) async {
+    await _storage.write(key: "jwt", value: token);
   }
 
-  Future<String?> getToken(String type) async {
-    final prefs = await SharedPreferences.getInstance();
-    final storedData = prefs.getString("jwt_$type");
-    return storedData;
+  Future<String?> getLongToken() async {
+    return await _storage.read(key: "jwt");
   }
 
-  Future<void> removeCredentials(String type) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove("jwt_$type");
+  Future<void> removeLongToken() async {
+    await _storage.delete(key: "jwt");
+  }
+
+  Future<void> storeShortToken(String token) async {
+    await _temporalStorage.write("jwt", token);
+  }
+
+  Future<String?> getShortToken() async {
+    return await _temporalStorage.read("jwt");
+  }
+
+  Future<void> removeShortToken() async {
+    await _temporalStorage.remove("jwt");
   }
 }

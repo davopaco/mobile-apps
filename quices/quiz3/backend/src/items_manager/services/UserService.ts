@@ -41,8 +41,7 @@ export default class UserService {
 
   public async generateJWT(
     payload: { username: string; password?: string; session: number },
-    expiration: string,
-    session: number
+    expiration: string
   ): Promise<string> {
     const user = await this.userRepository.get(payload.username);
     if (user.isNull()) {
@@ -53,9 +52,10 @@ export default class UserService {
         username: payload.username,
         ...(payload.password ? { password: payload.password } : {}),
         name: user.getName(),
+        session: payload.session,
       },
       expiration,
-      session
+      payload.session
     );
     return tokenGenerated;
   }

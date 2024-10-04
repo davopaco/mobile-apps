@@ -9,7 +9,7 @@ class MenuPrincipal extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: Container(
-          height: 600,
+          height: 670,
           padding: const EdgeInsets.all(30),
           decoration: const BoxDecoration(
               color: Colors.white,
@@ -35,14 +35,14 @@ class MenuPrincipal extends StatelessWidget {
                 },
                 icon: const Icon(
                   Icons.shopping_cart,
-                  size: 100,
+                  size: 70,
                   color: Colors.white,
                 ),
               ),
               const Text(
                 "Artículos",
                 style: TextStyle(
-                    fontSize: 30,
+                    fontSize: 25,
                     fontWeight: FontWeight.bold,
                     color: Color.fromARGB(255, 82, 157, 219)),
               ),
@@ -59,16 +59,41 @@ class MenuPrincipal extends StatelessWidget {
                 },
                 icon: const Icon(
                   Icons.discount,
-                  size: 100,
+                  size: 70,
                   color: Colors.white,
                 ),
               ),
               const Text(
                 "Ofertas",
                 style: TextStyle(
-                    fontSize: 30,
+                    fontSize: 25,
                     fontWeight: FontWeight.bold,
                     color: Color.fromARGB(255, 194, 33, 33)),
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              IconButton(
+                style: const ButtonStyle(
+                    padding: WidgetStatePropertyAll(EdgeInsets.all(20)),
+                    backgroundColor: WidgetStatePropertyAll(
+                        Color.fromARGB(255, 19, 164, 118))),
+                onPressed: () {
+                  Get.toNamed("/biometricsDisabled");
+                },
+                icon: const Icon(
+                  Icons.fingerprint,
+                  size: 70,
+                  color: Colors.white,
+                ),
+              ),
+              const Text(
+                "Deshabilitar biométricos",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromARGB(255, 19, 164, 118)),
               ),
             ],
           ),
