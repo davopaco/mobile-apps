@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:quiz3/login/login_usecase.dart';
 
 class MenuPrincipal extends StatelessWidget {
-  const MenuPrincipal({super.key});
+  final LoginUseCase _loginUseCase = new LoginUseCase();
+
+  MenuPrincipal({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -78,8 +81,9 @@ class MenuPrincipal extends StatelessWidget {
                     padding: WidgetStatePropertyAll(EdgeInsets.all(20)),
                     backgroundColor: WidgetStatePropertyAll(
                         Color.fromARGB(255, 19, 164, 118))),
-                onPressed: () {
-                  Get.toNamed("/biometricsDisabled");
+                onPressed: () async {
+                  await _loginUseCase.logout();
+                  Get.offAllNamed("/login");
                 },
                 icon: const Icon(
                   Icons.fingerprint,
@@ -88,7 +92,7 @@ class MenuPrincipal extends StatelessWidget {
                 ),
               ),
               const Text(
-                "Deshabilitar biométricos",
+                "Cerrar sesión",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontSize: 25,

@@ -27,7 +27,7 @@ Future<void> main() async {
             buttonText: "Deshabilitar",
             buttonColor: const Color.fromARGB(255, 217, 118, 19),
           ),
-      "/menu": (context) => const MenuPrincipal(),
+      "/menu": (context) => MenuPrincipal(),
       "/items": (context) => ListaArticulos(),
       "/sales": (context) => ListaOfertas(),
     },
