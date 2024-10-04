@@ -94,6 +94,15 @@ class LoginService {
     return {"token": "", "error": true};
   }
 
+  Future<bool> removeSessionToken() async {
+    try {
+      await _loginRepository.removeLongToken();
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   Future<Map<String, dynamic>> getLoginToken() async {
     var token = await _loginRepository.getShortToken();
     if (token != null) {

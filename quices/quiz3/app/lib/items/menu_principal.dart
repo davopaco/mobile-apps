@@ -86,7 +86,7 @@ class MenuPrincipal extends StatelessWidget {
                   Get.offAllNamed("/login");
                 },
                 icon: const Icon(
-                  Icons.fingerprint,
+                  Icons.logout,
                   size: 70,
                   color: Colors.white,
                 ),

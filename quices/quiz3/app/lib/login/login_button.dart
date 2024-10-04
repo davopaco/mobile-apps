@@ -26,6 +26,7 @@ class LoginButton extends StatelessWidget {
           ),
         ),
         child: Text(label,
+            textAlign: TextAlign.center,
             style: const TextStyle(fontSize: 20, color: Colors.white)),
       ),
     );

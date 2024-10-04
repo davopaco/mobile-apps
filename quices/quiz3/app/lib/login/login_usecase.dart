@@ -21,6 +21,14 @@ class LoginUseCase {
     await _loginService.logout();
   }
 
+  Future<bool> removeSession() async {
+    final result = await _loginService.authenticate();
+    if (result) {
+      return await _loginService.removeSessionToken();
+    }
+    return false;
+  }
+
   Future<bool> hasBiometrics() async {
     final tokenMap = await _loginService.getSessionToken();
     return !tokenMap['error'];

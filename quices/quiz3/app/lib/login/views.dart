@@ -60,15 +60,76 @@ class LoginView extends StatelessWidget {
                   } else {
                     print(snapshot.data);
                     if (snapshot.data == true) {
-                      return LoginButton(
-                        label: "Iniciar sesión con datos biométricos",
-                        color: Colors.blue,
-                        callback: () {
-                          _loginUsecase.authenticate();
-                        },
+                      return Padding(
+                        padding: const EdgeInsets.fromLTRB(60, 0, 60, 0),
+                        child: Column(
+                          children: [
+                            ElevatedButton(
+                              onPressed: () async {
+                                await _loginUsecase.authenticate();
+                              },
+                              style: ElevatedButton.styleFrom(
+                                side: const BorderSide(
+                                    color: Colors.black,
+                                    width: 2,
+                                    style: BorderStyle.solid),
+                                backgroundColor: Colors.white,
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 10),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                              ),
+                              child: const Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text("Iniciar con huella",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontSize: 20, color: Colors.black)),
+                                  SizedBox(width: 10),
+                                  Icon(Icons.fingerprint, color: Colors.black),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                Get.toNamed('/biometricsDisabled');
+                              },
+                              style: ElevatedButton.styleFrom(
+                                side: const BorderSide(
+                                    color: Colors.black,
+                                    width: 2,
+                                    style: BorderStyle.solid),
+                                backgroundColor: Colors.white,
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 10),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                              ),
+                              child: const Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text("Deshabilitar huella",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          fontSize: 20, color: Colors.black)),
+                                  SizedBox(width: 10),
+                                  Icon(Icons.fingerprint, color: Colors.red),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       );
                     }
-                    return SizedBox();
+                    return const SizedBox(
+                      height: 10,
+                    );
                   }
                 }),
           ],
@@ -82,12 +143,14 @@ class BiometricsView extends StatefulWidget {
   final String text;
   final String buttonText;
   final Color buttonColor;
+  final bool isForEnable;
 
   const BiometricsView(
       {super.key,
       required this.text,
       this.buttonText = "Habilitar",
-      this.buttonColor = const Color.fromARGB(255, 11, 122, 37)});
+      this.buttonColor = const Color.fromARGB(255, 11, 122, 37),
+      required this.isForEnable});
 
   @override
   _BiometricsViewState createState() => _BiometricsViewState();
@@ -174,7 +237,15 @@ class _BiometricsViewState extends State<BiometricsView> {
               label: widget.buttonText,
               color: widget.buttonColor,
               callback: () async {
-                await openDialog();
+                if (widget.isForEnable) {
+                  await openDialog();
+                } else {
+                  if (!await _loginUsecase.removeSession()) {
+                    Get.snackbar(
+                        "Error", "There was an error disabling biometrics");
+                  }
+                  Get.offAllNamed('/login');
+                }
               }),
         ],
       )),

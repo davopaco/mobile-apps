@@ -19,13 +19,15 @@ Future<void> main() async {
   runApp(GetMaterialApp(
     routes: {
       "/login": (context) => LoginView(),
-      '/biometrics': (context) => BiometricsView(
+      '/biometrics': (context) => const BiometricsView(
             text: "Habilitar inicio de sesión con huella.",
+            isForEnable: true,
           ),
-      "/biometricsDisabled": (context) => BiometricsView(
+      "/biometricsDisabled": (context) => const BiometricsView(
             text: "Inicio de sesión con huella habilitado.",
             buttonText: "Deshabilitar",
-            buttonColor: const Color.fromARGB(255, 217, 118, 19),
+            buttonColor: Color.fromARGB(255, 217, 118, 19),
+            isForEnable: false,
           ),
       "/menu": (context) => MenuPrincipal(),
       "/items": (context) => ListaArticulos(),
