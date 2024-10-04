@@ -74,7 +74,8 @@ class _BiometricsViewState extends State<BiometricsView> {
                   const SizedBox(height: 20),
                   ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue,
+                          backgroundColor:
+                              const Color.fromARGB(255, 64, 64, 64),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10)),
                           padding: EdgeInsets.fromLTRB(20, 10, 20, 10)),

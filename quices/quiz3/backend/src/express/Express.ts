@@ -19,12 +19,12 @@ export default class Express {
     return this.app;
   };
 
-  private config = (): void => {
+  private readonly config = (): void => {
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
   };
 
-  private routes = (): void => {
+  private readonly routes = (): void => {
     this.expressRouter.forEach((router) => {
       this.app.use(router.path, router.router);
     });

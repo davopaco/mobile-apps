@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:quiz3/login/login_button.dart';
 import 'package:quiz3/login/login_textf.dart';
 import 'package:quiz3/login/login_usecase.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class LoginView extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();
@@ -16,7 +17,7 @@ class LoginView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Login Page'),
-        backgroundColor: Colors.blue,
+        backgroundColor: const Color.fromARGB(255, 64, 64, 64),
         titleTextStyle: const TextStyle(color: Colors.white, fontSize: 20),
       ),
       body: Center(
@@ -24,25 +25,24 @@ class LoginView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Image(
+            Image(
               width: 200,
-              image: NetworkImage(
-                  'https://storage.googleapis.com/cms-storage-bucket/c823e53b3a1a7b0d36a9.png'),
+              image: NetworkImage('${dotenv.env['API_URL']}/images/logo.png'),
             ),
             const SizedBox(height: 50),
             LoginTextField(
-              labelText: "Email",
+              labelText: "Usuario",
               eController: _emailController,
             ),
             LoginTextField(
-              labelText: "Password",
+              labelText: "Contraseña",
               eController: _passwordController,
               obscureText: true,
             ),
             const SizedBox(height: 50),
             LoginButton(
               label: "Login",
-              color: Colors.blue,
+              color: const Color.fromARGB(255, 64, 64, 64),
               callback: () {
                 _loginUsecase.login(
                     _emailController.text, _passwordController.text);
