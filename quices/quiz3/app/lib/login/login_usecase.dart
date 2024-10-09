@@ -5,7 +5,7 @@ class LoginUseCase {
   final LoginService _loginService = LoginService();
 
   Future<void> login(String username, String password) async {
-    final result = await _loginService.login(username, password);
+    final result = await _loginService.login(username, password, false);
     if (result) {
       if (await hasBiometrics()) {
         Get.offAllNamed('/menu');

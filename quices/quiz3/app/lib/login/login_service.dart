@@ -9,18 +9,23 @@ import 'package:quiz3/login/login_repo.dart';
 class LoginService {
   final LoginRepository _loginRepository = LoginRepository();
 
-  Future<bool> login(String username, String password) async {
+  Future<bool> login(String username, String password, bool biometrics) async {
     final headers = {'Content-Type': 'application/json'};
 
     final host = dotenv.env['API_URL'] ?? 'http://192.168.0.1:3000';
     final bodyJson = {};
 
-    Map<String, dynamic> tokenMap = await getSessionToken();
-    if (tokenMap['error']) {
+    if (biometrics) {
+      Map<String, dynamic> tokenMap = await getSessionToken();
+      if (tokenMap['error']) {
+        bodyJson['username'] = username;
+        bodyJson['password'] = password;
+      } else {
+        headers['Authorization'] = 'Bearer ${tokenMap['token']}';
+      }
+    } else {
       bodyJson['username'] = username;
       bodyJson['password'] = password;
-    } else {
-      headers['Authorization'] = 'Bearer ${tokenMap['token']}';
     }
 
     final body = jsonEncode(bodyJson);
@@ -49,7 +54,7 @@ class LoginService {
   }
 
   Future<bool> loginWithBiometrics() async {
-    final loginResult = await login("", "");
+    final loginResult = await login("", "", true);
     if (loginResult) {
       return true;
     }

@@ -3,11 +3,21 @@ import 'package:get/get.dart';
 import 'ficha_articulo.dart';
 import 'model/item.dart';
 import 'valoracion.dart';
+import 'package:http/http.dart' as http;
 
 class ItemArticulo extends StatelessWidget {
   final Item item;
 
   const ItemArticulo({super.key, required this.item});
+
+  Future<bool> _checkImageUrl(String url) async {
+    try {
+      final response = await http.head(Uri.parse(url));
+      return response.statusCode == 200;
+    } catch (e) {
+      return false;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,10 +47,28 @@ class ItemArticulo extends StatelessWidget {
                   children: [
                     ClipRRect(
                       borderRadius: BorderRadius.circular(8),
-                      child: Image.network(
-                        item.imagePath,
-                        width: 80,
-                        height: 80,
+                      child: FutureBuilder(
+                        future: _checkImageUrl(item.imagePath),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.done) {
+                            if (snapshot.hasData && snapshot.data == true) {
+                              return Image.network(
+                                item.imagePath,
+                                width: 80,
+                                height: 80,
+                              );
+                            } else {
+                              return Image.network(
+                                "https://res.cloudinary.com/heyset/image/upload/v1689582418/buukmenow-folder/no-image-icon-0.jpg",
+                                width: 80,
+                                height: 80,
+                              );
+                            }
+                          } else {
+                            return CircularProgressIndicator();
+                          }
+                        },
                       ),
                     ),
                     const SizedBox(width: 10),
