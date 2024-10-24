@@ -1,0 +1,29 @@
+{
+  "name": "login_backend",
+  "version": "1.0.0",
+  "description": "The login backend",
+  "main": "index.js",
+  "scripts": {
+    "dev": "npx ts-node-dev --env-file=./.env src/index.ts",
+    "build": "rm -rf build/ && npx tsc",
+    "start": "node --env-file=./.env build/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "mobile-apps"
+  },
+  "author": "David Santiago Cárdenas Rivera",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.11.0"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.6",
+    "typescript": "^5.5.4"
+  }
+}

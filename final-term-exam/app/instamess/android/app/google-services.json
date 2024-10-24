@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "736502517872",
+    "project_id": "instamess-af60b",
+    "storage_bucket": "instamess-af60b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:736502517872:android:392bcb0678e56d0fd3a4b5",
+        "android_client_info": {
+          "package_name": "com.example.instamess"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC3p2EmXrdN3Am-9zRPj2JZcbTOSVWdnfI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
