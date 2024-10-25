@@ -1,4 +1,4 @@
-export default interface SqlUsers {
+export default interface SqlUser {
   EMAIL: string;
   HASH: string;
   PFP: string;
