@@ -6,7 +6,8 @@ export default abstract class AUser {
     protected name: string,
     protected hash: string,
     protected position: Position,
-    protected pfp: string,
+    protected pfp: Buffer,
+    protected imageType: string,
     protected phone: number
   ) {}
 
@@ -26,12 +27,16 @@ export default abstract class AUser {
     return this.position;
   }
 
-  getPfp(): string {
+  getPfp(): Buffer {
     return this.pfp;
   }
 
   getPhone(): number {
     return this.phone;
+  }
+
+  getImageType(): string {
+    return this.imageType;
   }
 
   setEmail(email: string): void {
@@ -50,12 +55,16 @@ export default abstract class AUser {
     this.position = position;
   }
 
-  setPfp(pfp: string): void {
+  setPfp(pfp: Buffer): void {
     this.pfp = pfp;
   }
 
   setPhone(phone: number): void {
     this.phone = phone;
+  }
+
+  setImageType(imageType: string): void {
+    this.imageType = imageType;
   }
 
   abstract isNull(): boolean;

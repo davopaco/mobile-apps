@@ -19,7 +19,13 @@ export default class AuthMiddleware {
 
     const isTokenValid = await this.userService.verifyJWT(token);
     if (isTokenValid) {
-      req.body.user = await this.userService.decodeJWT(token);
+      if (req.method === "POST") {
+        req.body.email = (await this.userService.decodeJWT(token)).email;
+        req.body.name = (await this.userService.decodeJWT(token)).name;
+      } else {
+        req.params.email = (await this.userService.decodeJWT(token)).email;
+        req.params.name = (await this.userService.decodeJWT(token)).name;
+      }
       next(); // Get the user from the token // The request is passed to the controller
       return;
     }

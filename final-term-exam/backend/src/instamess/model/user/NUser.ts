@@ -8,7 +8,8 @@ export default class NUser extends AUser {
       "Name not found",
       "Hash not found",
       new NPosition(),
-      "Pfp not found",
+      Buffer.alloc(0),
+      "Image type not found",
       0
     );
   }

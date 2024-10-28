@@ -1,51 +1,64 @@
 import JWTManager from "../../helper/JWTManager";
+import HttpLoginUser from "../model/interfaces/http/HttpLoginUser";
+import HttpRegisterUser from "../model/interfaces/http/HttpRegisterUser";
 import TokenUser from "../model/interfaces/TokenUser";
 import User from "../model/user/User";
+import PositionRepository from "../repository/PositionRepository";
 import UserRepository from "../repository/UserRepository";
 import bcrypt from "bcrypt";
 
 export default class UserService {
-  private salt: string;
+  private readonly salt: string;
 
   constructor(
     private readonly userRepository: UserRepository,
+    private readonly positionRepository: PositionRepository,
     private readonly jwtManager: JWTManager<TokenUser>
   ) {
     this.salt = bcrypt.genSaltSync(10);
   }
 
-  public async getUser(username: string): Promise<User> {
-    return await this.userRepository.get(username);
+  public async getUser(email: string): Promise<User> {
+    return await this.userRepository.get(email);
   }
 
-  public async addUser(
-    username: string,
-    name: string,
-    password: string
-  ): Promise<void> {
-    const hash = bcrypt.hashSync(password, this.salt);
-    const user = new User(username, name, hash);
-    await this.userRepository.create(user);
+  public async getAllUsers(): Promise<User[]> {
+    return await this.userRepository.getAll();
   }
 
-  public async checkPassword(
-    username: string,
-    password: string
-  ): Promise<boolean> {
-    const user = await this.userRepository.get(username);
+  public async addUser(httpRegisterUser: HttpRegisterUser): Promise<boolean> {
+    const hash = bcrypt.hashSync(httpRegisterUser.password, this.salt);
+    const position = await this.positionRepository.get(
+      httpRegisterUser.positionId
+    );
+
+    const user = new User(
+      httpRegisterUser.email,
+      httpRegisterUser.name,
+      hash,
+      position,
+      httpRegisterUser.pfp.buffer,
+      httpRegisterUser.pfp.mimetype,
+      httpRegisterUser.phone
+    );
+    return await this.userRepository.create(user);
+  }
+
+  public async checkPassword(httpLoginUser: HttpLoginUser): Promise<boolean> {
+    const user = await this.userRepository.get(httpLoginUser.email);
     if (!user.isNull()) {
-      return bcrypt.compareSync(password, user.getHash());
+      return bcrypt.compareSync(httpLoginUser.password, user.getHash());
     }
     return false;
   }
 
-  public async generateJWT(username: string): Promise<string> {
-    const user = await this.userRepository.get(username);
+  public async generateJWT(email: string): Promise<string> {
+    const user = await this.userRepository.get(email);
     if (user.isNull()) {
       return "";
     }
     const tokenGenerated = this.jwtManager.generateToken({
-      username: username,
+      email: email,
       name: user.getName(),
     });
     return tokenGenerated;

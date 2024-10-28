@@ -1,26 +1,34 @@
 import EnvironmentConfig from "../config/EnvironmentConfig";
 import ExpressRouter from "../express/interface/ExpressRouter";
 import JWTManager from "../helper/JWTManager";
-import FavItemController from "../items_manager/controller/FavItemController";
-import ItemController from "../items_manager/controller/ItemController";
-import LoginController from "../items_manager/controller/LoginController";
-import AuthMiddleware from "../items_manager/middleware/AuthMiddleware";
-import TokenUser from "../items_manager/model/interfaces/TokenUser";
-import FavItemRepository from "../items_manager/repository/FavItemRepository";
-import ItemRepository from "../items_manager/repository/ItemRepository";
-import UserRepository from "../items_manager/repository/UserRepository";
-import FavItemRouter from "../items_manager/router/FavItemRouter";
-import ItemRouter from "../items_manager/router/ItemRouter";
-import LoginRouter from "../items_manager/router/LoginRouter";
-import FavItemService from "../items_manager/services/FavItemService";
-import ItemService from "../items_manager/services/ItemService";
-import UserService from "../items_manager/services/UserService";
 import DatabaseEnvironment from "../config/DatabaseEnvironment";
 import MySqlDBC from "../util/database/MySqlDBC";
 import MySqlConnectionConfig from "../util/database/types/ConnectionInterface";
+import TokenUser from "../instamess/model/interfaces/TokenUser";
+import AuthMiddleware from "../instamess/middleware/AuthMiddleware";
+import UserController from "../instamess/controller/UserController";
+import PositionRepository from "../instamess/repository/PositionRepository";
+import PositionFactory from "../instamess/repository/factories/PositionFactory";
+import UserFactory from "../instamess/repository/factories/UserFactory";
+import DeviceFactory from "../instamess/repository/factories/DeviceFactory";
+import DeviceRepository from "../instamess/repository/DeviceRepository";
+import MessageFactory from "../instamess/repository/factories/MessageFactory";
+import MessageRepository from "../instamess/repository/MessageRepository";
+import DeviceMessageFactory from "../instamess/repository/factories/DeviceMessageFactory";
+import DeviceMessageRepository from "../instamess/repository/DeviceMessageRepository";
+import UserDeviceFactory from "../instamess/repository/factories/UserDeviceFactory";
+import UserDeviceRepository from "../instamess/repository/UserDeviceRepository";
+import UserService from "../instamess/services/UserService";
+import MessageService from "../instamess/services/MessageService";
+import Firebase from "../util/firebase/Firebase";
+import MessageController from "../instamess/controller/MessageController";
+import UserRouter from "../instamess/router/UserRouter";
+import MessageRouter from "../instamess/router/MessageRouter";
+import UserRepository from "../instamess/repository/UserRepository";
+import Multer from "../instamess/middleware/Multer";
 
 export default class InstamessFactory {
-  instantiate(): ExpressRouter[] {
+  createRouters(): ExpressRouter[] {
     //Environment
     const environmentConfiguration = new EnvironmentConfig();
     const databaseEnvironment = new DatabaseEnvironment();
@@ -35,39 +43,78 @@ export default class InstamessFactory {
     };
     const mySqlDbc = new MySqlDBC(mySqlConnectionConfig);
 
+    //Firebase
+    const firebase = Firebase.getInstance();
+
     //Helper
     const jwtManager = new JWTManager<TokenUser>(
       environmentConfiguration,
       "7d"
     );
 
-    //Repositories
-    const userRepository = new UserRepository(mySqlDbc);
-    const itemRepository = new ItemRepository(mySqlDbc);
-    const favItemRepository = new FavItemRepository(mySqlDbc, userRepository);
+    //Repositories and Factories
+    const postitionFactory = new PositionFactory();
+    const positionRepository = new PositionRepository(
+      mySqlDbc,
+      postitionFactory
+    );
+
+    const userFactory = new UserFactory(positionRepository);
+    const userRepository = new UserRepository(mySqlDbc, userFactory);
+
+    const deviceFactory = new DeviceFactory();
+    const deviceRepository = new DeviceRepository(mySqlDbc, deviceFactory);
+
+    const messageFactory = new MessageFactory(userRepository);
+    const messageRepository = new MessageRepository(mySqlDbc, messageFactory);
+
+    const deviceMessageFactory = new DeviceMessageFactory(
+      deviceRepository,
+      messageRepository
+    );
+    const deviceMessageRepository = new DeviceMessageRepository(
+      mySqlDbc,
+      deviceMessageFactory
+    );
+
+    const userDeviceFactory = new UserDeviceFactory(
+      userRepository,
+      deviceRepository
+    );
+    const userDeviceRepository = new UserDeviceRepository(
+      mySqlDbc,
+      userDeviceFactory
+    );
 
     //Services
-    const userService = new UserService(userRepository, jwtManager);
-    const itemService = new ItemService(itemRepository);
-    const favItemService = new FavItemService(
-      favItemRepository,
-      itemService,
-      userService
+    const userService = new UserService(
+      userRepository,
+      positionRepository,
+      jwtManager
+    );
+    const messageService = new MessageService(
+      deviceMessageRepository,
+      firebase,
+      userDeviceRepository,
+      userRepository
     );
 
     //Controllers
-    const loginController = new LoginController(userService);
-    const itemController = new ItemController(itemService);
-    const favItemController = new FavItemController(favItemService);
+    const userController = new UserController(userService);
+    const messageController = new MessageController(messageService);
 
     //Middleware
     const authMiddleware = new AuthMiddleware(userService);
+    const multerMiddleware = new Multer();
 
     //Routers
-    const loginRoute = new LoginRouter(loginController);
-    const itemRoute = new ItemRouter(itemController, authMiddleware);
-    const favItemRoute = new FavItemRouter(favItemController, authMiddleware);
+    const userRouter = new UserRouter(
+      userController,
+      authMiddleware,
+      multerMiddleware
+    );
+    const messageRouter = new MessageRouter(messageController, authMiddleware);
 
-    return [loginRoute, itemRoute, favItemRoute];
+    return [userRouter, messageRouter];
   }
 }

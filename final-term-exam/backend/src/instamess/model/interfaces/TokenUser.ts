@@ -1,4 +1,4 @@
 export default interface TokenUser {
-  username: string;
+  email: string;
   name: string;
 }

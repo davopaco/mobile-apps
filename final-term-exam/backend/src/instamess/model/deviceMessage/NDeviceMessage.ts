@@ -4,7 +4,7 @@ import ADeviceMessage from "./ADeviceMessage";
 
 export default class NDeviceMessage extends ADeviceMessage {
   constructor() {
-    super(new NDevice(), new NMessage());
+    super(new NDevice(), new NMessage(), "No response found on database.");
   }
 
   public isNull(): boolean {

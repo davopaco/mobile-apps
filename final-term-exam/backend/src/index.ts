@@ -4,6 +4,6 @@ import InstamessFactory from "./factory/InstamessFactory";
 
 const factory = new InstamessFactory();
 const envConfig = new EnvironmentConfig();
-const backendApp = new Express(factory.instantiate(), envConfig);
+const backendApp = new Express(factory.createRouters(), envConfig);
 
 backendApp.start();

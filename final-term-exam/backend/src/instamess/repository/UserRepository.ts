@@ -1,4 +1,4 @@
-import SqlUser from "../model/sql/SqlUser";
+import SqlUser from "../model/interfaces/sql/SqlUser";
 import User from "../model/user/User";
 import ARepository from "./ARepository";
 

@@ -1,10 +1,13 @@
+import User from "../user/User";
+
 export default abstract class AMessage {
   constructor(
     protected id: number,
     protected title: string,
     protected content: string,
     protected time: string,
-    protected date: Date
+    protected date: Date,
+    protected senderUser: User
   ) {}
 
   public getId(): number {
@@ -27,6 +30,10 @@ export default abstract class AMessage {
     return this.date;
   }
 
+  public getSenderUser(): User {
+    return this.senderUser;
+  }
+
   public setId(id: number): void {
     this.id = id;
   }
@@ -45,6 +52,10 @@ export default abstract class AMessage {
 
   public setDate(date: Date): void {
     this.date = date;
+  }
+
+  public setSenderUser(senderUser: User): void {
+    this.senderUser = senderUser;
   }
 
   public abstract isNull(): boolean;
