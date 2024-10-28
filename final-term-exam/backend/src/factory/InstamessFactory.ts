@@ -26,6 +26,9 @@ import UserRouter from "../instamess/router/UserRouter";
 import MessageRouter from "../instamess/router/MessageRouter";
 import UserRepository from "../instamess/repository/UserRepository";
 import Multer from "../instamess/middleware/Multer";
+import UserUseCase from "../instamess/usecases/UserUseCase";
+import DeviceService from "../instamess/services/DeviceService";
+import MessageUseCase from "../instamess/usecases/MessageUseCase";
 
 export default class InstamessFactory {
   createRouters(): ExpressRouter[] {
@@ -98,10 +101,19 @@ export default class InstamessFactory {
       userDeviceRepository,
       userRepository
     );
+    const deviceService = new DeviceService(
+      userRepository,
+      deviceRepository,
+      userDeviceRepository
+    );
+
+    //UseCases
+    const userUseCase = new UserUseCase(userService, deviceService);
+    const messageUseCase = new MessageUseCase(messageService);
 
     //Controllers
-    const userController = new UserController(userService);
-    const messageController = new MessageController(messageService);
+    const userController = new UserController(userUseCase);
+    const messageController = new MessageController(messageUseCase);
 
     //Middleware
     const authMiddleware = new AuthMiddleware(userService);

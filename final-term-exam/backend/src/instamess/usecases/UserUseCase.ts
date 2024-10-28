@@ -10,11 +10,14 @@ export default class UserUseCase {
   ) {}
 
   public async login(httpLogin: HttpLoginUser): Promise<string> {
+    console.log(httpLogin);
+
     const user = await this.userService.checkPassword(httpLogin);
 
     const device = await this.deviceService.getDeviceForToken(
       httpLogin.fcmToken
     );
+
     const result = await this.deviceService.addDeviceToUser(
       httpLogin.email,
       device.getId()

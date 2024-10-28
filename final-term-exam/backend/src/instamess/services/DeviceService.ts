@@ -18,7 +18,7 @@ export default class DeviceService {
       const device = new Device(0, token);
       const result = await this.deviceRepository.create(device);
       if (result) {
-        return device;
+        return await this.deviceRepository.getDeviceForToken(token);
       }
     }
     return new NDevice();
