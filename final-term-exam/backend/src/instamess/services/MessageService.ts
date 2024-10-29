@@ -47,8 +47,6 @@ export default class MessageService {
       recipientUser
     );
 
-    console.log(message);
-
     const messageBool = await this.messageRepository.create(message);
 
     if (!messageBool.created)
@@ -66,10 +64,16 @@ export default class MessageService {
       const firebaseMessage =
         this.firebase.convertDeviceMessageToFirebaseMessage(deviceMessage);
 
-      const response = await this.firebase
-        .getFirebaseApp()
-        .messaging()
-        .send(firebaseMessage);
+      let response = "";
+      try {
+        response = await this.firebase
+          .getFirebaseApp()
+          .messaging()
+          .send(firebaseMessage);
+      } catch (error) {
+        console.error(error);
+        return false;
+      }
 
       deviceMessage.setResponse(response);
 
