@@ -164,7 +164,8 @@ class _MessagePodState extends State<MessagePod> {
                               Text(
                                 message.date,
                                 softWrap: true,
-                                style: const TextStyle(fontSize: 14),
+                                style: const TextStyle(
+                                    fontSize: 14, color: Colors.grey),
                               )
                             ],
                           )
