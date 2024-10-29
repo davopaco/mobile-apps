@@ -39,7 +39,9 @@ export default abstract class ARepository<Model, IdType, SqlType> {
     }
   }
 
-  public async create(entity: Model): Promise<boolean> {
+  public async create(
+    entity: Model
+  ): Promise<{ created: boolean; lastIdInserted: any }> {
     try {
       const sql = this.modelFactory.createQuery;
       const result = await this.connection.query<ResultSetHeader>(
@@ -48,12 +50,12 @@ export default abstract class ARepository<Model, IdType, SqlType> {
       );
 
       if (result[0].affectedRows > 0) {
-        return true;
+        return { created: true, lastIdInserted: result[0].insertId };
       }
-      return false;
+      return { created: false, lastIdInserted: null };
     } catch (error) {
       console.error(error);
-      return false;
+      return { created: false, lastIdInserted: null };
     }
   }
 }

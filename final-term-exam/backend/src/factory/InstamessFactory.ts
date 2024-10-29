@@ -97,6 +97,7 @@ export default class InstamessFactory {
     );
     const messageService = new MessageService(
       deviceMessageRepository,
+      messageRepository,
       firebase,
       userDeviceRepository,
       userRepository

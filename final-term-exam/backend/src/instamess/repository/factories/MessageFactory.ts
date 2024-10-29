@@ -32,7 +32,7 @@ export default class MessageFactory implements IFactory<Message, SqlMessage> {
 
   setCreateParams(message: Message): any[] {
     const time = message.getTime();
-    const date = message.getDate();
+    const date = message.getDate().toISOString().split("T")[0];
     const timestamp = new Date(`${date}T${time}`);
 
     return [

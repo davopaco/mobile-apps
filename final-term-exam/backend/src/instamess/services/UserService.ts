@@ -42,7 +42,7 @@ export default class UserService {
       httpRegisterUser.pfp.mimetype,
       httpRegisterUser.phone
     );
-    return await this.userRepository.create(user);
+    return (await this.userRepository.create(user)).created;
   }
 
   public async checkPassword(httpLoginUser: HttpLoginUser): Promise<boolean> {

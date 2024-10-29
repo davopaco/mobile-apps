@@ -58,9 +58,11 @@ export default class DeviceService {
     );
 
     if (userDevice.isNull()) {
-      return await this.userDeviceRepository.create(
-        new UserDevice(user, device, true)
-      );
+      return (
+        await this.userDeviceRepository.create(
+          new UserDevice(user, device, true)
+        )
+      ).created;
     }
 
     return await this.userDeviceRepository.updateToLogged(
