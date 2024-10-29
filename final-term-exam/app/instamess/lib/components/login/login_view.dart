@@ -58,6 +58,21 @@ class _LoginViewState extends State<LoginView> {
                     .login(_usernameController.text, _passwordController.text);
               },
             ),
+            const SizedBox(height: 20),
+            const Text(
+              "Don't have an account?",
+              style: TextStyle(fontSize: 16),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/register');
+              },
+              child: const Text(
+                "Register",
+                style: TextStyle(
+                    fontSize: 16, color: Color.fromARGB(255, 64, 64, 64)),
+              ),
+            ),
           ],
         ),
       ),

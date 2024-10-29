@@ -1,72 +1,89 @@
-import 'package:items_list/components/items/items_view.dart';
-import 'package:items_list/components/login/login_view.dart';
-import 'package:items_list/repositories/api_fav_items_repository.dart';
-import 'package:items_list/repositories/fav_items_repository.dart';
-import 'package:items_list/repositories/items_repository.dart';
-import 'package:items_list/services/items_service.dart';
-import 'package:items_list/components/items_manager_app.dart';
-import 'package:items_list/repositories/login_repository.dart';
-import 'package:items_list/services/login_service.dart';
-import 'package:items_list/usecases/items_manager_usecase.dart';
-import 'package:items_list/usecases/items_usecase.dart';
-import 'package:items_list/usecases/login_usecase.dart';
-import 'package:items_list/util/sqlite_dbc.dart';
+import 'package:flutter/widgets.dart';
+import 'package:instamess/components/login/login_view.dart';
+import 'package:instamess/repositories/login_repository.dart';
+import 'package:instamess/repositories/message_repository.dart';
+import 'package:instamess/repositories/user_repository.dart';
+import 'package:instamess/services/login_service.dart';
+import 'package:instamess/services/message_service.dart';
+import 'package:instamess/services/user_service.dart';
+import 'package:instamess/usecases/app_usecase.dart';
+import 'package:instamess/usecases/login_usecase.dart';
+import 'package:instamess/usecases/message_usecase.dart';
+import 'package:instamess/usecases/user_usecase.dart';
 
 class AppFactory {
-  static Future<ItemsManagerApp> getItemsManagerApp() async {
+  static Widget getUsersView() {
     //Repositories
-    LoginRepository loginRepository = LoginRepository();
+    MessageRepository messageRepository = MessageRepository();
+    UserRepository userRepository = UserRepository();
 
     //Services
-    LoginService loginService = LoginService(loginRepository: loginRepository);
+    MessageService messageService =
+        MessageService(messageRepository: messageRepository);
+    UserService userService = UserService(userRepository: userRepository);
 
-    //UseCase
-    ItemsManagerUseCase itemsManagerUseCase =
-        ItemsManagerUseCase(loginService: loginService);
+    //UseCases
+    UserUsecase userUsecase = UserUsecase(userService: userService);
+    MessageUsecase messageUsecase = MessageUsecase(
+        messageService: messageService, userService: userService);
 
-    return ItemsManagerApp(itemManagerUseCase: itemsManagerUseCase);
+    return Container();
   }
 
-  static LoginView getLoginView() {
+  static Widget getMessagesView() {
     //Repositories
-    LoginRepository loginRepository = LoginRepository();
+    MessageRepository messageRepository = MessageRepository();
+    UserRepository userRepository = UserRepository();
 
     //Services
-    LoginService loginService = LoginService(loginRepository: loginRepository);
+    MessageService messageService =
+        MessageService(messageRepository: messageRepository);
+    UserService userService = UserService(userRepository: userRepository);
 
-    //UseCase
-    LoginUsecase loginUseCase = LoginUsecase(loginService: loginService);
+    //UseCases
+    UserUsecase userUsecase = UserUsecase(userService: userService);
+    MessageUsecase messageUsecase = MessageUsecase(
+        messageService: messageService, userService: userService);
 
-    return LoginView(
-      loginUsecase: loginUseCase,
-    );
+    return Container();
   }
 
-  static Future<ItemsView> getItemsView({required bool isFavoriteView}) async {
-    SqliteDbc sqliteDbc = await SqliteDbc.createInstance();
-
+  static Widget getLoginView() {
     //Repositories
     LoginRepository loginRepository = LoginRepository();
-    ItemsRepository itemsRepository =
-        ItemsRepository(loginRepository: loginRepository);
-    FavItemsRepository favItemsRepository =
-        FavItemsRepository(sqliteDbc: sqliteDbc);
-    APIFavItemsRepository apiFavItemsRepository =
-        APIFavItemsRepository(loginRepository: loginRepository);
 
     //Services
-    ItemsService itemsService = await ItemsService.createInstance(
-        apiFavItemsRepository, favItemsRepository, itemsRepository);
     LoginService loginService = LoginService(loginRepository: loginRepository);
 
-    //UseCase
-    ItemsUseCase itemsUseCase = ItemsUseCase(itemsService: itemsService);
-    LoginUsecase loginUseCase = LoginUsecase(loginService: loginService);
+    //UseCases
+    LoginUsecase loginUsecase = LoginUsecase(loginService: loginService);
 
-    return ItemsView(
-      loginUsecase: loginUseCase,
-      isFavoriteView: isFavoriteView,
-      itemsUseCase: itemsUseCase,
-    );
+    return LoginView(loginUsecase: loginUsecase);
+  }
+
+  static Widget getRegisterView() {
+    //Repositories
+    UserRepository userRepository = UserRepository();
+
+    //Services
+    UserService userService = UserService(userRepository: userRepository);
+
+    //UseCases
+    UserUsecase userUsecase = UserUsecase(userService: userService);
+
+    return Container();
+  }
+
+  static Future<Widget> getInstamessView() {
+    //Repositories
+    LoginRepository loginRepository = LoginRepository();
+
+    //Services
+    LoginService loginService = LoginService(loginRepository: loginRepository);
+
+    //UseCases
+    AppUsecase appUsecase = AppUsecase(loginService: loginService);
+
+    return appUsecase.getInstamessView();
   }
 }
