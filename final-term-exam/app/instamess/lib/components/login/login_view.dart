@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import "package:flutter_dotenv/flutter_dotenv.dart";
 import 'package:instamess/components/login/login_button.dart';
-import 'package:instamess/components/login/login_textf.dart';
+import 'package:instamess/components/general_textf.dart';
 import 'package:instamess/model/interfaces/user_login.dart';
 import 'package:instamess/usecases/login_usecase.dart';
 
@@ -42,11 +42,11 @@ class _LoginViewState extends State<LoginView> {
                   scale: 0.5),
             ),
             const SizedBox(height: 70),
-            LoginTextField(
+            GeneralTextField(
               labelText: "Email",
               eController: _emailController,
             ),
-            LoginTextField(
+            GeneralTextField(
               labelText: "Contraseña",
               eController: _passwordController,
               obscureText: true,

@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:instamess/components/general_button.dart';
+import 'package:instamess/components/messages/message_modal.dart';
 import 'package:instamess/model/user.dart';
 
 class ProfileView extends StatelessWidget {
@@ -65,11 +67,23 @@ class ProfileView extends StatelessWidget {
                 title: "Enviar mensaje",
                 icon: Icons.message,
                 color: Colors.green,
-                callback: () {}),
+                callback: () {
+                  showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(25.0),
+                        ),
+                      ),
+                      builder: (BuildContext context) {
+                        return const MessageModal();
+                      });
+                }),
             GeneralButton(
                 title: "Regresar",
                 icon: Icons.arrow_back_ios,
-                color: Color.fromARGB(255, 64, 64, 64),
+                color: const Color.fromARGB(255, 64, 64, 64),
                 callback: () {
                   Get.back();
                 }),
