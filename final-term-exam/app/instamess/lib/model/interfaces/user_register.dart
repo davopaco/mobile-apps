@@ -1,10 +1,13 @@
+import 'dart:io';
+
 class UserRegister {
   String email;
   String password;
   String name;
   String fcmToken;
-  BigInt phone;
+  int phone;
   int positionId;
+  File profileImage;
 
   UserRegister(
       {required this.email,
@@ -12,7 +15,8 @@ class UserRegister {
       required this.name,
       required this.fcmToken,
       required this.phone,
-      required this.positionId});
+      required this.positionId,
+      required this.profileImage});
 
   toJson() {
     return {
@@ -21,7 +25,8 @@ class UserRegister {
       'name': name,
       'fcmToken': fcmToken,
       'phone': phone,
-      'positionId': positionId
+      'positionId': positionId,
+      'profileImage': profileImage
     };
   }
 }

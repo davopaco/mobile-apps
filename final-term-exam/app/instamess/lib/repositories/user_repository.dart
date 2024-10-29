@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
+import 'package:instamess/model/position.dart';
 import 'package:instamess/model/user.dart';
 import 'package:instamess/repositories/login_repository.dart';
 
@@ -49,5 +50,26 @@ class UserRepository {
     } else {
       throw Exception('Failed to load the user with email $email');
     }
+  }
+
+  Future<List<Position>> getAllPositions() {
+    String route = '$hostEndpoint/position/all';
+    Map<String, String> headers = {
+      'Content-Type': 'application/json',
+    };
+
+    return http.get(Uri.parse(route), headers: headers).then((response) {
+      if (response.statusCode == 200) {
+        dynamic jsonResponse = jsonDecode(response.body);
+        List<dynamic> positionsJson = jsonResponse['positions'];
+        List<Position> positions = [];
+        for (var positionJson in positionsJson) {
+          positions.add(Position.fromJson(positionJson));
+        }
+        return positions;
+      } else {
+        throw Exception('Failed to load positions');
+      }
+    });
   }
 }

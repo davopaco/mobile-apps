@@ -25,7 +25,7 @@ class LoginUseCase {
     final result = await _loginService.register(userRegister);
     if (result) {
       Get.snackbar("Registration Succesful!", "Welcome, ${userRegister.name}");
-      Get.offAllNamed("/items");
+      Get.offAllNamed("/users");
       return true;
     }
     Get.snackbar("Registration failed", "There was a problem registering");

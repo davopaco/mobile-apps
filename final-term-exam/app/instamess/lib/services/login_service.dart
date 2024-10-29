@@ -55,22 +55,26 @@ class LoginService {
   }
 
   Future<bool> register(UserRegister userRegister) async {
-    final headers = {
-      'Content-Type': 'application/json',
-    };
+    var request =
+        http.MultipartRequest('POST', Uri.parse('$host:$port/user/register'));
 
-    final body = jsonEncode(userRegister.toJson());
+    request.files.add(await http.MultipartFile.fromPath(
+        'pfp', userRegister.profileImage.path));
+
+    request.fields['email'] = userRegister.email;
+    request.fields['password'] = userRegister.password;
+    request.fields['name'] = userRegister.name;
+    request.fields['fcmToken'] = await _firebaseRepository.getToken();
+    request.fields['phone'] = userRegister.phone.toString();
+    request.fields['positionId'] = userRegister.positionId.toString();
 
     try {
-      final url = '$host:$port/user/register';
-      final response = await http.post(
-        Uri.parse(url),
-        headers: headers,
-        body: body,
-      );
+      final response = await request.send();
 
-      if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
+      print(response.statusCode);
+      if (response.statusCode == 201) {
+        final responseBody = await response.stream.bytesToString();
+        final data = jsonDecode(responseBody);
         final token = data['token'];
         return await _loginRepository
             .storeToken(token); //User has successfully registered

@@ -1,6 +1,6 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/widgets.dart';
 import 'package:instamess/components/login/login_view.dart';
+import 'package:instamess/components/login/register_view.dart';
 import 'package:instamess/components/messages/messages_view.dart';
 import 'package:instamess/components/users/users_view.dart';
 import 'package:instamess/repositories/firebase_repository.dart';
@@ -81,7 +81,10 @@ class AppFactory {
   }
 
   static Widget getRegisterView() {
-    return Container();
+    return RegisterView(
+      loginUsecase: getLoginUseCase(),
+      userUsecase: getUserUseCase(),
+    );
   }
 
   static Future<Widget> getInstamessView() {

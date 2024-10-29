@@ -2,6 +2,7 @@ import { ResultSetHeader } from "mysql2";
 import SqlUserDevice from "../model/interfaces/sql/SqlUserDevice";
 import UserDevice from "../model/userDevice/UserDevice";
 import ARepository from "./ARepository";
+import NUserDevice from "../model/userDevice/NUserDevice";
 
 export default class UserDeviceRepository extends ARepository<
   UserDevice,
@@ -13,6 +14,9 @@ export default class UserDeviceRepository extends ARepository<
     return await this.connection
       .query<SqlUserDevice>(sql, [email, deviceId])
       .then((rows) => {
+        if (rows.length === 0) {
+          return new NUserDevice();
+        }
         return this.modelFactory.modelFactory(rows[0]);
       });
   }

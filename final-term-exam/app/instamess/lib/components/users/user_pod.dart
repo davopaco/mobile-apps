@@ -54,9 +54,12 @@ class _UserPodState extends State<UserPod> {
               children: [
                 Row(
                   children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
-                      child: Image.memory(_imageBytes, width: 80, height: 80),
+                    FittedBox(
+                      fit: BoxFit.cover,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: Image.memory(_imageBytes, width: 80, height: 80),
+                      ),
                     ),
                     const SizedBox(width: 10),
                     Expanded(

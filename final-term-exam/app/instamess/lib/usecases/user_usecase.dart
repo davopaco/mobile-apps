@@ -1,3 +1,4 @@
+import 'package:instamess/model/position.dart';
 import 'package:instamess/model/user.dart';
 import 'package:instamess/services/user_service.dart';
 
@@ -8,5 +9,9 @@ class UserUsecase {
 
   Future<List<User>> getAllUsers() async {
     return await _userService.getAllUsers();
+  }
+
+  Future<List<Position>> getAllPositions() async {
+    return await _userService.getAllPositions();
   }
 }
