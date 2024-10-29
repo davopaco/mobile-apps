@@ -68,6 +68,24 @@ export default class UserController {
     }
   }
 
+  public async logout(req: Request, res: Response): Promise<void> {
+    const email = req.body.email as string;
+    const fcmToken = req.body.fcmToken as string;
+
+    if (!email || !fcmToken) {
+      res.status(400).json({ message: "Missing email or fcmToken" });
+      return;
+    }
+
+    const logout = await this.userUseCase.logout(email, fcmToken);
+
+    if (logout) {
+      res.status(200).json({ message: "Logout successful" });
+    } else {
+      res.status(500).json({ message: "Internal server error" });
+    }
+  }
+
   public async getAllUsers(_req: Request, res: Response): Promise<void> {
     const users = await this.userUseCase.getAllUsers();
 

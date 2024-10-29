@@ -11,6 +11,8 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 class LoginService {
   final LoginRepository _loginRepository;
   final FirebaseRepository _firebaseRepository;
+  final host = dotenv.env['HOST'] ?? 'http://192.168.1.3';
+  final port = dotenv.env['PORT'] ?? '3000';
 
   LoginService(
       {required LoginRepository loginRepository,
@@ -24,9 +26,6 @@ class LoginService {
     };
 
     userLogin.fcmToken = await _firebaseRepository.getToken();
-
-    final host = dotenv.env['HOST'] ?? 'http://192.168.0.1';
-    final port = dotenv.env['PORT'] ?? '3000';
 
     final body = jsonEncode(userLogin.toJson());
 
@@ -60,9 +59,6 @@ class LoginService {
       'Content-Type': 'application/json',
     };
 
-    final host = dotenv.env['HOST'] ?? 'http://192.168.0.1';
-    final port = dotenv.env['PORT'] ?? '3000';
-
     final body = jsonEncode(userRegister.toJson());
 
     try {
@@ -89,7 +85,33 @@ class LoginService {
   }
 
   Future<bool> logout() async {
-    return await _loginRepository.removeToken();
+    try {
+      final jwtToken = await _loginRepository.getToken();
+      final fcmToken = await _firebaseRepository.getToken();
+
+      final headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $jwtToken',
+      };
+
+      final body = jsonEncode({'fcmToken': fcmToken});
+
+      final url = '$host:$port/user/logout';
+
+      final response = await http.post(
+        Uri.parse(url),
+        headers: headers,
+        body: body,
+      );
+
+      if (response.statusCode == 200) {
+        await _loginRepository.removeToken();
+        return true;
+      }
+      return false;
+    } catch (e) {
+      return false;
+    }
   }
 
   Future<bool> isLoggedIn() async {

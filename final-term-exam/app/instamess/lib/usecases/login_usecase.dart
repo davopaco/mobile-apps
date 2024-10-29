@@ -3,10 +3,10 @@ import 'package:instamess/model/interfaces/user_login.dart';
 import 'package:instamess/model/interfaces/user_register.dart';
 import 'package:instamess/services/login_service.dart';
 
-class LoginUsecase {
+class LoginUseCase {
   final LoginService _loginService;
 
-  LoginUsecase({required LoginService loginService})
+  LoginUseCase({required LoginService loginService})
       : _loginService = loginService;
 
   Future<bool> login(UserLogin userLogin) async {

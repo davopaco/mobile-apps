@@ -15,49 +15,8 @@ import 'package:instamess/usecases/message_usecase.dart';
 import 'package:instamess/usecases/user_usecase.dart';
 
 class AppFactory {
-  static Widget getUsersView() {
-    //Repositories
-    LoginRepository loginRepository = LoginRepository();
-    MessageRepository messageRepository =
-        MessageRepository(loginRepository: loginRepository);
-    UserRepository userRepository =
-        UserRepository(loginRepository: loginRepository);
-
-    //Services
-    MessageService messageService =
-        MessageService(messageRepository: messageRepository);
-    UserService userService = UserService(userRepository: userRepository);
-
-    //UseCases
-    UserUsecase userUsecase = UserUsecase(userService: userService);
-    MessageUsecase messageUsecase = MessageUsecase(
-        messageService: messageService, userService: userService);
-
-    return UsersView(userUsecase: userUsecase, messageUsecase: messageUsecase);
-  }
-
-  static Widget getMessagesView() {
-    //Repositories
-    LoginRepository loginRepository = LoginRepository();
-    MessageRepository messageRepository =
-        MessageRepository(loginRepository: loginRepository);
-    UserRepository userRepository =
-        UserRepository(loginRepository: loginRepository);
-
-    //Services
-    MessageService messageService =
-        MessageService(messageRepository: messageRepository);
-    UserService userService = UserService(userRepository: userRepository);
-
-    //UseCases
-    UserUsecase userUsecase = UserUsecase(userService: userService);
-    MessageUsecase messageUsecase = MessageUsecase(
-        messageService: messageService, userService: userService);
-
-    return Container();
-  }
-
-  static Widget getLoginView() {
+  // UseCases Factory
+  static LoginUseCase getLoginUseCase() {
     //Repositories
     LoginRepository loginRepository = LoginRepository();
     FirebaseRepository firebaseRepository = FirebaseRepository();
@@ -68,12 +27,10 @@ class AppFactory {
         firebaseRepository: firebaseRepository);
 
     //UseCases
-    LoginUsecase loginUsecase = LoginUsecase(loginService: loginService);
-
-    return LoginView(loginUsecase: loginUsecase);
+    return LoginUseCase(loginService: loginService);
   }
 
-  static Widget getRegisterView() {
+  static UserUsecase getUserUseCase() {
     //Repositories
     LoginRepository loginRepository = LoginRepository();
     UserRepository userRepository =
@@ -83,8 +40,45 @@ class AppFactory {
     UserService userService = UserService(userRepository: userRepository);
 
     //UseCases
-    UserUsecase userUsecase = UserUsecase(userService: userService);
+    return UserUsecase(userService: userService);
+  }
 
+  static MessageUsecase getMessageUseCase() {
+    //Repositories
+    LoginRepository loginRepository = LoginRepository();
+    MessageRepository messageRepository =
+        MessageRepository(loginRepository: loginRepository);
+    UserRepository userRepository =
+        UserRepository(loginRepository: loginRepository);
+
+    //Services
+    MessageService messageService =
+        MessageService(messageRepository: messageRepository);
+    UserService userService = UserService(userRepository: userRepository);
+
+    //UseCases
+    return MessageUsecase(
+        messageService: messageService, userService: userService);
+  }
+
+  // Views Factory
+  static Widget getUsersView() {
+    return UsersView(
+      userUsecase: getUserUseCase(),
+      messageUsecase: getMessageUseCase(),
+      loginUsecase: getLoginUseCase(),
+    );
+  }
+
+  static Widget getMessagesView() {
+    return Container();
+  }
+
+  static Widget getLoginView() {
+    return LoginView(loginUsecase: getLoginUseCase());
+  }
+
+  static Widget getRegisterView() {
     return Container();
   }
 

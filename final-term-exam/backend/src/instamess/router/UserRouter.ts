@@ -25,6 +25,12 @@ export default class UserRouter implements ExpressRouter {
     );
 
     this.router.post(
+      "/logout",
+      this.authMiddleware.verify.bind(this.authMiddleware),
+      this.userController.logout.bind(this.userController)
+    );
+
+    this.router.post(
       "/register",
       this.multerMiddleware.getUpload().single("pfp"),
       this.userController.register.bind(this.userController)

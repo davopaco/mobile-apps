@@ -6,7 +6,8 @@ import 'package:instamess/model/interfaces/user_login.dart';
 import 'package:instamess/usecases/login_usecase.dart';
 
 class LoginView extends StatefulWidget {
-  final LoginUsecase loginUsecase;
+  final LoginUseCase loginUsecase;
+
   final host = dotenv.env['HOST'] ?? 'http://192.168.0.1';
   final port = dotenv.env['PORT'] ?? '3000';
 
