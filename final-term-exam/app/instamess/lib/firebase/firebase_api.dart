@@ -1,7 +1,9 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:instamess/repositories/firebase_repository.dart';
 
 class FirebaseApi {
   final _firebaseMessaging = FirebaseMessaging.instance;
+  final _firebaseRepository = FirebaseRepository();
 
   Future<void> initNotifications() async {
     await _firebaseMessaging.requestPermission(
@@ -12,7 +14,8 @@ class FirebaseApi {
     );
 
     final fcmToken = await _firebaseMessaging.getToken();
-
-    print('FCM Token: $fcmToken');
+    if (fcmToken != null) {
+      await _firebaseRepository.storeToken(fcmToken);
+    }
   }
 }
