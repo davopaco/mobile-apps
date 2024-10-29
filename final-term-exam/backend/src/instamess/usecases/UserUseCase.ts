@@ -87,4 +87,8 @@ export default class UserUseCase {
   public async getAllUsers() {
     return await this.userService.getAllUsers();
   }
+
+  public async getAllPositions() {
+    return await this.userService.getAllPositions();
+  }
 }

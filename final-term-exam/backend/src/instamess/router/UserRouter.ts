@@ -35,5 +35,10 @@ export default class UserRouter implements ExpressRouter {
       this.authMiddleware.verify.bind(this.authMiddleware),
       this.userController.getAllUsers.bind(this.userController)
     );
+
+    this.router.get(
+      "/position/all",
+      this.userController.getAllPositions.bind(this.userController)
+    );
   }
 }

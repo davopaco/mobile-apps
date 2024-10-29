@@ -71,4 +71,9 @@ export default class UserController {
     const users = await this.userUseCase.getAllUsers();
     res.status(200).json({ users: users });
   }
+
+  public async getAllPositions(_req: Request, res: Response): Promise<void> {
+    const positions = await this.userUseCase.getAllPositions();
+    res.status(200).json({ positions: positions });
+  }
 }

@@ -13,15 +13,11 @@ export default class MessageFactory implements IFactory<Message, SqlMessage> {
   constructor(private readonly userRepository: UserRepository) {}
 
   async modelFactory(sqlMessage: SqlMessage): Promise<Message> {
-    const time = sqlMessage.TIMESTAMP.toString().split("T")[1];
-    const date = new Date(sqlMessage.TIMESTAMP.toString().split("T")[0]);
-
     return new Message(
       sqlMessage.ID,
       sqlMessage.TITLE,
       sqlMessage.CONTENT,
-      time,
-      date,
+      sqlMessage.TIMESTAMP,
       await this.userRepository.get(sqlMessage.USER_ORIGIN_EMAIL)
     );
   }
@@ -31,14 +27,10 @@ export default class MessageFactory implements IFactory<Message, SqlMessage> {
   }
 
   setCreateParams(message: Message): any[] {
-    const time = message.getTime();
-    const date = message.getDate().toISOString().split("T")[0];
-    const timestamp = new Date(`${date}T${time}`);
-
     return [
       message.getTitle(),
       message.getContent(),
-      timestamp,
+      message.getDate(),
       message.getSenderUser().getEmail(),
     ];
   }

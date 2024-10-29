@@ -2,6 +2,7 @@ import JWTManager from "../../helper/JWTManager";
 import HttpLoginUser from "../model/interfaces/http/HttpLoginUser";
 import HttpRegisterUser from "../model/interfaces/http/HttpRegisterUser";
 import TokenUser from "../model/interfaces/TokenUser";
+import Position from "../model/position/Position";
 import User from "../model/user/User";
 import PositionRepository from "../repository/PositionRepository";
 import UserRepository from "../repository/UserRepository";
@@ -71,5 +72,9 @@ export default class UserService {
 
   public async decodeJWT(token: string): Promise<TokenUser> {
     return this.jwtManager.decodeToken(token);
+  }
+
+  public async getAllPositions(): Promise<Position[]> {
+    return await this.positionRepository.getAll();
   }
 }

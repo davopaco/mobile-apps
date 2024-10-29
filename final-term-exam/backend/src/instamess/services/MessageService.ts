@@ -43,7 +43,6 @@ export default class MessageService {
       0, // This is a placeholder value, it will be replaced by the database
       userMessage.title,
       userMessage.content,
-      currentDate.toLocaleTimeString(),
       currentDate,
       senderUser
     );

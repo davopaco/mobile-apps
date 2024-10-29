@@ -7,7 +7,6 @@ export default class NMessage extends AMessage {
       -1,
       "No title found in the database",
       "No content found in the database",
-      "00:00:00",
       new Date(),
       new NUser()
     );

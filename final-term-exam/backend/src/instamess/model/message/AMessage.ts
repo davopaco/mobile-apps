@@ -5,7 +5,6 @@ export default abstract class AMessage {
     protected id: number,
     protected title: string,
     protected content: string,
-    protected time: string,
     protected date: Date,
     protected senderUser: User
   ) {}
@@ -20,10 +19,6 @@ export default abstract class AMessage {
 
   public getContent(): string {
     return this.content;
-  }
-
-  public getTime(): string {
-    return this.time;
   }
 
   public getDate(): Date {
@@ -44,10 +39,6 @@ export default abstract class AMessage {
 
   public setContent(content: string): void {
     this.content = content;
-  }
-
-  public setTime(time: string): void {
-    this.time = time;
   }
 
   public setDate(date: Date): void {

@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import HttpUserMessage from "../model/interfaces/http/HttpUserMessage";
 import MessageUseCase from "../usecases/MessageUseCase";
+import MessageReturn from "../model/interfaces/http/MessageReturn";
 
 export default class MessageController {
   constructor(private readonly messageUseCase: MessageUseCase) {}
@@ -13,7 +14,20 @@ export default class MessageController {
 
     try {
       const messages = await this.messageUseCase.getAllMessagesForUser(email);
-      res.status(200).json({ messages });
+
+      const messagesToSend: MessageReturn[] = messages.map((message) => {
+        return {
+          id: message.getId(),
+          title: message.getTitle(),
+          content: message.getContent(),
+          date: message
+            .getDate()
+            .toLocaleString("en-US", { timeZone: "America/Bogota" }),
+          email: message.getSenderUser().getEmail(),
+        };
+      });
+
+      res.status(200).json({ messages: messagesToSend });
     } catch (e) {
       console.log(e);
       res
@@ -33,11 +47,9 @@ export default class MessageController {
       }
     } catch (e) {
       console.log(e);
-      res
-        .status(500)
-        .json({
-          message: "There was an error while sending the message. Try again!",
-        });
+      res.status(500).json({
+        message: "There was an error while sending the message. Try again!",
+      });
     }
   }
 }
