@@ -1,8 +1,9 @@
 import { Request, Response } from "express";
-import HttpRegisterUser from "../model/interfaces/http/HttpRegisterUser";
-import HttpLoginUser from "../model/interfaces/http/HttpLoginUser";
+import HttpRegisterUser from "../model/interfaces/http/incoming/HttpRegisterUser";
+import HttpLoginUser from "../model/interfaces/http/incoming/HttpLoginUser";
 import UploadRequest from "../model/interfaces/http/UploadRequest";
 import UserUseCase from "../usecases/UserUseCase";
+import UserReturn from "../model/interfaces/http/return/UserReturn";
 
 export default class UserController {
   constructor(private readonly userUseCase: UserUseCase) {}
@@ -69,7 +70,21 @@ export default class UserController {
 
   public async getAllUsers(_req: Request, res: Response): Promise<void> {
     const users = await this.userUseCase.getAllUsers();
-    res.status(200).json({ users: users });
+
+    const returnUsers: UserReturn[] = users.map((user) => {
+      const base64Image = user.getPfp().toString("base64");
+      const pfp = `data:${user.getImageType()};base64,${base64Image}`;
+
+      return {
+        email: user.getEmail(),
+        name: user.getName(),
+        phone: user.getPhone(),
+        position: user.getPosition().getName(),
+        pfp: pfp,
+      };
+    });
+
+    res.status(200).json({ users: returnUsers });
   }
 
   public async getAllPositions(_req: Request, res: Response): Promise<void> {
