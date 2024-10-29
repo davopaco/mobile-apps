@@ -84,6 +84,10 @@ export default class UserUseCase {
     return result;
   }
 
+  public async getUser(email: string) {
+    return await this.userService.getUser(email);
+  }
+
   public async getAllUsers() {
     return await this.userService.getAllUsers();
   }

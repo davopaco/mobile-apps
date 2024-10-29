@@ -23,7 +23,8 @@ export default class MessageController {
           date: message
             .getDate()
             .toLocaleString("en-US", { timeZone: "America/Bogota" }),
-          email: message.getSenderUser().getEmail(),
+          senderEmail: message.getSenderUser().getEmail(),
+          recipientEmail: email,
         };
       });
 

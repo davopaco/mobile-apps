@@ -3,5 +3,6 @@ export default interface MessageReturn {
   title: string;
   content: string;
   date: string;
-  email: string;
+  senderEmail: string;
+  recipientEmail: string;
 }

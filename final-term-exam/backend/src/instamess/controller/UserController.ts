@@ -87,6 +87,30 @@ export default class UserController {
     res.status(200).json({ users: returnUsers });
   }
 
+  public async getUser(req: Request, res: Response): Promise<void> {
+    const emailToGet = req.query.emailToGet as string;
+
+    if (!emailToGet) {
+      res.status(400).json({ message: "Missing email" });
+      return;
+    }
+
+    const user = await this.userUseCase.getUser(emailToGet);
+
+    const base64Image = user.getPfp().toString("base64");
+    const pfp = `data:${user.getImageType()};base64,${base64Image}`;
+
+    const returnUser: UserReturn = {
+      email: user.getEmail(),
+      name: user.getName(),
+      phone: user.getPhone(),
+      position: user.getPosition().getName(),
+      pfp: pfp,
+    };
+
+    res.status(200).json({ user: returnUser });
+  }
+
   public async getAllPositions(_req: Request, res: Response): Promise<void> {
     const positions = await this.userUseCase.getAllPositions();
     res.status(200).json({ positions: positions });

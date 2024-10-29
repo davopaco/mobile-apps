@@ -23,4 +23,29 @@ class MessageRepository {
       throw Exception('Failed to load messages');
     }
   }
+
+  Future<dynamic> sendMessage(
+      {required String title,
+      required String content,
+      required String recipientEmail}) async {
+    String route = '$hostEndpoint/send';
+
+    dynamic messageJson = {
+      'title': title,
+      'content': content,
+      'recipientEmail': recipientEmail
+    };
+
+    final response = await http.post(Uri.parse(route),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(messageJson));
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception('Failed to send message');
+    }
+  }
 }
