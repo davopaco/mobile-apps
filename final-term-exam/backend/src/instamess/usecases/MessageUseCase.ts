@@ -1,5 +1,5 @@
 import ErrorMessage from "../model/interfaces/ErrorMessage";
-import HttpUserMessage from "../model/interfaces/http/incoming/HttpUserMessage";
+import HttpUserMessage from "../model/interfaces/http/request/HttpUserMessage";
 import Message from "../model/message/Message";
 import MessageService from "../services/MessageService";
 

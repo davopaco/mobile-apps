@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import HttpRegisterUser from "../model/interfaces/http/incoming/HttpRegisterUser";
-import HttpLoginUser from "../model/interfaces/http/incoming/HttpLoginUser";
-import UploadRequest from "../model/interfaces/http/UploadRequest";
+import HttpRegisterUser from "../model/interfaces/http/request/HttpRegisterUser";
+import HttpLoginUser from "../model/interfaces/http/request/HttpLoginUser";
+import UploadRequest from "../model/interfaces/http/request/UploadRequest";
 import UserUseCase from "../usecases/UserUseCase";
-import UserReturn from "../model/interfaces/http/return/UserReturn";
+import UserReturn from "../model/interfaces/http/response/UserReturn";
 
 export default class UserController {
   constructor(private readonly userUseCase: UserUseCase) {}

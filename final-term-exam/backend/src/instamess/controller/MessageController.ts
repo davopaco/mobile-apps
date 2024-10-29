@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import HttpUserMessage from "../model/interfaces/http/incoming/HttpUserMessage";
+import HttpUserMessage from "../model/interfaces/http/request/HttpUserMessage";
 import MessageUseCase from "../usecases/MessageUseCase";
-import MessageReturn from "../model/interfaces/http/return/MessageReturn";
+import MessageReturn from "../model/interfaces/http/response/MessageReturn";
 
 export default class MessageController {
   constructor(private readonly messageUseCase: MessageUseCase) {}

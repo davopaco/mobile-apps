@@ -1,5 +1,5 @@
-import HttpLoginUser from "../model/interfaces/http/incoming/HttpLoginUser";
-import HttpRegisterUser from "../model/interfaces/http/incoming/HttpRegisterUser";
+import HttpLoginUser from "../model/interfaces/http/request/HttpLoginUser";
+import HttpRegisterUser from "../model/interfaces/http/request/HttpRegisterUser";
 import DeviceService from "../services/DeviceService";
 import UserService from "../services/UserService";
 
