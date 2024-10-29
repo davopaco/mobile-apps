@@ -10,4 +10,8 @@ class UserService {
   Future<List<User>> getAllUsers() async {
     return await _userRepository.getUsers();
   }
+
+  Future<User> getUserByEmail(String email) async {
+    return await _userRepository.getUser(email);
+  }
 }

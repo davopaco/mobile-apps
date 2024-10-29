@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
+import 'package:instamess/model/interfaces/message_to_send.dart';
 import 'package:instamess/model/message.dart';
 
 class MessageRepository {
@@ -24,16 +25,13 @@ class MessageRepository {
     }
   }
 
-  Future<dynamic> sendMessage(
-      {required String title,
-      required String content,
-      required String recipientEmail}) async {
+  Future<dynamic> sendMessage(MessageToSend messageToSend) async {
     String route = '$hostEndpoint/send';
 
     dynamic messageJson = {
-      'title': title,
-      'content': content,
-      'recipientEmail': recipientEmail
+      'title': messageToSend.title,
+      'content': messageToSend.content,
+      'recipientEmail': messageToSend.recipientEmail
     };
 
     final response = await http.post(Uri.parse(route),

@@ -23,4 +23,17 @@ class UserRepository {
       throw Exception('Failed to load users');
     }
   }
+
+  Future<User> getUser(String email) async {
+    String route = '$hostEndpoint?emailToGet=$email';
+
+    final response = await http.get(Uri.parse(route));
+    if (response.statusCode == 200) {
+      dynamic jsonResponse = jsonDecode(response.body);
+      dynamic userJson = jsonResponse['user'];
+      return User.fromJson(userJson);
+    } else {
+      throw Exception('Failed to load the user with email $email');
+    }
+  }
 }
