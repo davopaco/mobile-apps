@@ -30,7 +30,7 @@ class _UsersViewState extends State<UsersView> {
             const SizedBox(height: 10),
             Expanded(
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: FutureBuilder(
                   future: widget.userUsecase.getAllUsers(),
                   builder: (context, snapshot) {
