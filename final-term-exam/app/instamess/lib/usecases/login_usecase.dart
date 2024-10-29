@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:instamess/model/interfaces/user_login.dart';
 import 'package:instamess/model/interfaces/user_register.dart';
 import 'package:instamess/services/login_service.dart';
 
@@ -8,15 +9,15 @@ class LoginUsecase {
   LoginUsecase({required LoginService loginService})
       : _loginService = loginService;
 
-  Future<bool> login(String username, String password) async {
-    final result = await _loginService.login(username, password);
+  Future<bool> login(UserLogin userLogin) async {
+    final result = await _loginService.login(userLogin);
     final name = await _loginService.getName();
     if (result) {
       Get.snackbar("Login Succesful!", "Welcome, $name");
-      Get.offAllNamed("/items");
+      Get.offAllNamed("/users");
       return true;
     }
-    Get.snackbar("Logout failed", "There was a problem logging out");
+    Get.snackbar("Login failed", "There was a problem logging in");
     return false;
   }
 

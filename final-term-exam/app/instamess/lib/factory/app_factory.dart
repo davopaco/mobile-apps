@@ -1,5 +1,8 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/widgets.dart';
 import 'package:instamess/components/login/login_view.dart';
+import 'package:instamess/components/users/users_view.dart';
+import 'package:instamess/repositories/firebase_repository.dart';
 import 'package:instamess/repositories/login_repository.dart';
 import 'package:instamess/repositories/message_repository.dart';
 import 'package:instamess/repositories/user_repository.dart';
@@ -14,8 +17,11 @@ import 'package:instamess/usecases/user_usecase.dart';
 class AppFactory {
   static Widget getUsersView() {
     //Repositories
-    MessageRepository messageRepository = MessageRepository();
-    UserRepository userRepository = UserRepository();
+    LoginRepository loginRepository = LoginRepository();
+    MessageRepository messageRepository =
+        MessageRepository(loginRepository: loginRepository);
+    UserRepository userRepository =
+        UserRepository(loginRepository: loginRepository);
 
     //Services
     MessageService messageService =
@@ -27,13 +33,16 @@ class AppFactory {
     MessageUsecase messageUsecase = MessageUsecase(
         messageService: messageService, userService: userService);
 
-    return Container();
+    return UsersView(userUsecase: userUsecase, messageUsecase: messageUsecase);
   }
 
   static Widget getMessagesView() {
     //Repositories
-    MessageRepository messageRepository = MessageRepository();
-    UserRepository userRepository = UserRepository();
+    LoginRepository loginRepository = LoginRepository();
+    MessageRepository messageRepository =
+        MessageRepository(loginRepository: loginRepository);
+    UserRepository userRepository =
+        UserRepository(loginRepository: loginRepository);
 
     //Services
     MessageService messageService =
@@ -51,9 +60,12 @@ class AppFactory {
   static Widget getLoginView() {
     //Repositories
     LoginRepository loginRepository = LoginRepository();
+    FirebaseRepository firebaseRepository = FirebaseRepository();
 
     //Services
-    LoginService loginService = LoginService(loginRepository: loginRepository);
+    LoginService loginService = LoginService(
+        loginRepository: loginRepository,
+        firebaseRepository: firebaseRepository);
 
     //UseCases
     LoginUsecase loginUsecase = LoginUsecase(loginService: loginService);
@@ -63,7 +75,9 @@ class AppFactory {
 
   static Widget getRegisterView() {
     //Repositories
-    UserRepository userRepository = UserRepository();
+    LoginRepository loginRepository = LoginRepository();
+    UserRepository userRepository =
+        UserRepository(loginRepository: loginRepository);
 
     //Services
     UserService userService = UserService(userRepository: userRepository);
@@ -77,9 +91,12 @@ class AppFactory {
   static Future<Widget> getInstamessView() {
     //Repositories
     LoginRepository loginRepository = LoginRepository();
+    FirebaseRepository firebaseRepository = FirebaseRepository();
 
     //Services
-    LoginService loginService = LoginService(loginRepository: loginRepository);
+    LoginService loginService = LoginService(
+        loginRepository: loginRepository,
+        firebaseRepository: firebaseRepository);
 
     //UseCases
     AppUsecase appUsecase = AppUsecase(loginService: loginService);

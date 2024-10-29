@@ -1,7 +1,7 @@
 class User {
   String email;
   String name;
-  BigInt phone;
+  int phone;
   String position;
   String profileImage;
 
@@ -16,7 +16,7 @@ class User {
     return User(
         email: json['email'],
         name: json['name'],
-        phone: BigInt.parse(json['phone']),
+        phone: json['phone'],
         position: json['position'],
         profileImage: json['pfp']);
   }

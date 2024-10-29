@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import "package:flutter_dotenv/flutter_dotenv.dart";
 import 'package:instamess/components/login/login_button.dart';
 import 'package:instamess/components/login/login_textf.dart';
+import 'package:instamess/model/interfaces/user_login.dart';
 import 'package:instamess/usecases/login_usecase.dart';
 
 class LoginView extends StatefulWidget {
@@ -16,12 +17,12 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
-  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   @override
   void dispose() {
-    _usernameController.dispose();
+    _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
@@ -42,11 +43,11 @@ class _LoginViewState extends State<LoginView> {
             ),
             const SizedBox(height: 70),
             LoginTextField(
-              labelText: "Username",
-              eController: _usernameController,
+              labelText: "Email",
+              eController: _emailController,
             ),
             LoginTextField(
-              labelText: "Password",
+              labelText: "Contraseña",
               eController: _passwordController,
               obscureText: true,
             ),
@@ -54,13 +55,15 @@ class _LoginViewState extends State<LoginView> {
             LoginButton(
               label: "Login",
               callback: () {
-                widget.loginUsecase
-                    .login(_usernameController.text, _passwordController.text);
+                widget.loginUsecase.login(UserLogin(
+                    email: _emailController.text,
+                    password: _passwordController.text,
+                    fcmToken: ""));
               },
             ),
             const SizedBox(height: 20),
             const Text(
-              "Don't have an account?",
+              "¿No tienes una cuenta?",
               style: TextStyle(fontSize: 16),
             ),
             TextButton(
@@ -68,7 +71,7 @@ class _LoginViewState extends State<LoginView> {
                 Navigator.pushNamed(context, '/register');
               },
               child: const Text(
-                "Register",
+                "Registrar",
                 style: TextStyle(
                     fontSize: 16, color: Color.fromARGB(255, 64, 64, 64)),
               ),
