@@ -28,6 +28,7 @@ export default class UserService {
 
   public async addUser(httpRegisterUser: HttpRegisterUser): Promise<boolean> {
     const hash = bcrypt.hashSync(httpRegisterUser.password, this.salt);
+    console.log(hash);
     const position = await this.positionRepository.get(
       httpRegisterUser.positionId
     );

@@ -10,22 +10,35 @@ export default class UserUseCase {
   ) {}
 
   public async login(httpLogin: HttpLoginUser): Promise<string> {
-    console.log(httpLogin);
-
     const user = await this.userService.checkPassword(httpLogin);
 
     const device = await this.deviceService.getDeviceForToken(
       httpLogin.fcmToken
     );
 
-    const result = await this.deviceService.addDeviceToUser(
+    const deviceAdded = await this.deviceService.getDeviceFromUser(
       httpLogin.email,
-      device.getId()
+      device
     );
+
+    let result = false;
+
+    if (deviceAdded.isNull()) {
+      result = await this.deviceService.addDeviceToUser(
+        httpLogin.email,
+        device
+      );
+    } else {
+      result = await this.deviceService.updateDeviceToLogged(
+        httpLogin.email,
+        device.getId()
+      );
+    }
 
     if (user && result) {
       return await this.userService.generateJWT(httpLogin.email);
     }
+
     return "";
   }
 
@@ -41,9 +54,13 @@ export default class UserUseCase {
         httpRegister.fcmToken
       );
 
+      if (device.isNull()) {
+        return { jwt: "", exists: false };
+      }
+
       const resultDevice = await this.deviceService.addDeviceToUser(
         httpRegister.email,
-        device.getId()
+        device
       );
 
       if (result && resultDevice) {

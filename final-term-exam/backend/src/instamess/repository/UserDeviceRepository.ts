@@ -8,6 +8,15 @@ export default class UserDeviceRepository extends ARepository<
   string,
   SqlUserDevice
 > {
+  async getDual(email: string, deviceId: number): Promise<UserDevice> {
+    const sql = `SELECT * FROM USER_has_DEVICE WHERE USER_EMAIL = ? AND DEVICE_ID = ?`;
+    return await this.connection
+      .query<SqlUserDevice>(sql, [email, deviceId])
+      .then((rows) => {
+        return this.modelFactory.modelFactory(rows[0]);
+      });
+  }
+
   async getAllActiveDevicesByUserEmail(email: string): Promise<UserDevice[]> {
     try {
       const sql = `SELECT * FROM USER_has_DEVICE WHERE LOGGED = 1 AND USER_EMAIL = ?`;
@@ -22,6 +31,16 @@ export default class UserDeviceRepository extends ARepository<
       console.error("Error fetching devices by user email:", error);
       return Promise.resolve([]);
     }
+  }
+
+  async updateToLogged(email: string, deviceId: number): Promise<boolean> {
+    const sql =
+      "UPDATE USER_has_DEVICE SET LOGGED = 1 WHERE USER_EMAIL = ? AND DEVICE_ID = ?";
+    const result = await this.connection.query<ResultSetHeader>(sql, [
+      email,
+      deviceId,
+    ]);
+    return result[0].affectedRows === 1;
   }
 
   async removeDeviceFromUser(

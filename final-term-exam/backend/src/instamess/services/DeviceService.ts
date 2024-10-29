@@ -21,23 +21,59 @@ export default class DeviceService {
         return await this.deviceRepository.getDeviceForToken(token);
       }
     }
-    return new NDevice();
+    return devForToken;
+  }
+
+  public async getDeviceFromUser(
+    email: string,
+    device: Device
+  ): Promise<Device> {
+    const userDevices =
+      await this.userDeviceRepository.getAllActiveDevicesByUserEmail(email);
+    if (userDevices.length === 0) {
+      return new NDevice();
+    }
+    const userDevice = userDevices.find(
+      (ud) => ud.getDevice().getId() === device.getId()
+    );
+    if (!userDevice) {
+      return new NDevice();
+    }
+    return userDevice.getDevice();
   }
 
   public async addDeviceToUser(
     email: string,
-    deviceId: number
+    device: Device
   ): Promise<boolean> {
     const user = await this.userRepository.get(email);
-    const device = await this.deviceRepository.get(deviceId);
 
     if (user.isNull() || device.isNull()) {
       return false;
     }
 
-    return await this.userDeviceRepository.create(
-      new UserDevice(user, device, true)
+    const userDevice = await this.userDeviceRepository.getDual(
+      email,
+      device.getId()
     );
+
+    if (userDevice.isNull()) {
+      return await this.userDeviceRepository.create(
+        new UserDevice(user, device, true)
+      );
+    }
+
+    return await this.userDeviceRepository.updateToLogged(
+      email,
+      device.getId()
+    );
+  }
+
+  public async updateDeviceToLogged(
+    email: string,
+    deviceId: number
+  ): Promise<boolean> {
+    return await this.userDeviceRepository.updateToLogged(email, deviceId);
   }
 
   public async removeDeviceFromUser(
