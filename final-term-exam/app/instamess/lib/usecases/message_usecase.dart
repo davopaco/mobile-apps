@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'package:instamess/model/interfaces/message_to_send.dart';
 import 'package:instamess/model/interfaces/message_with_user.dart';
 import 'package:instamess/model/message.dart';
@@ -28,6 +29,13 @@ class MessageUsecase {
   }
 
   Future<void> addMessage(MessageToSend messageToSend) async {
-    return await _messageService.sendMessage(messageToSend);
+    dynamic response = await _messageService.sendMessage(messageToSend);
+
+    if (response['message'] == null) {
+      Get.snackbar("Envío de mensaje", "Error del servidor");
+      return;
+    }
+
+    Get.snackbar("Envío de mensaje", response['message']);
   }
 }

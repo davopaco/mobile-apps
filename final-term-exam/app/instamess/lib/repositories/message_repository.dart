@@ -45,10 +45,13 @@ class MessageRepository {
     final response = await http.post(Uri.parse(route),
         headers: headers, body: jsonEncode(messageToSend.toJson()));
 
+    final resultToReturn = jsonDecode(response.body);
+
     if (response.statusCode == 200) {
-      return jsonDecode(response.body);
+      resultToReturn['error'] = false;
     } else {
-      throw Exception('Failed to send message');
+      resultToReturn['error'] = true;
     }
+    return resultToReturn;
   }
 }

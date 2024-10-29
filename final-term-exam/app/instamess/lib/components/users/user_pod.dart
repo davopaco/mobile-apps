@@ -32,7 +32,8 @@ class _UserPodState extends State<UserPod> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.to(() => ProfileView(user: user));
+        Get.to(() =>
+            ProfileView(user: user, messageUsecase: widget.messageUsecase));
       },
       child: Padding(
           padding: const EdgeInsets.all(10),

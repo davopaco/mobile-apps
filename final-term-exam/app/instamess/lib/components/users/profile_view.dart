@@ -7,14 +7,16 @@ import 'package:get/get.dart';
 import 'package:instamess/components/general_button.dart';
 import 'package:instamess/components/messages/message_modal.dart';
 import 'package:instamess/model/user.dart';
+import 'package:instamess/usecases/message_usecase.dart';
 
 class ProfileView extends StatelessWidget {
   final User user;
+  final MessageUsecase messageUsecase;
   late final Uint8List _imageBytes =
       base64Decode(user.profileImage.split(',')[1]);
   final TextStyle _dataStyle = const TextStyle(fontSize: 16);
 
-  ProfileView({super.key, required this.user});
+  ProfileView({super.key, required this.user, required this.messageUsecase});
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +79,10 @@ class ProfileView extends StatelessWidget {
                         ),
                       ),
                       builder: (BuildContext context) {
-                        return const MessageModal();
+                        return MessageModal(
+                          messageUsecase: messageUsecase,
+                          recipientEmail: user.email,
+                        );
                       });
                 }),
             GeneralButton(
