@@ -4,4 +4,5 @@ export default interface UserReturn {
   position: string;
   pfp: string;
   phone: number;
+  sameUser: boolean;
 }

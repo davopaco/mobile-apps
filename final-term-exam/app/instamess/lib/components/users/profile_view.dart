@@ -28,7 +28,7 @@ class ProfileView extends StatelessWidget {
             const SizedBox(height: 60),
             Text(
               user.name,
-              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),
             ClipRect(
@@ -65,26 +65,28 @@ class ProfileView extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 20),
-            GeneralButton(
-                title: "Enviar mensaje",
-                icon: Icons.message,
-                color: Colors.green,
-                callback: () {
-                  showModalBottomSheet(
-                      context: context,
-                      isScrollControlled: true,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(25.0),
-                        ),
-                      ),
-                      builder: (BuildContext context) {
-                        return MessageModal(
-                          messageUsecase: messageUsecase,
-                          recipientEmail: user.email,
-                        );
-                      });
-                }),
+            !(user.sameUser)
+                ? GeneralButton(
+                    title: "Enviar mensaje",
+                    icon: Icons.message,
+                    color: Colors.green,
+                    callback: () {
+                      showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.vertical(
+                              top: Radius.circular(25.0),
+                            ),
+                          ),
+                          builder: (BuildContext context) {
+                            return MessageModal(
+                              messageUsecase: messageUsecase,
+                              recipientEmail: user.email,
+                            );
+                          });
+                    })
+                : const SizedBox(),
             GeneralButton(
                 title: "Regresar",
                 icon: Icons.arrow_back_ios,

@@ -39,7 +39,9 @@ class _UserPodState extends State<UserPod> {
           child: Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: user.sameUser
+                  ? const Color.fromARGB(255, 64, 64, 64)
+                  : Colors.white,
               borderRadius: BorderRadius.circular(16),
               boxShadow: [
                 BoxShadow(
@@ -69,13 +71,20 @@ class _UserPodState extends State<UserPod> {
                           Text(
                             user.name,
                             softWrap: true,
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16),
+                            style: TextStyle(
+                                color:
+                                    user.sameUser ? Colors.white : Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16),
                           ),
                           Text(
                             user.email,
                             softWrap: true,
-                            style: const TextStyle(fontSize: 14),
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: user.sameUser
+                                    ? Colors.white
+                                    : Colors.black),
                           ),
                         ],
                       ),

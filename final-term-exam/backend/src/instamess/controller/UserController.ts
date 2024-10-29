@@ -87,11 +87,18 @@ export default class UserController {
   }
 
   public async getAllUsers(_req: Request, res: Response): Promise<void> {
+    const email = _req.params.email;
+
     const users = await this.userUseCase.getAllUsers();
 
     const returnUsers: UserReturn[] = users.map((user) => {
       const base64Image = user.getPfp().toString("base64");
       const pfp = `data:${user.getImageType()};base64,${base64Image}`;
+      let sameUser = false;
+
+      if (email === user.getEmail()) {
+        sameUser = true;
+      }
 
       return {
         email: user.getEmail(),
@@ -99,6 +106,7 @@ export default class UserController {
         phone: user.getPhone(),
         position: user.getPosition().getName(),
         pfp: pfp,
+        sameUser: sameUser,
       };
     });
 
@@ -124,6 +132,7 @@ export default class UserController {
       phone: user.getPhone(),
       position: user.getPosition().getName(),
       pfp: pfp,
+      sameUser: false,
     };
 
     res.status(200).json({ user: returnUser });

@@ -8,7 +8,18 @@ class UserUsecase {
   UserUsecase({required UserService userService}) : _userService = userService;
 
   Future<List<User>> getAllUsers() async {
-    return await _userService.getAllUsers();
+    List<User> users = await _userService.getAllUsers();
+
+    users.sort((a, b) {
+      if (a.sameUser && !b.sameUser) {
+        return -1;
+      } else if (!a.sameUser && b.sameUser) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+    return users;
   }
 
   Future<List<Position>> getAllPositions() async {
