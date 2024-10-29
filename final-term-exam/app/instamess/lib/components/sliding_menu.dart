@@ -73,7 +73,7 @@ class _SlidingMenuState extends State<SlidingMenu> {
             ),
             ListTile(
                 leading: const Icon(Icons.logout, color: Colors.red),
-                title: const Text('Logout',
+                title: const Text('Cerrar sesión',
                     style: TextStyle(color: Color.fromARGB(255, 64, 64, 64))),
                 onTap: () async {
                   await widget.loginUsecase.logout();

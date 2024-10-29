@@ -18,11 +18,7 @@ export default class MessageService {
   ) {}
 
   public async getMessagesForUser(email: string): Promise<Message[]> {
-    const deviceMessages =
-      await this.deviceMessageRepository.getDeviceMessagesByUserEmail(email);
-    const messages = deviceMessages.map((deviceMessage) => {
-      return deviceMessage.getMessage();
-    });
+    const messages = await this.messageRepository.getMessagesByUserEmail(email);
     return messages;
   }
 
@@ -30,7 +26,7 @@ export default class MessageService {
     //Get all devices for the user that are currently logged in
     const userDevices =
       await this.userDeviceRepository.getAllActiveDevicesByUserEmail(
-        userMessage.email
+        userMessage.recipientEmail
       );
 
     if (userDevices.length === 0)
@@ -38,14 +34,20 @@ export default class MessageService {
 
     const currentDate = new Date();
     const senderUser = await this.userRepository.get(userMessage.email);
+    const recipientUser = await this.userRepository.get(
+      userMessage.recipientEmail
+    );
 
     const message = new Message(
       0, // This is a placeholder value, it will be replaced by the database
       userMessage.title,
       userMessage.content,
       currentDate,
-      senderUser
+      senderUser,
+      recipientUser
     );
+
+    console.log(message);
 
     const messageBool = await this.messageRepository.create(message);
 

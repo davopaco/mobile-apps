@@ -8,7 +8,7 @@ export default class MessageFactory implements IFactory<Message, SqlMessage> {
   public getQuery = "SELECT * FROM MESSAGE WHERE ID = ?";
   public getAllQuery = "SELECT * FROM MESSAGE";
   public createQuery =
-    "INSERT INTO MESSAGE (TITLE, CONTENT, TIMESTAMP, USER_ORIGIN_EMAIL) VALUES (?, ?, ?, ?)";
+    "INSERT INTO MESSAGE (TITLE, CONTENT, TIMESTAMP, USER_ORIGIN_EMAIL, USER_EMAIL) VALUES (?, ?, ?, ?, ?)";
 
   constructor(private readonly userRepository: UserRepository) {}
 
@@ -18,7 +18,8 @@ export default class MessageFactory implements IFactory<Message, SqlMessage> {
       sqlMessage.TITLE,
       sqlMessage.CONTENT,
       sqlMessage.TIMESTAMP,
-      await this.userRepository.get(sqlMessage.USER_ORIGIN_EMAIL)
+      await this.userRepository.get(sqlMessage.USER_ORIGIN_EMAIL),
+      await this.userRepository.get(sqlMessage.USER_EMAIL)
     );
   }
 
@@ -32,6 +33,7 @@ export default class MessageFactory implements IFactory<Message, SqlMessage> {
       message.getContent(),
       message.getDate(),
       message.getSenderUser().getEmail(),
+      message.getReceiverUser().getEmail(),
     ];
   }
 }

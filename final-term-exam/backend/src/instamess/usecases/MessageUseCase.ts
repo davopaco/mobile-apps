@@ -21,7 +21,7 @@ export default class MessageUseCase {
       console.log(e);
       return {
         error: true,
-        message: "There was an error while sending the message. Try again!",
+        message: "Hubo un error al enviar el mensaje",
       };
     }
   }

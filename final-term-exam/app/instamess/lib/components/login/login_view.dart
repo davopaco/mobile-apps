@@ -37,7 +37,7 @@ class _LoginViewState extends State<LoginView> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image(
-              width: 200,
+              width: 300,
               image: NetworkImage(
                   '${widget.host}:${widget.port}/images/logo.png',
                   scale: 0.5),

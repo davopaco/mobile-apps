@@ -8,6 +8,7 @@ export default class NMessage extends AMessage {
       "No title found in the database",
       "No content found in the database",
       new Date(),
+      new NUser(),
       new NUser()
     );
   }

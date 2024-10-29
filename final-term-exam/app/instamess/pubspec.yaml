@@ -12,6 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_dotenv: ^5.2.1
+  flutter_launcher_icons: ^0.14.1
   get: ^4.6.6
   http: ^1.2.2
   image_cropper: ^8.0.2

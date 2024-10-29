@@ -6,7 +6,8 @@ export default abstract class AMessage {
     protected title: string,
     protected content: string,
     protected date: Date,
-    protected senderUser: User
+    protected senderUser: User,
+    protected receiverUser: User
   ) {}
 
   public getId(): number {
@@ -29,6 +30,10 @@ export default abstract class AMessage {
     return this.senderUser;
   }
 
+  public getReceiverUser(): User {
+    return this.receiverUser;
+  }
+
   public setId(id: number): void {
     this.id = id;
   }
@@ -47,6 +52,10 @@ export default abstract class AMessage {
 
   public setSenderUser(senderUser: User): void {
     this.senderUser = senderUser;
+  }
+
+  public setReceiverUser(receiverUser: User): void {
+    this.receiverUser = receiverUser;
   }
 
   public abstract isNull(): boolean;

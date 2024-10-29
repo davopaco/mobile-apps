@@ -4,4 +4,5 @@ export default interface SqlMessage {
   CONTENT: string;
   TIMESTAMP: Date;
   USER_ORIGIN_EMAIL: string;
+  USER_EMAIL: string;
 }
