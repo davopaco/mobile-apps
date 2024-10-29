@@ -19,14 +19,16 @@ class Message {
   factory Message.fromJson(Map<String, dynamic> json) {
     List<String> fullDate = json['date'].split(', ');
     String date = fullDate[0];
-    String time = fullDate[1];
+    final time = fullDate[1].split(' ');
+    String formattedTime =
+        "${time[0].split(":").sublist(0, 2).join(":")} ${time[1]}";
 
     return Message(
         id: json['id'],
         title: json['title'],
         content: json['content'],
         date: date,
-        time: time,
+        time: formattedTime,
         senderEmail: json['senderEmail'],
         recipientEmail: json['recipientEmail']);
   }

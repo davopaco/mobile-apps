@@ -20,10 +20,11 @@ class MessageUsecase {
     List<Message> messages = await _messageService.getMessages();
 
     List<MessageWithUser> messagesWithUsers = [];
-    messages.forEach((message) async {
+
+    for (Message message in messages) {
       User sender = await _userService.getUserByEmail(message.senderEmail);
       messagesWithUsers.add(MessageWithUser(message: message, user: sender));
-    });
+    }
 
     return messagesWithUsers;
   }
