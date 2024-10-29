@@ -1,8 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class RegresarButton extends StatelessWidget {
-  const RegresarButton({super.key});
+class GeneralButton extends StatelessWidget {
+  final String title;
+  final IconData icon;
+  final Color color;
+  final Function callback;
+
+  const GeneralButton(
+      {super.key,
+      required this.title,
+      required this.icon,
+      required this.color,
+      required this.callback});
 
   @override
   Widget build(BuildContext context) {
@@ -12,21 +22,21 @@ class RegresarButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
       ),
       child: ElevatedButton(
-          style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+          style: ElevatedButton.styleFrom(backgroundColor: color),
           onPressed: () {
-            Get.back();
+            callback();
           },
-          child: const Row(
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(
-                Icons.arrow_back,
+                icon,
                 color: Colors.white,
               ),
-              SizedBox(width: 5),
+              const SizedBox(width: 5),
               Text(
-                "Regresar",
-                style: TextStyle(
+                title,
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                   fontSize: 16,

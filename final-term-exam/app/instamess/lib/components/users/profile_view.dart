@@ -2,12 +2,14 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:instamess/components/regresar_button.dart';
+import 'package:get/get.dart';
+import 'package:instamess/components/general_button.dart';
 import 'package:instamess/model/user.dart';
 
 class ProfileView extends StatelessWidget {
   final User user;
-  late Uint8List _imageBytes = base64Decode(user.profileImage.split(',')[1]);
+  late final Uint8List _imageBytes =
+      base64Decode(user.profileImage.split(',')[1]);
   final TextStyle _dataStyle = const TextStyle(fontSize: 16);
 
   ProfileView({super.key, required this.user});
@@ -22,7 +24,7 @@ class ProfileView extends StatelessWidget {
             const SizedBox(height: 60),
             Text(
               user.name,
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),
             ClipRect(
@@ -59,7 +61,18 @@ class ProfileView extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 20),
-            const RegresarButton(),
+            GeneralButton(
+                title: "Enviar mensaje",
+                icon: Icons.message,
+                color: Colors.green,
+                callback: () {}),
+            GeneralButton(
+                title: "Regresar",
+                icon: Icons.arrow_back_ios,
+                color: Color.fromARGB(255, 64, 64, 64),
+                callback: () {
+                  Get.back();
+                }),
           ],
         ),
       ),
