@@ -5,7 +5,7 @@ import PositionRepository from "../PositionRepository";
 import IFactory from "./IFactory";
 
 export default class UserFactory implements IFactory<User, SqlUser> {
-  public getQuery = "SELECT * FROM USER WHERE EMAIL = ?";
+  public getQuery = "SELECT * FROM USER WHERE EMAIL = BINARY ?";
   public getAllQuery = "SELECT * FROM USER";
   public createQuery =
     "INSERT INTO USER (EMAIL, HASH, PFP, NAME, PHONE, IMAGE_TYPE, POSITION_ID) VALUES (?, ?, ?, ?, ?, ?, ?)";

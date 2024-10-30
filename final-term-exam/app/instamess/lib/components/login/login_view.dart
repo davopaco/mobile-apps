@@ -32,52 +32,54 @@ class _LoginViewState extends State<LoginView> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image(
-              width: 300,
-              image: NetworkImage(
-                  '${widget.host}:${widget.port}/images/logo.png',
-                  scale: 0.5),
-            ),
-            const SizedBox(height: 70),
-            GeneralTextField(
-              labelText: "Email",
-              eController: _emailController,
-            ),
-            GeneralTextField(
-              labelText: "Contraseña",
-              eController: _passwordController,
-              obscureText: true,
-            ),
-            const SizedBox(height: 50),
-            LoginButton(
-              label: "Login",
-              callback: () {
-                widget.loginUsecase.login(UserLogin(
-                    email: _emailController.text,
-                    password: _passwordController.text,
-                    fcmToken: ""));
-              },
-            ),
-            const SizedBox(height: 20),
-            const Text(
-              "¿No tienes una cuenta?",
-              style: TextStyle(fontSize: 16),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/register');
-              },
-              child: const Text(
-                "Registrar",
-                style: TextStyle(
-                    fontSize: 16, color: Color.fromARGB(255, 64, 64, 64)),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image(
+                width: 300,
+                image: NetworkImage(
+                    '${widget.host}:${widget.port}/images/logo.png',
+                    scale: 0.5),
               ),
-            ),
-          ],
+              const SizedBox(height: 70),
+              GeneralTextField(
+                labelText: "Email",
+                eController: _emailController,
+              ),
+              GeneralTextField(
+                labelText: "Contraseña",
+                eController: _passwordController,
+                obscureText: true,
+              ),
+              const SizedBox(height: 50),
+              LoginButton(
+                label: "Login",
+                callback: () {
+                  widget.loginUsecase.login(UserLogin(
+                      email: _emailController.text,
+                      password: _passwordController.text,
+                      fcmToken: ""));
+                },
+              ),
+              const SizedBox(height: 20),
+              const Text(
+                "¿No tienes una cuenta?",
+                style: TextStyle(fontSize: 16),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/register');
+                },
+                child: const Text(
+                  "Registrar",
+                  style: TextStyle(
+                      fontSize: 16, color: Color.fromARGB(255, 64, 64, 64)),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
