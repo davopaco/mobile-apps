@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "452262326863",
+    "project_id": "prueba-mensajes-e3f92",
+    "storage_bucket": "prueba-mensajes-e3f92.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:452262326863:android:d4e7e6c911933b5c59f03a",
+        "android_client_info": {
+          "package_name": "com.example.firebase_tutorial"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAut7iUTNtg2o8XaTZ5HWCm_UjMsutm1A0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
